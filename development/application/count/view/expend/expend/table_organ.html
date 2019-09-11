@@ -1,0 +1,57 @@
+<!--<div class="text-danger">-->
+    <!--<i class="icon fa fa-warning"></i> 说明：-->
+<!--</div>-->
+<table class="table table-bordered table-hover dataTable table-striped display nowrap compact js-table" id="scroll_table">
+        <thead>
+    
+        {if $params['type'] == 'organ'  && !empty($total_data)}
+          <!--合计-->
+          <tr>
+            <td class="text-center table-total"></td>
+            {foreach $range as $v}
+            <td class="text-center table-total">
+                <span class="cursor" data-container='body' data-toggle="tooltip" data-placement="left" title="">
+                    {if isset($total_data[$v]['sum_expend_amount'])}{:round($total_data[$v]['sum_expend_amount'], 2)}{else /}0{/if}
+                </span>
+                <br>
+                <span class="text-danger">{$total_data[$v]['expend_rate']}</span>
+            </td>
+            {/foreach}
+    
+        {/if}
+        <tr>
+            
+            <th class="{if $params['type'] == 'organ'}text-left{else /}text-center{/if}" style="width: 10%;">
+                组织架构
+            </th>
+    
+            {foreach $range as $item}
+            <th class="text-center">{$item}</th>
+            {/foreach}
+        </tr>
+        </thead>
+        <tbody id='scroll_table_head'>
+        {foreach $list as $key => $item}
+        <tr class="{if $params['type'] == 'organ' && $item['level']==2}warning{/if} {if $item['level'] == 3 && $item['lid'] >= 48 && $item['rid'] <= 71}shallow_warning{/if}">
+            <td class="{if $params['type'] == 'organ'}text-left{else /}text-center{/if}">
+                {if $item['level'] > 2}
+                |{:str_repeat('---', ($item['level'] - 1))}
+                {/if}
+                {$item['organ_name']}
+            </td>
+    
+            {foreach $item['dates'] as $k => $sub_item}
+            <td class="text-center">
+                <span class="cursor" data-container='body' data-toggle="tooltip"  data-placement="left"  title="">
+                {:round($sub_item['sum_expend_amount'], 2)}
+                </span>
+                <br>
+                <span class="text-danger">{$sub_item['expend_rate']}</span>
+            </td>
+            {/foreach}
+        </tr>
+        {/foreach}
+    
+        </tbody>
+    </table>
+    

@@ -1,0 +1,45 @@
+<table class="table table-bordered table-hover dataTable table-striped">
+    <thead>
+    <tr>
+        <td class="text-center table-total">合计</td>
+        <td class="text-center table-total"></td>
+        <td class="text-center table-total"></td>
+        <td class="text-center table-total"></td>
+        <td class="text-center table-total"></td>
+        <td class="text-center table-total">{$total.total_fee}</td>
+        <td class="text-center table-total"></td>
+        <td class="text-center table-total"></td>
+        <td class="text-center table-total">{$total.total_payamount}</td>
+        <td class="text-center table-total"></td>
+    </tr>
+    <tr>
+        <th class="text-center">款项编号</th>
+        <th class="text-center">款项时间</th>
+        <th class="text-center">款项类型</th>
+        <th class="text-center">供应商</th>
+        <th class="text-center">采购单</th>
+        <th data-id="shipfee" class="text-center custom {if $params['sortkey'] == 'shipfee'}sorting_{$params['sort']}{else/}sorting{/if}">运费</th>
+        <th class="text-center">经手人</th>
+        <th class="text-center">采购员</th>
+        <th data-id="payamount" class="text-center custom {if $params['sortkey'] == 'payamount'}sorting_{$params['sort']}{else/}sorting{/if}">金额</th>
+        <th class="text-center">账号</th>
+    </tr>
+    </thead>
+    <tbody>
+    {volist name="data" id="vo"}
+    <tr>
+        <td class="text-center">{$vo.id}</td>
+        <td class="text-center">{$vo.dateTime}</td>
+        <td class="text-center">{$vo.payType}</td>
+        <td class="text-center">{$vo.partnerName}</td>
+        <td class="text-center">{$vo.ordersn}</td>
+        <td class="text-center">{$vo.ship_fee}</td>
+        <td class="text-center">{$vo.adduser}</td>
+        <td class="text-center">{$vo.cguser}</td>
+        <td class="text-center">{$vo.payamount}</td>
+        <td class="text-center">{$vo.paywayName}</td>
+    </tr>
+    {/volist}
+    </tbody>
+</table>
+

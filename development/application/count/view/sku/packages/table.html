@@ -1,0 +1,78 @@
+<table class="table table-bordered table-hover dataTable table-striped">
+    <thead>
+    <tr>
+        <th class="add-background-color y-center">
+            <div class="btn-group">
+                <button type="button" onclick="order_model.addPackage(this)" data-url="{:url('/count/sku/Packages/updatePackage', array($params,'model' => $model))}" class="btn btn-success btn-sm" aria-haspopup="true" aria-expanded="false">添加产品包
+                </button>
+            </div>
+        </th>
+        {if $data}
+        <th colspan="1" class="add-background-color y-center" style="max-width: 200px;">
+            {$data[0]['group_name']}（{$data[0]['group_sn']})&nbsp;&nbsp;
+            <a href="javascript:void(0)" onclick="order_model.addPackage(this)" data-url="{:url('/count/sku/Packages/updatePackage', array($params,'id'=>$id))}" title="编辑" class="glyphicon glyphicon-edit"></a>
+            &nbsp;&nbsp;<a href="javascript:void(0)" onclick='order_model.deleteData("{$id}",this)' data-url="{:url('/count/sku/Packages/deletePackage')}" title="删除" class="glyphicon glyphicon-remove-sign"></a>
+        </th>
+        {/if}
+        {foreach $qtyTotals as $key=>$qty_total_list}
+        <th class="add-background-color-border text-center y-center">{$qty_total_list}</th>
+        {/foreach}
+        {if $total}
+        <th class="add-background-color-border text-center y-center">{$total}</th>
+        {/if}
+    </tr>
+    <tr>
+        <th class="text-center y-center">SKU编号</th>
+        <th class="text-center y-center">图片</th>
+        <th class="text-center adaptive">标题</th>
+        {foreach $dates as $dates_list}
+        <th class="text-center y-center">{$dates_list}</th>
+        {/foreach}
+        <td class="text-center y-center">合计</td>
+    </tr>
+    </thead>
+    <tbody>
+    {foreach $data as $ke=>$data_list}
+    <tr>
+        <td class="text-center y-center sku-td-width" title="{$data_list.title}">{$data_list.sku}</td>
+        <td class="text-center y-center pic-td-width" title="{$data_list.title}">
+            {if $data_list.group_sku == 1}
+            <div class="font-color" onclick="order_model.viewDetail(this,'{$data_list.sku}')" data-sku=""
+                 data-url="{:url('/count/sku/Packages/viewdetail', array_merge(['time_start'=>$params.time_start,'time_end'=>$params.time_end,'goods_sn'=>$data_list.goods_sn,'sku'=>$data_list.sku],['model' => $model]))}">
+                子系列
+            </div>
+            {else /}
+            <img class="img-src-size skuimg" title="点击查看大图" {if(!empty($data_list['goods_pic']))}onclick="order_model.skuimage(this)"{/if} bigsrc="{$data_list['large']}"
+            src="{if(!empty($data_list['goods_pic']))}{$data_list['goods_pic']}{else /}__CDN__/assets/dist/img/no_picture.gif{/if}" alt="{$data_list.title} ">
+            {/if}
+        </td>
+        <td class="text-center y-center title-td-width adaptive">
+            {$data_list.title}
+        </td>
+        {foreach $data_list['qtyData'] as $kee=>$qty_data_list}
+        <td class="text-center y-center">
+            <a href="javascript:void(0)" onclick="order_model.btobnumberDetail(this,'{$data_list.sku}','{$kee}')"
+               data-url="{:url('/count/sku/Packages/btobnumberdetail', array_merge(['group_sku'=>$data_list.group_sku,'time'=>$kee,'sku'=>$data_list.sku],['model' => 'table']))}">{$qty_data_list}</a>
+            <br>
+            <a href="javascript:void(0)" onclick="order_model.btobnumberDetail(this,'{$data_list.sku}','{$kee}')"
+               data-url="{:url('/count/sku/Packages/btobnumberdetail', array_merge(['group_sku'=>$data_list.group_sku,'time'=>$kee,'sku'=>$data_list.sku],['model' => 'chart']))}" data-toggle="tooltip"
+               class="btn btn-xs btn-default {$model == 'chart' ? 'active' : ''}"
+               title="图表模式"><span class="fa fa-fw fa-bar-chart-o"></span></a>
+        </td>
+
+        {/foreach}
+        <td class="text-center y-center">
+            <a href="javascript:void(0)" onclick="order_model.totalDetail(this,'{$data_list.sku}')"
+               data-url="{:url('/count/sku/Packages/totaldetail', array_merge(['time_start'=>$params.time_start,'time_end'=>$params.time_end,'sku'=>$data_list.sku,'group_sku'=>$data_list.group_sku,'keys'=>$data_list.keys,'values'=>$data_list.values],['model' => 'table']))}">
+                {$data_list.qtySum}
+            </a>
+            <br>
+            <a href="javascript:void(0)" onclick="order_model.totalDetail(this,'{$data_list.sku}')"
+               data-url="{:url('/count/sku/Packages/totaldetail', array_merge(['time_start'=>$params.time_start,'time_end'=>$params.time_end,'sku'=>$data_list.sku,'group_sku'=>$data_list.group_sku,'keys'=>$data_list.keys,'values'=>$data_list.values],['model' => 'chart']))}" data-toggle="tooltip"
+               class="btn btn-xs btn-default {$model == 'chart' ? 'active' : ''}"
+               title="图表模式"><span class="fa fa-fw fa-bar-chart-o"></span></a>
+        </td>
+    </tr>
+    {/foreach}
+    </tbody>
+</table>

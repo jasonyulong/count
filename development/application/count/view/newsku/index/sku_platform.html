@@ -1,0 +1,64 @@
+{extend name="layout/fluid2" /}
+
+{block name="content"}
+<a href="javascript:void(0)" onclick="sku_module.show_platform_date_sku_chart($(this))" class="btn btn-xs btn-default" title="图表模式"><span class="fa fa-fw fa-bar-chart-o"></span></a>
+
+<div style="padding: 10px 0;overflow: scroll">
+    
+    <table class="table table-bordered table-hover dataTable table-striped display nowrap compact" id="scroll_table">
+        <thead>
+            {foreach $reform_data as $key => $item}
+            <tr>
+                {foreach $item as $sub_item}
+                    {if $key EQ '0'}
+                    <th colspan="2" class="text-center ele-total" data-qty="{$sub_item}" style="background-color: white;">{$sub_item}</th>
+                    {elseif $key EQ 1 /}
+                    <th colspan="2" class="text-center table-total ele-platform" data-platform="{$sub_item}">{$sub_item}</th>
+                    {/if}
+                {/foreach}
+            </tr>
+            {/foreach}
+        </thead>
+        <tbody id="scroll_table_head">
+            {foreach $reform_data as $key => $item}
+            <tr>
+                {foreach $item as $sub_item}
+                {if $key > 1 }
+                <td class="text-center">{$sub_item['platform_account']}</td>
+                <td class="text-center">{$sub_item['sum_qty']}</td>
+                {/if}
+                {/foreach}
+            </tr>
+            {/foreach}
+        
+            
+        </tbody>
+    </table>
+</div>
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">图表</h4>
+    </div>
+    <div class="modal-body">
+    <div id="chartmain" style="width:600px; height:400px;"></div>
+        
+    </div>
+    </div>
+</div>
+</div>
+{/block}
+
+{block name="js"}
+<script src="__CDN__/assets/plugins/echarts/echarts.min.js"></script>
+<script src="__CDN__/assets/dist/js/jquery.floatThead.js"></script>
+<!-- 用来 添加自定义 的 js -->
+<script>
+    $('#scroll_table').floatThead({
+        autoReflow: true,
+    });
+</script>
+{/block}

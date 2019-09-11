@@ -1,0 +1,76 @@
+<div class="box box-solid">
+    <div class="box-tools widget-add hide"><i class="fa fa-fw fa-chevron-right"></i></div>
+    <div class="box-header with-border">
+        <h3 class="box-title">产品包</h3>
+        <div class="box-tools">
+            <button type="button" onclick="layers.prompt('{:url(\'/count/sku/packages/addCategory\')}', '新增分类', '400px', '300px')" data-url="" class="btn btn-box-tool"
+                    aria-haspopup="true" aria-expanded="false"><i class="fa fa-plus-square-o"></i>
+            </button>
+            <button type="button" onclick="layers.prompt('{:url(\'/count/sku/packages/category\')}', '分类管理', '700px', '600px')" data-url="" class="btn btn-box-tool"
+                    aria-haspopup="true" aria-expanded="false"><i class="fa fa-gear"></i>
+            </button>
+            <button type="button" class="btn btn-box-tool widget-left" data-id="box-left"><i class="fa fa-fw fa-chevron-left"></i></button>
+            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+        </div>
+    </div>
+    <div class="box-body no-padding">
+        <div id="jstree">
+            <ul>
+                <!--第一层 开始-->
+                {volist name='category123' id='value'}
+                <li>
+                    {$value.title}
+                    {if condition="isset($value.group)"}
+                    <ul>
+                        {volist name='value.group' id='v1'}
+                        <li><a href="{:url('/count/sku/Packages')}&keys={$v1.group_sn}" {if condition="$params.keys eq $v1.group_sn"}class="jstree-anchor jstree-clicked"{/if}>{$v1.group_sn}&#45;&#45;{$v1.title}</a></li>
+                        {/volist}
+                    </ul>
+                    {/if}
+
+                    <!--第二层 开始-->
+                    <ul>
+                        {if condition="isset($value.rank1)"}
+                        {volist name='value.rank1' id='val'}
+                        <li>
+                            {$val.rank2.title}
+                            {if condition="isset($val.rank2.group)"}
+                            <ul>
+                                {volist name='val.rank2.group' id='v2'}
+                                <li><a href="{:url('/count/sku/Packages')}&keys={$v2.group_sn}" {if condition="$params.keys eq $v2.group_sn"}class="jstree-anchor jstree-clicked"{/if}>{$v2.group_sn}&#45;&#45;{$v2.title}</a></li>
+                                {/volist}
+                            </ul>
+                            {/if}
+
+                            <!--第三层 开始-->
+                            {if condition="isset($val.rank3)"}
+                            <ul>
+                                {volist name='val.rank3' id='vo'}
+                                <li>
+                                    {$vo.title}
+                                    {if condition="isset($vo.group)"}
+                                    <ul>
+                                        {volist name='vo.group' id='v3'}
+                                        <li><a href="{:url('/count/sku/Packages')}&keys={$v3.group_sn}" {if condition="$params.keys eq $v3.group_sn"}class="jstree-anchor jstree-clicked"{/if}>{$v3.group_sn}&#45;&#45;{$v3.title}</a></li>
+                                        {/volist}
+                                    </ul>
+                                    {/if}
+                                </li>
+                                {/volist}
+                            </ul>
+                            {/if}
+                            <!--第三层 结束-->
+
+                        </li>
+                        {/volist}
+                        {/if}
+                    </ul>
+                    <!--第二层 结束-->
+
+                </li>
+                {/volist}
+                <!--第一层 结束-->
+            </ul>
+        </div>
+    </div>
+</div>

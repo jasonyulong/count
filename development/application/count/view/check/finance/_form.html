@@ -1,0 +1,41 @@
+<form action="{:url('/count/check/finance')}" method="get" class="form-inline froms clearfix">
+
+    <input type="hidden" name="ps" value="{$params['ps']}">
+    <input type="hidden" name="p" value="{$params['p']}">
+
+    <div class="form-group">
+        <label class="control-label text-right">抽查类型：</label>
+        <select class="selectpicker" title="全部" name="check_type[]" id="check_type" data-actions-box="true" data-live-search="true" multiple >
+            <option value="">全部</option>
+            {foreach $check_types as $key => $item}
+            <option value="{$key}" {if in_array($key, $params.check_type)}selected{/if}>{$item}</option>
+            {/foreach}
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label text-right">创建时间：</label>
+        <div class="input-group laydate-group">
+            <input type="text" class="input-sm form-control input-date datepicker start" name="start_time"  placeholder="开始时间" value="{$params['start_time']}" readonly/>
+
+            <span class="input-group-addon">到</span>
+            <input type="text" class="input-sm form-control input-date datepicker end " name="end_time" value="{$params['end_time']}" placeholder="结束时间" readonly/>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label text-right">状态：</label>
+        <select class="selectpicker" title="全部" name="check_status[]" id="check_status" data-actions-box="true" data-live-search="true" multiple>
+            <option value="">全部</option>
+            {foreach $check_status as $key => $item}
+            <option value="{$key}" {if in_array($key, $params.check_status) }selected{/if}>{$item}</option>
+            {/foreach}
+        </select>
+    </div>
+
+    <div class="form-group">
+        <button class="btn btn-primary btn-sm" type="submit" name="submit"><i class="glyphicon glyphicon-search"></i> 确定搜索&nbsp;</button>
+        <a class="btn btn-warning btn-sm" href="javascript:void(0);" data-url="{:url('add')}" onclick="order_model.add_finance_check($(this));">新建&nbsp;</a>
+        <!-- <a class="btn btn-success btn-sm" href="javascript:void(0);" onclick="order_model.show_finance_check_action_log($(this))">操作日志&nbsp;</a> -->
+    </div>
+</form>

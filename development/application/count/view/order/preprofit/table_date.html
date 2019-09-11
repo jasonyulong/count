@@ -1,0 +1,79 @@
+<div class="text-danger">
+{if $profit_type == 'confirmprofit'}
+    <i class="icon fa fa-warning"></i> 说明：确认利润数据根据已发货订单的进系统时间统计
+{else}
+    <i class="icon fa fa-warning"></i> 说明：预估利润数据根据订单进系统时间来统计
+{/if}
+</div>
+<table class="table table-bordered table-hover dataTable table-striped display nowrap compact display nowrap compact  js-table" id="scroll_table">
+    <thead>
+    <tr>
+        <td class="text-center table-total">合计</td>
+        <td class="text-center table-total">{$total_data['sum_totals']}</td>
+        <td class="text-center table-total">{$total_data['sum_ships']}</td>
+        {if $profit_type == 'confirmprofit'}
+        <td class="text-center table-total">{$total_data['sum_profit_totals']}</td>
+        {/if}
+        <td class="text-center table-total">{$total_data['sum_sales']}</td>
+        <td class="text-center table-total">{$total_data['sum_profit']}</td>
+        <td class="text-center table-total"></td>
+        {if $params['checkDate'] == 'day'}
+        <td class="text-center table-total"></td>
+        {/if}
+        <td class="text-center table-total"></td>
+        {if $params['checkDate'] == 'day'}
+        <td class="text-center table-total"></td>
+        {/if}
+        <td class="text-center table-total"></td>
+        <td class="text-center table-total"></td>
+    </tr>
+    <tr>
+        <th class="text-center">日期</th>
+        <th class="text-center">总订单数 <a href="javascript:void(0);" data-container='body' data-toggle="tooltip" data-placement="" title="总订单数=系统内所有订单数(包含了作废订单和补发订单)"><i class="fa fa-fw fa-question-circle"></i></a></th>
+        <th class="text-center">已发货单量 <a href="javascript:void(0);" data-container='body' data-toggle="tooltip" data-placement="" title="已发货单量=当天进系统并已发货的订单总数"><i class="fa fa-fw fa-question-circle"></i></a></th>
+        {if $profit_type == 'confirmprofit'}
+        <th class="text-center">已确认利润单量<a href="javascript:void(0);" data-container='body' data-toggle="tooltip" data-placement="" title="确认利润单量=当天进系统已发货并已确认利润订单数"><i class="fa fa-fw fa-question-circle"></i></a></th>
+        {/if}
+        <th class="text-center">销售额 ($) <a href="javascript:void(0);" data-container='body' data-toggle="tooltip" data-placement="" title="销售额=当天进系统并已发货的订单总金额"><i class="fa fa-fw fa-question-circle"></i></a></th>
+        {if $profit_type == 'confirmprofit'}
+        <th class="text-center">确认利润($) <a href="javascript:void(0);" data-container='body' data-toggle="tooltip" data-placement="" title="确认利润=销售额-物品成本-包材成本-运输成本（线上运费+线下运费）-PayPal转换费-提款费-佣金-其它"><i class="fa fa-fw fa-question-circle"></i></a></th>
+        {else}
+        <th class="text-center">预估利润($) <a href="javascript:void(0);" data-container='body' data-toggle="tooltip" data-placement="" title="预估利润=销售额-物品成本-包材成本-预估运输成本（线上运费+线下运费）-PayPal转换费-提款费-佣金-其它"><i class="fa fa-fw fa-question-circle"></i></a></th>
+        {/if}
+        <th class="text-center">利润率(%)</th>
+        {if $params['checkDate'] == 'day'}
+        <th class="text-center">上周同期利润</th>
+        {/if}
+        <th class="text-center">上月同日利润</th>
+        {if $params['checkDate'] == 'day'}
+        <th class="text-center">上周同期利润率(%)</th>
+        {/if}
+        <th class="text-center">上月同日利润率(%)</th>
+        <th class="text-center">利润环比增长率(%)</th>
+    </tr>
+    </thead>
+    <tbody id='scroll_table_head'>
+    {foreach $list as $key => $value}
+    <tr>
+        <td class="text-center">{$key}</td>
+        <td class="text-center">{$value['sum_totals']}</td>
+        <td class="text-center">{$value['sum_ships']}</td>
+        {if $profit_type == 'confirmprofit'}
+        <td class="text-center">{$value['sum_profit_totals']}</td>
+        {/if}
+        <td class="text-center">{$value['sum_sales']}</td>
+        <td class="text-center">{$value['sum_profit']}</td>
+        <td class="text-center {if intval($value['profit_rate']) > 0}table-td-color-green{/if} {if intval($value['profit_rate']) < 0}table-td-color-red{/if}">{$value['profit_rate']}</td>
+        {if $params['checkDate'] == 'day'}
+        <td class="text-center">{$value['last_week_profit']}</td>
+        {/if}
+        <td class="text-center">{$value['last_month_profit']}</td>
+        {if $params['checkDate'] == 'day'}
+        <td class="text-center {if intval($value['last_week_profit_rate']) > 0}table-td-color-green{/if} {if intval($value['last_week_profit_rate']) < 0}table-td-color-red{/if}">{$value['last_week_profit_rate']}</td>
+        {/if}
+        <td class="text-center {if intval($value['last_month_profit_rate']) > 0}table-td-color-green{/if} {if intval($value['last_month_profit_rate']) < 0}table-td-color-red{/if}">{$value['last_month_profit_rate']}</td>
+        <td class="text-center {if intval($value['loop_profit_rate']) > 0}table-td-color-green{/if} {if intval($value['loop_profit_rate']) < 0}table-td-color-red{/if}">{$value['loop_profit_rate']}</td>
+    </tr>
+    {/foreach}
+    </tbody>
+</table>

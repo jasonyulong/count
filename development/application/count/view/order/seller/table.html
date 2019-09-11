@@ -1,0 +1,36 @@
+<table class="table table-bordered table-hover dataTable table-striped js-table">
+    <thead>
+    <!--合计-->
+    <tr>
+        <td class="text-center table-total">合计</td>
+        <td class="text-center table-total">{$total_data['sum_totals']}</td>
+        <td class="text-center table-total">{$total_data['sum_sales']}</td>
+        <td class="text-center table-total">{$total_data['sum_refunds_count']}</td>
+        <td class="text-center table-total">{$total_data['sum_refunds']}</td>
+        <td class="text-center table-total">{$total_data['sum_recycles_count']}</td>
+        <td class="text-center table-total">{$total_data['sum_recycles']|default='0.00'}</td>
+    </tr>
+    <tr>
+        <th class="text-center">销售员</th>
+        <th class="text-center">销售单量  <a href="javascript:void(0);" data-toggle="tooltip" data-placement="bottom" title="销售单量=排除掉回收站和补发的订单数"><i class="fa fa-fw fa-question-circle"></i></a></th>
+        <th class="text-center">销售额 ($) <a href="javascript:void(0);" data-toggle="tooltip" data-placement="bottom" title="销售额=排除掉回收站和补发的订单销售额"><i class="fa fa-fw fa-question-circle"></i></a></th>
+        <th class="text-center">退款单量 <a href="javascript:void(0);" data-toggle="tooltip" data-placement="bottom" title="退款单量=产生退款订单数"><i class="fa fa-fw fa-question-circle"></i></a></th>
+        <th class="text-center">退款金额 ($) <a href="javascript:void(0);" data-toggle="tooltip" data-placement="bottom" title="退款金额=产生退款总金额"><i class="fa fa-fw fa-question-circle"></i></a></th>
+        <th class="text-center">作废单量 <a href="javascript:void(0);" data-toggle="tooltip" data-placement="bottom" title="作废单量=产生回收站订单数"><i class="fa fa-fw fa-question-circle"></i></a></th>
+        <th class="text-center">作废金额 ($) <a href="javascript:void(0);" data-toggle="tooltip" data-placement="bottom" title="作废单量=产生回收站订单总金额"><i class="fa fa-fw fa-question-circle"></i></a></th>
+    </tr>
+    </thead>
+    <tbody>
+    {foreach $list as $item}
+    <tr>
+        <td class="text-center">{$item['seller']}</td>
+        <td class="text-center">{$item['sum_totals']|default=0}</td>
+        <td class="text-center">{$item['sum_sales']|default=0}</td>
+        <td class="text-center">{$item['sum_refunds_count']|default=0}</td>
+        <td class="text-center">{$item['sum_refunds']|default='0.00'}</td>
+        <td class="text-center">{$item['sum_recycles_count']|default=0}</td>
+        <td class="text-center">{$item['sum_recycles']|default='0.00'}</td>
+    </tr>
+    {/foreach}
+    </tbody>
+</table>

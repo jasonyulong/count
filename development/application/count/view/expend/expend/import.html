@@ -1,0 +1,92 @@
+{extend name="layout/fluid2" /}
+{block name='css'}
+<style>
+.text-right {
+    text-align: right;
+}
+textarea {
+    width: 100%;
+}
+</style>
+{/block}
+
+{block name="content"}
+<form class="form-horizontal" id="default_form" method="POST" enctype="multipart/form-data">
+
+    <div class="form-group">
+        <label class="col-sm-3 col-xs-3 control-label text-right">选择平台：</label>
+        <div class="col-sm-4 col-xs-4">
+            <select class="form-control selectpicker" width="150px" name='platform'data-actions-box="true" data-live-search="true" onchange="order_model.change_download_tpl($(this));order_model.change_expend_type($(this))">
+                {foreach $all_platforms as $k => $v}
+                <option value="{$v}" {in_array($v, $params['platform'])}selected{/if}>{$v}</option>
+                {/foreach}
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-3 col-xs-3 control-label text-right">已有费用项：</label>
+        <div class="col-sm-9 col-xs-9">
+            <span class="type_list">
+                {:implode(', ', $type_map[$params['platform']])}
+            </span>
+            <div><button type="button" class="btn btn-default btn-xs" onclick="order_model.add_expend_type($(this))">新增</button></div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-3 col-xs-3 control-label text-right">模板下载：</label>
+        <div class="col-sm-9 col-xs-9">
+            <a id="download_url" target="_blank" data-url="{:url('import', ['is_download' => 1])}" href="{:url('import', ['is_download' => 1])}&platform={$params['platform']}">{$params['platform']} excel 模板</a>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-3 col-xs-3 control-label text-right">费用均摊时间：</label>
+        <div class="col-sm-9 col-xs-9">
+            <input type="text" class="input-sm form-control input-date datepicker start" name="start_time"  placeholder="开始时间" readonly/>
+            <input type="text" class="input-sm form-control input-date datepicker end" name="end_time"  placeholder="结束时间" readonly/>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-3 col-xs-3 control-label text-right">费用导入：</label>
+        <div class="col-sm-9 col-xs-9">
+            <input type="file" name="file">
+        </div>
+    </div>
+    
+    <div class="form-group">
+        <div class="col-sm-offset-3 col-sm-9 col-xs-offset-3 col-xs-9">
+            <button type="submit" class="btn btn-primary">确认提交</button>
+        </div>
+    </div>
+</form>
+
+{/block}
+
+{block name='js'}
+<script>
+    var global_expend_type = JSON.parse('{:json_encode($type_map)}');
+// 阻止默认的提交行为，使用自定义的提交方法
+$('#default_form').submit(function(e) {
+    e.preventDefault();
+    layer.load();
+    $.ajax({
+        url: $(this).attr('action'),
+        type: 'POST',
+        // data: $(this).serializeArray(),
+        data: new FormData(document.getElementById('default_form')),
+        processData: false,
+        contentType: false,
+        dataType: 'JSON',
+        success: function(ret) {
+            layer.closeAll();
+            if (ret.code != 0) layer.alert(ret.msg);
+            else layer.alert(ret.msg, {'yes': function() {parent.location.reload();}});
+        }
+    })
+});
+
+</script>
+{/block}

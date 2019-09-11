@@ -1,0 +1,54 @@
+<script src="__CDN__/assets/plugins/echarts/echarts.min.js"></script>
+<div id="chartmain" style="width:100%; height:780px;"></div>
+<script type="application/javascript">
+    // 基于准备好的dom，初始化echarts实例
+    var myChart = echarts.init(document.getElementById('chartmain'));
+    option = {
+        title: {
+            text: ''
+        },
+        tooltip: {
+            trigger: 'axis'
+        },
+        legend: {
+            data:['ZN70505_02','ZN70505_03']
+        },
+        grid: {
+            left: '3%',
+            right: '4%',
+            bottom: '3%',
+            containLabel: true
+        },
+        toolbox: {
+            feature: {
+                saveAsImage: {}
+            }
+        },
+        xAxis: {
+            type: 'category',
+            boundaryGap: false,
+            data: ['07-31','08-01','08-02','08-03','08-04','08-05']
+        },
+        yAxis: {
+            type: 'value'
+        },
+        series: [
+            {
+                name:'ZN70505_02',
+                type:'line',
+                stack: '总量',
+                data:[120, 132, 101, 390, 330, 320]
+            },
+            {
+                name:'ZN70505_03',
+                type:'line',
+                stack: '总量',
+                data:[120, 132, 101, 390, 330, 320]
+            },
+
+        ]
+    };
+
+    // 使用刚指定的配置项和数据显示图表。
+    myChart.setOption(option);
+</script>

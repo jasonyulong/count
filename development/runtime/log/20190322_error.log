@@ -1,0 +1,12 @@
+---------------------------------------------------------------
+[ 2019-03-22T20:01:14+08:00 ] 10.0.2.2 GET /count/sku/index/showskutotal.html?paytime_start=2019-03-07&paytime_end=2019-03-22&platform=&store=&category=&single=&country=&sku=&time=2019-03-07&model=table
+[ error ] [10501]SQLSTATE[42S22]: Column not found: 1054 Unknown column 'platform' in 'where clause'[/opt/web/count/development/thinkphp/library/think/db/Connection.php:390]
+---------------------------------------------------------------
+[ 2019-03-22T20:01:25+08:00 ] 10.0.2.2 GET /count/sku/index/showskutotal.html?paytime_start=2019-03-07&paytime_end=2019-03-22&platform=&store=&category=&single=&country=&sku=01Y0822CIZR&time=2019-03-07&model=table
+[ error ] [10501]SQLSTATE[42S22]: Column not found: 1054 Unknown column 'platform' in 'where clause'[/opt/web/count/development/thinkphp/library/think/db/Connection.php:390]
+---------------------------------------------------------------
+[ 2019-03-22T20:01:29+08:00 ] 10.0.2.2 GET /count/sku/index/showskutotal.html?paytime_start=2019-03-07&paytime_end=2019-03-22&platform=&store=&category=&single=&country=&sku=01Y0822CIZR&time=2019-03-07&model=table
+[ error ] [10501]SQLSTATE[42S22]: Column not found: 1054 Unknown column 'platform' in 'where clause'[/opt/web/count/development/thinkphp/library/think/db/Connection.php:390]
+---------------------------------------------------------------
+[ 2019-03-22T20:01:33+08:00 ] 10.0.2.2 GET /count/sku/index/showskutotal.html?paytime_start=2019-03-07&paytime_end=2019-03-22&platform=&store=&category=&single=&country=&sku=01Y0822CIZR&time=2019-03-07&model=table
+[ error ] [10501]SQLSTATE[42S22]: Column not found: 1054 Unknown column 'platform' in 'where clause'[/opt/web/count/development/thinkphp/library/think/db/Connection.php:390]

@@ -1,0 +1,216 @@
+{extend name="layout/fluid2" /}
+{block name='css'}
+<style>
+.text-right {
+    text-align: right;
+}
+textarea {
+    width: 100%;
+}
+.form-control {display: inline-block;width: 100%;}
+</style>
+{/block}
+
+{block name="content"}
+<form class="form-horizontal" id="default_form">
+    {if isset($data)}<input class="form-control" type="hidden" name="id" value="{$data['id']}">{/if}
+    <div class="form-group">
+        <label class="col-sm-3 col-xs-3 control-label text-right">抽查名称：</label>
+        <div class="col-sm-9 col-xs-9 col-md-9 col-lg-9">
+            <input class="form-control" name="name" value="{$data['name'] ?? ''}">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-3 col-xs-3 control-label text-right">抽查类型：</label>
+        <div class="col-sm-9 col-xs-9">
+            <select class=" form-control selectpicker" name='check_type' data-actions-box="true" data-live-search="true" >
+                {foreach $check_types as $k => $v}
+                <option value="{$k}" {if isset($data) && $data['check_type'] == $k}selected{/if}>{$v}</option>
+                {/foreach}
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-3 col-xs-3 control-label text-right">抽查状态：</label>
+        <div class="col-sm-9 col-xs-9">
+            <select class=" form-control selectpicker" name='check_status' data-actions-box="true" data-live-search="true" >
+                {foreach $check_status as $k => $v}
+                <option value="{$k}" {if isset($data) && $data['check_status'] == $k}selected{/if}>{$v}</option>
+                {/foreach}
+            </select>
+        </div>
+    </div>
+
+    <!-- 抽查时间 -->
+    <div class="form-group">
+        <div class="col-sm-3 col-xs-3 ">
+            <select class=" form-control selectpicker" name='time_type'>
+                {foreach $check_time_types as $key => $item}
+                <option value="{$key}" {if isset($data) && $data['check_time_type'] == $key}selected{/if}>{$item}</option>
+                {/foreach}
+            </select>
+        </div>
+        <div class="col-sm-4 col-xs-4">
+            <input class="form-control datepicker" name="start_time" value="{if isset($data)}{$data['check_start_time']}{/if}" readonly placeholder="开始时间">
+            
+        </div>
+        <div class="col-sm-4 col-xs-4">
+            <input class="form-control datepicker" name="end_time" value="{if isset($data)}{$data['check_end_time']}{/if}" readonly placeholder="结束时间">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-3 col-xs-3 control-label text-right">抽查平台帐号：</label>
+        <div class="col-sm-4 col-xs-4">
+            <select class="form-control selectpicker" width="150px" name='check_platform[]' title="全部(支持多选)" onchange="order_model.change_task_platform($(this))" data-actions-box="true" data-live-search="true" multiple>
+                {foreach $order_platform_list as $k => $v}
+                <option value="{$v}" {if isset($data) && in_array($v, $data['check_platform'])}selected{/if}>{$v}</option>
+                {/foreach}
+            </select>
+        </div>
+        <div class="col-sm-4 col-xs-4">
+            <select class="form-control selectpicker" width="150px" id="account" name='check_accounts[]' title="账号(支持多选)" data-actions-box="true" data-live-search="true" multiple>
+                {if isset($data)}
+                {foreach $account_list as $k => $v}
+                <option value="{$v}" {if in_array($v, $data['check_accounts'])}selected{/if}>{$v}</option>
+                {/foreach}
+                {/if}
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-3 col-xs-3 control-label text-right">抽查组织结构：</label>
+        <div class="col-sm-4 col-xs-4">
+            <select class="form-control selectpicker" width="150px" name='check_org_ids[]' title="全部(支持多选)" onchange="order_model.change_task_organ($(this))" data-actions-box="true" data-live-search="true" multiple>
+                {foreach $org_list as $key => $value}
+                <option data-seller='{:json_encode($value["seller_list"])}' value="{$value['id']}" {if isset($data) && in_array($value['id'], $data['check_org_ids'])}selected{/if}>{$value['name']}</option>
+                {/foreach}
+                <option value="-1">其他</option>
+            </select>
+        </div>
+        <div class="col-sm-4 col-xs-4">
+            <select class="form-control selectpicker" width="150px" id="seller" name='check_sellers[]' title="销售员(支持多选)" data-actions-box="true" data-live-search="true" multiple>
+                {if isset($data)}
+                {foreach $seller_list as $k => $v}
+                <option value="{$v}" {if in_array($v, $data['check_sellers'])}selected{/if}>{$v}</option>
+                {/foreach}
+                {/if}
+            </select>
+        </div>
+    </div>  
+
+    <div class="form-group">
+        <label class="col-sm-3 col-xs-3 control-label text-right">抽查物流公司：</label>
+        <div class="col-sm-4 col-xs-4">
+            <select class="form-control selectpicker" width="150px" name='check_carrier_companys[]' title="全部(支持多选)" onchange="order_model.change_task_carrier_company($(this), 1)" data-actions-box="true" data-live-search="true" multiple>
+                {foreach $carrier_company_list as $k => $v}
+                <option data-id="{$v['id']}" value="{$v['id']}" {if isset($data) && in_array($v['id'], $data['check_carrier_companys'])}selected{/if}>{$v['sup_abbr']}</option>
+                {/foreach}
+            </select>
+        </div>
+        <div class="col-sm-4 col-xs-4">
+            <select class="form-control selectpicker" width="150px" id="carrier" name='check_carriers[]' title="物流渠道(支持多选)" data-actions-box="true" data-live-search="true" multiple>
+                {if isset($data)}
+                {foreach $carrier_list as $k => $v}
+                <option value="{$v['id']}" {if in_array($v['id'], $data['check_carriers'])}selected{/if}>{$v['name']}</option>
+                {/foreach}
+                {/if}
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-3 col-xs-3 control-label text-right">指定字段：</label>
+        <div class="col-sm-9 col-xs-9">
+            <select class=" form-control selectpicker" name='check_order_fields[]' title="全部(支持多选)" data-actions-box="true" data-live-search="true" multiple>
+            {foreach $order_field_list as $k => $v}
+            <option value="{$k}" {if isset($data) && in_array($k, $data['check_order_fields'])}selected{/if}>{$v}</option>
+            {/foreach}
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-3 col-xs-3 control-label text-right">抽查数量：</label>
+        <div class="col-sm-9 col-xs-9">
+            <input class="form-control" name="check_order_amount" value="{$data['check_order_amount'] ?? ''}">
+            <span class="text-danger">*</span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-3 col-xs-3 control-label text-right">问题平台：</label>
+        <div class="col-sm-9 col-xs-9">
+            <select class="form-control selectpicker" width="150px" name='exception_platform[]' title="全部(支持多选)" data-actions-box="true" data-live-search="true" multiple>
+                {foreach $order_platform_list as $k => $v}
+                <option value="{$v}" {if isset($data) && in_array($v, $data['exception_platform'])}selected{/if}>{$v}</option>
+                {/foreach}
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-3 col-xs-3 control-label text-right">问题点：</label>
+        <div class="col-sm-9 col-xs-9">
+            <textarea name="problems" id="" rows="3">{$data['problems'] ?? ''}</textarea>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-3 col-xs-3 control-label text-right">减损额：</label>
+        <div class="col-sm-9 col-xs-9">
+            <input class="form-control" name="saving_money" value="{$data['saving_money'] ?? '0'}">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-3 col-xs-3 control-label text-right">解决方案：</label>
+        <div class="col-sm-9 col-xs-9">
+            <textarea name="solution" id="" rows="3">{$data['solution'] ?? ''}</textarea>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-3 col-xs-3 control-label text-right">历史解决方案：</label>
+        <div class="col-sm-9 col-xs-9">
+            {if isset($data)}
+            {foreach $data['solution_log'] as $item}
+            <span>{:date('Y-m-d H:i:s', $item['time'])}: {$item['text']}</span><br>
+            {/foreach}
+            {/if}
+        </div>
+    </div>
+    
+    <div class="form-group">
+        <div class="col-sm-offset-3 col-sm-9 col-xs-offset-3 col-xs-9">
+            <button type="submit" class="btn btn-primary">确认提交</button>
+        </div>
+    </div>
+</form>
+
+{/block}
+
+{block name='js'}
+<script>
+// 阻止默认的提交行为，使用自定义的提交方法
+$('#default_form').submit(function(e) {
+    e.preventDefault();
+    layer.load();
+    $.ajax({
+        url: $(this).attr('action'),
+        type: 'POST',
+        data: $(this).serializeArray(),
+        dataType: 'JSON',
+        success: function(ret) {
+            layer.closeAll();
+            if (ret.code != 0) layer.alert(ret.msg);
+            else layer.alert(ret.msg, {'yes': function() {parent.location.reload();}});
+        }
+    })
+});
+
+</script>
+{/block}

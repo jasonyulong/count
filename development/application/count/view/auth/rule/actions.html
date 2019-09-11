@@ -1,0 +1,60 @@
+{extend name="layout/dialog" /}
+{block name='content'}
+<div class="container-full">
+    <!-- Main content -->
+    <section class="content">
+        <div class="box box-default color-palette-box">
+            <div class="box-header with-border">
+                <button type="button" class="btn btn-sm btn-refresh"><i class="fa fa-refresh"></i></button>
+                {if $auth->check('count/auth/rule/add')}
+                <button type="button" class="btn bg-primary btn-sm btn-dialog" href="{:url('/count/auth/rule/add', ['ismenu' => 0, 'menuid' => $menuid])}" title="{:__('添加节点')}"><i
+                        class="fa fa-plus-circle"></i> {:__('添加节点')}
+                </button>
+                {/if}
+            </div>
+
+            <div class="box-body">
+                <table id="table" class="table table-bordered table-hover" width="100%">
+                    <head>
+                        <tr>
+                            <th class="text-center">ID</th>
+                            <th>标题</th>
+                            <th>请求地址</th>
+                            <th>备注</th>
+                            <th class="text-center">操作</th>
+                        </tr>
+                    </head>
+                    <tbody>
+                    {foreach $actionlist as $val}
+                    <tr>
+                        <td class="text-center">{$val.id}</td>
+                        <td>{$val.title}</td>
+                        <td>{$val.name}</td>
+                        <td>{$val.remark}</td>
+                        <td class="text-center">
+                            {if $auth->check('count/auth/rule/edit')}
+                            <button type="button"
+                                    class="btn btn-success btn-edit btn-dialog btn-xs"
+                                    title="{:__('编辑')}"
+                                    href="{:url('/count/auth/rule/edit', [$val.id, 'ismenu' => 0, 'menuid' => $menuid])}"><i class="fa fa-pencil"></i>
+                            </button>
+                            {/if}
+                            {if $auth->check('count/auth/rule/del')}
+                            <button type="button"
+                                    class="btn btn-danger btn-edit btn-ajax btn-xs"
+                                    title="{:__('删除')}"
+                                    options="{confirm:'确定要删除此项吗？', ajaxtype:'del'}"
+                                    href="{:url('/count/auth/rule/del', [$val.id])}"><i class="fa fa-trash"></i>
+                            </button>
+                            {/if}
+                        </td>
+                    </tr>
+                    {/foreach}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+    <!-- /.content -->
+</div>
+{/block}

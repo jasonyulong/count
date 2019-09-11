@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+
+#PHP脚本的执行目录
+phpRoot=/opt/web/erp
+
+#PHP
+phpBin=/usr/local/php/bin/php
+
+#PHP file
+phpRun=think
+
+. ./init
+
+cd $phpRoot
+
+
+#杀掉运行时间超时的进程
+killTimeoutPid()
+{
+	# 运行路由方法
+	grepName="$1"
+	# 过期时间 秒, 超过这个时间的进程直接干掉
+	timeOut=$2
+	# 当前时间
+	nowtime=$(date +%H:%M)
+	# 找出已经运行的进程
+	pro="$(ps -ef |grep "$grepName"|sort -k3,3|head -n1)"
+	# 获取开始执行时间
+	strtime="$(echo $pro|awk '{print $5}')"
+	# 获取进程ID
+	pid="$(echo $pro|awk '{print $2}')"
+	# 计算运行时长 秒
+	runtime=$(($(date -d "$nowtime" +%s) - $(date -d "$strtime" +%s)))
+
+	# 判断如果进程运行时间超过设置时间则干掉进程
+	if [[ $runtime -gt $timeOut ]]; then
+		kill $pid
+		return "$grepName timeout, kill $pid"
+	fi
+	return $pid
+}

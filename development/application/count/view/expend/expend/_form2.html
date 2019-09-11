@@ -1,0 +1,55 @@
+<form action="{:url('/count/expend/Expend/platformDetail')}" method="get" class="form-inline froms clearfix">
+    <input type="hidden" name="type" value="{$params['type']}">
+
+    <div class="form-group" style="width: 206px;">
+        <label class="control-label text-right">平台：</label>
+        <select class="selectpicker platform-choice" title="全部" name="platform" id="platform" data-actions-box="true" data-live-search="true">
+            {foreach $platforms as $item}
+            <option value="{$item}" {if $params.platform == $item}selected{/if}>{$item}</option>
+            {/foreach}
+        </select>
+    </div>
+
+    <div class="form-group" style="width: 206px;">
+        <label class="control-label text-right">账号：</label>
+        <select class="selectpicker account-choice" title="全部" name="account[]" id="account" data-actions-box="true" data-live-search="true" multiple>
+
+            {foreach $account_list as $item}
+            <option value="{$item}" {if in_array($item, $params['account'] ?? [])}selected{/if}>{$item}</option>
+            {/foreach}
+
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label text-right">时间维度：</label>
+        <div class="checkbox">
+            <label><input type="radio" name="checkDate" class="checkDate" value="day" {if $params['checkDate'] == 'day'}checked{/if} ><small>天</small></label>
+            <label><input type="radio" name="checkDate" class="checkDate" value="month" {if $params['checkDate'] == 'month'}checked{/if}><small>月</small></label>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label text-right">区间：</label>
+        <div class="input-group laydate-group">
+            <input type="text" class="input-sm form-control input-date datepicker start {if $params['checkDate'] != 'day'}hide{/if}" name="scantime_start"  placeholder="开始时间" value="{$params['scantime_start']}" readonly/>
+            <input type="text" class="input-sm form-control input-date monthpicker start {if $params['checkDate'] != 'month'}hide{/if}" name="scandate_start"  placeholder="开始年月" value="{$params['scandate_start']}" readonly/>
+            <span class="input-group-addon">到</span>
+            <input type="text" class="input-sm form-control input-date datepicker end {if $params['checkDate'] != 'day'}hide{/if}" name="scantime_end" value="{$params['scantime_end']}" placeholder="结束时间" readonly/>
+            <input type="text" class="input-sm form-control input-date monthpicker end {if $params['checkDate'] != 'month'}hide{/if}" name="scandate_end" value="{$params['scandate_end']}" placeholder="结束年月" readonly/>
+        </div>
+    </div>
+
+    <div class="checkbox shotcut_day_div" {if $params['checkDate'] == 'month'}style="display:none;"{/if}>
+        <div class="input-group laydate-group">
+            <div class="checkbox">
+                <label><input type="radio" class="" onchange="order_model.checked_date(this)" value="today"><small>今天</small></label>
+                <label><input type="radio" class="" onchange="order_model.checked_date(this)" value="yesterday"><small>昨天</small></label>
+                <label><input type="radio" class="" onchange="order_model.checked_date(this)" value="recently3day"><small>最近三天</small></label>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <button class="btn btn-primary btn-sm" type="submit" name="submit"><i class="glyphicon glyphicon-search"></i> 确定搜索&nbsp;</button>
+    </div>
+</form>

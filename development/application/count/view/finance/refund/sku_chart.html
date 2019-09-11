@@ -1,0 +1,71 @@
+<script src="__CDN__/assets/plugins/echarts/echarts.min.js"></script>
+<div id="chartmain" style="width:100%; height:780px;"></div>
+<script type="application/javascript">
+    // 基于准备好的dom，初始化echarts实例
+    var myChart = echarts.init(document.getElementById('chartmain'));
+    option = {
+        title: {
+            text: ''
+        },
+        tooltip: {
+            trigger: 'axis'
+        },
+        legend: {
+            data:['ebay','wish','lazada','amazon','shopee']
+        },
+        grid: {
+            left: '3%',
+            right: '4%',
+            bottom: '3%',
+            containLabel: true
+        },
+        toolbox: {
+            feature: {
+                saveAsImage: {}
+            }
+        },
+        xAxis: {
+            type: 'category',
+            boundaryGap: false,
+            data: ['08-11','08-12','08-13','08-14','08-15','08-16','08-17', '08-18','08-19','08-20','08-21','08-22','08-23','08-24']
+        },
+        yAxis: {
+            type: 'value'
+        },
+        series: [
+            {
+                name:'ebay',
+                type:'line',
+                stack: '总量',
+                data:[120, 132, 101, 390, 330, 320, 210, 120, 132, 101, 134, 90, 230, 210]
+            },
+            {
+                name:'wish',
+                type:'line',
+                stack: '总量',
+                data:[120, 390, 330, 320, 90, 230, 210, 220, 182, 191, 234, 290, 330, 310]
+            },
+            {
+                name:'lazada',
+                type:'line',
+                stack: '总量',
+                data:[120, 132, 101, 134, 90, 230, 210, 150, 232, 201, 154, 190, 330, 410]
+            },
+            {
+                name:'amazon',
+                type:'line',
+                stack: '总量',
+                data:[390, 330, 320, 134, 90, 230, 210, 320, 332, 301, 334, 390, 330, 320]
+            },
+            {
+                name:'shopee',
+                type:'line',
+                stack: '总量',
+                data:[120, 132, 101, 390, 330, 320, 820, 932, 901, 934, 1290, 1330, 1320,100]
+            }
+        ]
+    };
+
+    // 使用刚指定的配置项和数据显示图表。
+    myChart.setOption(option);
+</script>

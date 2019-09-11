@@ -1,0 +1,43 @@
+<script src="__CDN__/assets/plugins/echarts/echarts.min.js"></script>
+<div id="chartmain" style="width:100%; height:580px;"></div>
+<script type="application/javascript">
+    // 基于准备好的dom，初始化echarts实例
+    var myChart = echarts.init(document.getElementById('chartmain'));
+    option = {
+        title: {
+            text: ''
+        },
+        tooltip: {
+            trigger: 'axis'
+        },
+        legend: {
+            data:{$key}
+        },
+        grid: {
+            left: '3%',
+            right: '4%',
+            bottom: '3%',
+            containLabel: true
+        },
+        xAxis: {
+            type: 'category',
+            boundaryGap: true,
+            data: {$key}
+        },
+        yAxis: {
+            type: 'value'
+        },
+        series: [
+            {
+                name:'销量',
+                type:'bar',
+                barWidth: '25%',
+                barCategoryGap:'10%',
+                data:{$value}
+            }
+        ]
+    };
+
+    // 使用刚指定的配置项和数据显示图表。
+    myChart.setOption(option);
+</script>

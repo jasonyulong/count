@@ -1,0 +1,42 @@
+<table class="table table-bordered table-hover dataTable table-striped">
+    <thead>
+    <tr>
+        <th class="text-center">平台</th>
+        {foreach $data['date'] as $k=>$date_list}
+        <th>{$date_list}</th>
+        {/foreach}
+        <th class="text-center">合计</th>
+    </tr>
+    </thead>
+    <tbody>
+    {foreach $data['sale_platform'] as $plat=>$sale_platform_list}
+    <tr>
+        <td class="text-center">{$plat}</td>
+        {foreach $sale_platform_list as $time=>$num}
+        <td class="text-center">
+            <a href="javascript:void(0)" class="{if $num ==0}text-default{/if}" onclick="{if $num !=0}order_model.singleSkuDetail(this){/if}"
+               data-sku="{$params['sku']}"
+               data-time="{$time}"
+               data-url="{:url('/count/sku/index/singlesku',
+               array('paytime_start'=>$params['time_start'],'paytime_end'=>$params['time_end'],'group_sku'=>$params['group_sku'],'keys'=>$params['keys'],'values'=>$params['values'],'platform'=>$plat,'time'=>$time,'sku'=>$params['sku'],'model' => 'table'))}">
+                {$num}</a>
+        </td>
+        {/foreach}
+        <td class="text-center"><a href="javascript:void(0)" class="{if $data['total'][$plat]==0}text-default{/if}" onclick="{if $data['total'][$plat] !=0}order_model.totalSkuDetail(this){/if}"
+                                   data-sku="{$params['sku']}"
+                                   data-time="{$time}"
+                                   data-url="{:url('/count/sku/index/totalskudetail', array_merge($params,['platform'=>$plat,'paytime_start'=>$params['time_start'],'paytime_end'=>$params['time_end'],'sku'=>$params['sku']],['model' => 'table']))}">
+
+            {$data['total'][$plat]}</a></td>
+    </tr>
+    {/foreach}
+    <tr>
+        <td class="text-center">全平台</td>
+        {foreach $data['date_total_sale'] as $platform=>$sale_list}
+        <td class="text-center">{$sale_list}</td>
+        {/foreach}
+        <td class="text-center">{$data['total_sale']}</td>
+    </tr>
+
+    </tbody>
+</table>

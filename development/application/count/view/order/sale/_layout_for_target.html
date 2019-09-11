@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="{$config.language}">
+<head>
+    {include file="common/meta" /}
+    <style>
+        .tab-content {
+            overflow: auto;
+        }
+        .DTFC_LeftBodyLiner {
+            overflow-x: hidden;
+        }
+        .tooltip-inner {
+        white-space:nowrap;
+        max-width:none;
+        }
+    </style>
+</head>
+<body class="hold-transition skin-blue-light fixed sidebar-mini {$bodyClass}">
+<div class="wrapper">
+    {include file="common/header" /}
+    <div class="content-wrapper">
+        <section class="content">
+            <div class="nav-tabs-custom">
+                {include file="order/sale/_tabs_bar_for_target" /}
+                <div class="box-body">
+                    <div class="box box-solid">
+                        <div class="box-header with-bsales">
+                            {include file="order/sale/_form_for_target" /}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-content">
+                    <table class="table table-bordered table-hover dataTable table-striped display nowrap compact js-table">
+                        <thead>
+                        <tr>
+                            {if $params['type'] == 'organ'}
+                            <th class="text-left">组织架构</th>
+                            <th class="text-center">负责人</th>
+                            {elseif $params['type'] == 'account' /}
+                            <th class="text-left">平台</th>
+                            <th class="text-center">账户</th>
+                            {elseif $params['type'] == 'seller' /}
+                            <th class="text-left">组织架构</th>
+                            <th class="text-center">销售员</th>
+                            {/if}
+                            <!--<th class="text-center">添加人/时间</th>-->
+                            <th class="text-center">1月</th>
+                            <th class="text-center">2月</th>
+                            <th class="text-center">3月</th>
+                            <th class="text-center">4月</th>
+                            <th class="text-center">5月</th>
+                            <th class="text-center">6月</th>
+                            <th class="text-center">7月</th>
+                            <th class="text-center">8月</th>
+                            <th class="text-center">9月</th>
+                            <th class="text-center">10月</th>
+                            <th class="text-center">11月</th>
+                            <th class="text-center">12月</th>
+                        </tr>
+                    
+                        </thead>
+                        <tbody id="scroll_table_head">
+                        {foreach $list as $key => $item}
+                        <tr>
+                            <td class="text-left">
+                                {if $params['type'] == 'organ'}
+                                    {if $item['level'] > 2}
+                                    |{:str_repeat('---', ($item['level'] - 1))}
+                                    {/if}
+                                    {$item['name']}
+                                {elseif $params['type'] == 'account' /}
+                                {$item['platform']}
+                                {elseif $params['type'] == 'seller' /}
+                                {$item['org_parent_name']}{$item['org_name']}
+                                {/if}
+                            </td>
+                            <td class="text-center">
+                                {if $params['type'] == 'organ'}
+                                {$item['manage']}
+                                {elseif $params['type'] == 'account' /}
+                                {$item['ebay_account']}
+                                {elseif $params['type'] == 'seller' /}
+                                {$item['user_name']}
+                                {/if}
+                            </td>
+                            {foreach $months as $month} 
+                            {if $params['type'] == 'organ'}
+                            <td class="text-center" onclick="order_model.update_org_target($(this), 0)" data-url="{:url('setTarget', '', '')}?type={$params['type']}" data-type="{$params['type']}" data-org_id="{$item['id']}" data-month="{$month}">
+                                <span>{$target_list[$item['id']][$month] ?? '-'}</span>
+                                <input type="text" class="target_input input-sm " style="width: 100%;display: none;height: 20px;" onblur="order_model.update_org_target($(this), 1)" value="{$target_list[$item['id']][$month] ?? ''}">
+                                <!-- <br>
+                                <strong>{$sales_data[$item['id']][$month] ?? ''}</strong> -->
+                            </td>
+                            {elseif $params['type'] == 'account' /}
+                            <td class="text-center" style="width: 100px;" onclick="order_model.update_org_target($(this), 0)" data-url="{:url('setTarget', '', '')}?type={$params['type']}" data-type="{$params['type']}" data-ebay_account="{$item['ebay_account']}" data-month="{$month}">
+                                <span>{$target_list[$item['ebay_account']][$month] ?? ''}</span>
+                                <input type="text" class="target_input input-sm " style="width: 100%;display: none;height: 20px;" onblur="order_model.update_org_target($(this), 1)" value="{$target_list[$item['ebay_account']][$month] ?? ''}">
+                                
+                                <!-- <strong><br>{$sales_data[$item['ebay_account']][$month] ?? ''}</strong> -->
+                            </td>
+                            {elseif $params['type'] == 'seller' /}
+                            <td class="text-center" style="width: 100px;" onclick="order_model.update_org_target($(this), 0)" data-url="{:url('setTarget', '', '')}?type={$params['type']}" data-type="{$params['type']}" data-seller="{$item['seller']}" data-month="{$month}">
+                                <span>{$target_list[$item['seller']][$month] ?? ''}</span>
+                                <input type="text" class="target_input input-sm " style="width: 100%;display: none;height: 20px;" onblur="order_model.update_org_target($(this), 1)" value="{$target_list[$item['seller']][$month] ?? ''}">
+                                
+                                <!-- <strong><br>{$sales_data[$item['seller']][$month] ?? ''}</strong> -->
+                            </td>
+                            {/if}
+                            
+                            {/foreach}
+                        </tr>
+                        {/foreach}
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="batch-bar clearfix">
+                </div>
+            </div>
+        </section>
+        <aside class="control-sidebar control-sidebar-dark">
+            <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane" id="control-sidebar-home-tab"></div>
+            </div>
+        </aside>
+        <div class="control-sidebar-bg"></div>
+    </div>
+</div>
+
+{include file="common/script2" /}
+{include file="layout/btn_top" /}
+
+{block name='js'}
+<!-- 用来 添加自定义 的 js -->
+<script>
+    var page_str = '';
+    var page_len = 50;
+    var is_page = 1;
+    var order = [0, 'desc'];
+    var is_order = -1;
+    {if isset($params['type']) && (in_array($params['type'], ['organ']))}
+    is_page = -1;
+    {/if}
+
+    common_module.init_data_table(page_str, order, page_len, is_page, is_order);
+
+    // 针对414 错误
+    common_module.init_submit_form('manual_submit_form');
+
+</script>
+{/block}
+</body>
+</html>

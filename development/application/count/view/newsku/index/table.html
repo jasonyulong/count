@@ -1,0 +1,92 @@
+<div class="text-danger">
+    <i class="icon fa fa-warning"></i> 说明：总成本为sku物品成本总和，sku销量根据已发货订单的进系统时间来统计
+</div>
+<table class="table table-bordered table-hover dataTable table-striped display nowrap compact js-table" id="scroll_table">
+    <thead>
+    <!--合计-->
+    <tr>
+        <td class="text-center table-total">合计</td>
+        <td class="text-center table-total"></td>
+        {foreach $range as $v}
+        <td class="text-center table-total">
+            <span class="block" data-container='body' data-toggle="tooltip" data-placement="">
+                    {$total_data[$v]['sum_qty'] ?? 0}
+            </span>
+            </td>
+        {/foreach}
+        <td class="text-center table-total"></td>
+        <td class="text-center table-total"></td>
+        <td class="text-center table-total"></td>
+    </tr>
+
+    <tr>
+        <th class="text-center">
+            SKU
+        </th>
+        <th class="text-center">图片</th>
+        {foreach $range as $item}
+        <th class="text-center"><a href="javascript:void(0)" onclick="sku_module.change_date_sort($(this))" data-url="{$unsort_url}" data-date="{$item}" data-sort="{if isset($params['sort_more']) && $params['sort_more'] == 'DESC' && $params['sort_date'] == $item}ASC{else /}DESC{/if}">{if $params['checkDate'] == 'day'}{:substr($item, 5)}{else /}{$item}{/if}  {if isset($params['sort_more']) && $params['sort_date'] == $item}{if $params['sort_more'] == 'DESC'}<span class="glyphicon glyphicon-sort-by-attributes-alt"></span>{else /}<span class="glyphicon glyphicon-sort-by-attributes"></span>{/if}{/if}</a></th>
+        
+        {/foreach}
+        <th class="text-center table-total"><a href="javascript:void(0)" onclick="sku_module.change_date_sort($(this))" data-url="{$unsort_url}" data-date="all" data-sort="{if isset($params['sort_more']) && $params['sort_more'] == 'DESC' && $params['sort_date'] == 'all'}ASC{else /}DESC{/if}">合计{if isset($params['sort_more']) && $params['sort_date'] == 'all'}{if $params['sort_more'] == 'DESC'}<span class="glyphicon glyphicon-sort-by-attributes-alt"></span>{else /}<span class="glyphicon glyphicon-sort-by-attributes"></span>{/if}{/if}</a></th>
+        <th class="text-center">平均销量</th>
+        <th class="text-center">走势图</th>
+    </tr>
+
+    </thead>
+    <tbody id="scroll_table_head">
+    {foreach $list as $key => $item}
+    <tr>
+        <td class="text-center">
+            {$key}
+        </td>
+        <td class="text-center">
+            {if $params['checkDate'] == 'day'}
+            <img class="img-src-size" data-src="http://image.spocoo.com/{$item[$params['scantime_end']]['thumb']}" src="http://image.spocoo.com/{$item[$params['scantime_end']]['thumb']}?w=50&h=50" bigsrc="http://image.spocoo.com/{$item[$params['scantime_end']]['thumb']}?w=400&h=400" onclick="order_model.skuimage(this)">
+            {else /}
+            <img class="img-src-size" data-src="http://image.spocoo.com/{$item[$params['scandate_end']]['thumb']}" src="http://image.spocoo.com/{$item[$params['scandate_end']]['thumb']}?w=50&h=50" bigsrc="http://image.spocoo.com/{$item[$params['scandate_end']]['thumb']}?w=400&h=400" onclick="order_model.skuimage(this)">
+            {/if}
+        </td>
+        {foreach $item as $k => $sub_item}
+        <td class="text-center">
+            <span class="block ele-{$sub_item['sku']}" data-date="{$k}" data-qty="{$sub_item['sum_qty']}">
+                {if $params['type'] == 'account'}
+             <a href="javascript:void(0)" data-url="{:url('skuPlatform', '', '')}?date={$k}&sku={$sub_item['sku']}" data-date="{$k}" data-sku="{$sub_item['sku']}" onclick="sku_module.showSkuPlatformStat($(this))">{$sub_item['sum_qty']}</a>
+             {else /}
+             {$sub_item['sum_qty']}
+             {/if}
+            </span>
+        </td>
+        {/foreach}
+        <td class="text-center table-total">
+             <span class="block" data-container='body' data-toggle="tooltip" data-placement="">
+                {$date_total_map[$key]['sum_qty']}
+             </span>
+        </td>
+        <td class="text-center">
+            <span class="block" data-container='body' data-toggle="tooltip" data-placement="">
+                {$date_aver_map[$key]['average_qty']}
+            </span>
+        </td>
+        <td class="text-center">
+            <a href="javascript:void(0)" class="btn btn-xs btn-default" data-sku="{$key}" onclick="sku_module.show_platform_trendency($(this))"><span class="fa fa-fw fa-bar-chart-o"></span></a>
+        </td>
+    </tr>
+    {/foreach}
+    </tbody>
+</table>
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">图表</h4>
+    </div>
+    <div class="modal-body">
+    <div id="chartmain" style="width:800px; height:500px;"></div>
+        
+    </div>
+    </div>
+</div>
+</div>

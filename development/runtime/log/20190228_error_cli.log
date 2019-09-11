@@ -1,0 +1,1 @@
+[ 2019-02-28T18:09:07+08:00 ][ error ] [0]Type error: Too few arguments to function app\common\command\cli\GoodsCli::saveOrAdd(), 1 passed in /opt/web/count/development/application/common/command/cli/GoodsCli.php on line 80 and exactly 2 expected[/opt/web/count/development/application/common/command/cli/GoodsCli.php:194]

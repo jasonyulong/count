@@ -1,0 +1,229 @@
+#!/usr/bin/env bash
+
+
+# 进程状态提示语
+status_tips()
+{
+	if [[ $1 -le 0 ]]; then
+		echo ${1}' 未运行'
+	else
+		pro="$(ps -ef |grep "$1"|sort -k3,3|head -n1)"
+		pid="$(echo $pro|awk '{print $2}')"
+		echo $1" 运行中 (PID:$pid)"
+	fi
+}
+
+# 获取task完整文件名
+get_taskname()
+{
+	if [[ $1 =~ '.sh' ]]; then
+		t=$1
+	else
+		t=$1".sh"
+	fi
+	echo $t
+}
+
+#判断程序是否已经在运行
+rpid_script()
+{
+	t=`get_taskname $1`
+	count=`ps -ef |grep $t |grep -v "grep" |wc -l`
+
+	if [[ $count -le 0 ]]; then
+		echo 0
+	else
+		pro="$(ps -ef |grep "$1"|sort -k3,3|head -n1)"
+		pid="$(echo $pro|awk '{print $2}')"
+		echo $pid
+	fi
+}
+
+# 脚本状态
+status_script()
+{
+	pid=`rpid_script $1`
+	sh_name=`get_taskname $1`
+
+	if [ $pid -gt 0 ]; then
+		echo -e ${sh_name//.sh/}"   \033[42;34m 运行中 (PID:$pid) \033[0m"
+	else
+		echo -e ${sh_name//.sh/}"   \033[43;34m 未启动 \033[0m"
+	fi
+}
+
+#启动脚本，先判断脚本是否已经在运行
+start_script()
+{
+	pid=`rpid_script $1`
+	sh_name=`get_taskname $1`
+
+	if [ $pid -gt 0 ]; then
+		echo ${sh_name}" 运行中 (PID:$pid)"
+	else
+		echo '启动'${sh_name}'中...'
+		nohup  $TASK_DIR$sh_name & > /dev/null 2>&1
+		echo '启动'${sh_name}'完毕'
+	fi
+}
+
+#停止脚本
+stop_script()
+{
+	pid=`rpid_script $1`
+	sh_name=`get_taskname $1`
+
+	if [ $pid -eq "0" ]; then
+		echo ${sh_name}' 未启动'
+	else
+		kill -9 $pid
+		echo ${sh_name}" 停止完毕 (PID:$pid)"
+	fi
+}
+
+#重启脚本
+reload_script()
+{
+	stop_script $1
+	sleep 2
+	start_script $1
+}
+
+# 所有脚本状态
+all_status_script()
+{
+	echo "------------------------------------"
+	for dir in $(ls -lt $TASK_DIR | grep .sh |awk '{print $9}')
+	do
+		status_script $dir
+		echo "------------------------------------"
+	done
+}
+
+#杀掉运行时间超时的进程
+killTimeoutPid()
+{
+	# 运行路由方法
+	grepName="$2"
+	# 过期时间 秒, 超过这个时间的进程直接干掉
+	timeOut=$1
+	# 当前时间
+	nowtime=$(date +%H:%M)
+	# 找出已经运行的进程
+	pro="$(ps -ef |grep "$grepName"|sort -k3,3|head -n1)"
+	# 获取开始执行时间
+	strtime="$(echo $pro|awk '{print $5}')"
+	# 获取进程ID
+	pid="$(echo $pro|awk '{print $2}')"
+	# 计算运行时长 秒
+	runtime=$(($(date -d "$nowtime" +%s) - $(date -d "$strtime" +%s)))
+
+	# 判断如果进程运行时间超过设置时间则干掉进程
+	if [[ $runtime -gt $timeOut ]]; then
+		kill $pid
+		return "$grepName timeout, kill $pid"
+	fi
+	return $pid
+}
+
+
+run_action()
+{
+	# 运行路由方法
+	grepName="$1"
+	# 过期时间 秒, 超过这个时间的进程直接干掉, 处理死进程
+	timeOut=3600
+	# 超时时间
+	# timeRun=$3
+
+	# 检测如果有超时的运行进程, 直接杀掉
+	killTimeoutPid $timeOut "$grepName"
+
+	# 根据关键词查找已运行进程数量
+	count=`ps -ef | grep "$grepName" | grep -v "grep" | wc -l`
+	if [[ $count -le 0 ]]; then
+		echo "start run $grepName"
+		$phpBin $phpRun $grepName > /dev/null 2>&1 &
+		# 执行成功了则停顿, 等待下一次执行
+		# sleep $timeRun
+	else
+		# 检测有程序在执行的时候，停顿10秒继续检测
+		echo "$grepName is run"
+		# sleep 10
+	fi
+}
+
+run_count()
+{
+	# 运行路由方法
+	grepName=$1
+
+	# 根据关键词查找已运行进程数量
+	count=`ps -ef | grep "$grepName" | grep -v "grep" | wc -l`
+	echo $count
+}
+
+killTimeoutPlatform()
+{
+	# 运行路由方法
+	grepName="$1"
+	platform=$2
+	# 过期时间 秒, 超过这个时间的进程直接干掉
+	timeOut=$3
+	# 当前时间
+	nowtime=$(date +%H:%M)
+	# 找出已经运行的进程
+	pro="$(ps -ef |grep "$grepName\ $platform"|sort -k3,3|head -n1)"
+	# 获取开始执行时间
+	strtime="$(echo $pro|awk '{print $5}')"
+	# 获取进程ID
+	pid="$(echo $pro|awk '{print $2}')"
+	# 计算运行时长 秒
+	runtime=$(($(date -d "$nowtime" +%s) - $(date -d "$strtime" +%s)))
+
+	# 判断如果进程运行时间超过设置时间则干掉进程
+	if [ $runtime -gt $timeOut ] && [ -n "$pid" ]; then
+		echo ${nowtime}": $grepName $platform timeout, kill $pid"
+		kill $pid
+	fi
+
+	return $pid
+}
+
+run_platform()
+{
+	# 当前时间
+	nowtime=$(date +%H:%M)
+	# 运行路由方法
+	grepName=$1
+	# 平台
+	platform=$2
+	# 过期时间 秒, 超过这个时间的进程直接干掉, 处理死进程
+	timeOut=180
+
+	# 找出已经运行的进程
+	pro="$(ps -ef |grep "$grepName\ $platform"|sort -k3,3|head -n1)"
+	# 获取开始执行时间
+	strtime="$(echo $pro|awk '{print $5}')"
+	# 获取进程ID
+	pid="$(echo $pro|awk '{print $2}')"
+	# 计算运行时长 秒
+	runtime=$(($(date -d "$nowtime" +%s) - $(date -d "$strtime" +%s)))
+
+	# 判断如果进程运行时间超过设置时间则干掉进程
+	if [ $runtime -gt $timeOut ] && [ -n "$pid" ]; then
+		echo ${nowtime}": $grepName $platform timeout, kill $pid"
+		kill $pid
+	fi
+
+	# 根据关键词查找已运行进程数量,小于5个进程则可运行
+	count=`ps -ef | grep "$grepName\ $platform" | grep -v "grep" | wc -l`
+	echo $count
+	if [[ $count -le 2 ]]; then
+		echo ${nowtime}": start run $grepName $platform"
+		# $phpBin $phpRun $grepName $platform  > /dev/null 2>&1 &
+		$phpBin $phpRun $grepName $platform  &
+	else
+		echo ${nowtime}": $grepName $platform is run,count:"${count}
+	fi
+}

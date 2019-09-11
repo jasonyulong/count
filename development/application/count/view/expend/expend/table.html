@@ -1,0 +1,90 @@
+<!--<div class="text-danger">-->
+    <!--<i class="icon fa fa-warning"></i> 说明：-->
+<!--</div>-->
+<table class="table table-bordered table-hover dataTable table-striped display nowrap compact js-table" id="scroll_table" style="width: 100%;">
+    <thead>
+
+    {if !empty($total_data)}
+    <!--合计-->
+    <tr>
+        <td class="text-center table-total">合计</td>
+        {if $params['type'] == 'seller'}
+        <td class="text-center table-total"></td>
+        {/if}
+    
+        {foreach $range as $v}
+        <td class="text-center table-total">
+            <span class="cursor" data-container='body' data-toggle="tooltip" data-placement="left" title="">
+                {if isset($total_data[$v]['sum_expend_amount'])}{:round($total_data[$v]['sum_expend_amount'], 2)}{else /}0{/if}
+            </span>
+            <br>
+            <span class="text-danger">{$total_data[$v]['expend_rate']}</span>
+        </td>
+        {/foreach}
+        
+    </tr>
+    {/if}
+
+    <tr>
+        {if $params['type'] == 'seller'}
+        <th class="text-center">组织架构</th>
+        {/if}
+        <th class="text-center">
+            {if $params['type'] == 'platform'}
+            平台
+            {elseif $params['type'] == 'store'}
+            仓库
+            {elseif $params['type'] == 'location'}
+            Location
+            {elseif $params['type'] == 'seller'}
+            销售员
+            {else /}
+            账号
+            {/if}
+        </th>
+
+        {foreach $range as $item}
+        <th class="text-center">{$item}</th>
+        {/foreach}
+    </tr>
+
+    </thead>
+    <tbody id="scroll_table_head">
+    {foreach $list as $key => $item}
+    <tr>
+        {if $params['type'] == 'seller' && $params['checkDate'] == 'day'}
+        <td class="text-left">{$item['org_parent_name']|default='-'}
+            <span class="error">{$item['org_name']|default='-'}</span>
+        </td>
+        {/if}
+        {if $params['type'] == 'seller' && $params['checkDate'] == 'month'}
+        <td class="text-left">{$item['org_parent_name']|default='-'}
+        <span class="text-danger">{$item['org_name']|default='-'}</span>
+        </td>
+        {/if}
+        <td class="text-center">
+            {if $params['type'] == 'seller'}
+            {:explode('__', $key)[0] ?? trim(mb_substr($key, 0, 3), '_')}
+            {elseif $params['type'] == 'platform' && in_array($key, $allow_platforms)}
+            <a href="{:url('/count/expend/Expend/platformDetail', array_merge($params,['platform' => $key]), false)}" target="_blank">{$key}</a>
+            {elseif $params['type'] == 'account'}
+            <a href="{:url('/count/expend/Expend/platformDetail', array_merge($params,['platform' => $params['platform'], 'account[]' => $key]), false)}" target="_blank">{$key}</a>
+            {else /}
+            {$key}
+            {/if}
+        </td>
+
+        {foreach $item['dates'] as $k => $sub_item}
+        <td class="text-center">
+            <span class="cursor" data-container='body' data-toggle="tooltip"  data-placement="left"  title="">
+            {:round($sub_item['sum_expend_amount'], 2)}
+            </span>
+            <br>
+            <span class="text-danger">{$sub_item['expend_rate']}</span>
+        </td>
+        {/foreach}
+    
+    </tr>
+    {/foreach}
+    </tbody>
+</table>

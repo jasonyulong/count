@@ -1,0 +1,153 @@
+{extend name="layout/fluid2" /}
+{block name='css'}
+<style>
+.text-right {
+    text-align: right;
+}
+.full-width 
+{
+    width: 100%;
+}
+</style>
+{/block}
+
+{block name="content"}
+<form class="form-horizontal" id="default_form">
+    <div class="form-group">
+        <label class="col-sm-3 col-xs-3 control-label text-right">抽查名称：</label>
+        <div class="col-sm-9 col-xs-9">
+            {$data['name']}
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-3 col-xs-3 control-label text-right">抽查类型：</label>
+        <div class="col-sm-9 col-xs-9">
+            {$check_types[$data['check_type']]}
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-3 col-xs-3 control-label text-right">抽查状态：</label>
+        <div class="col-sm-9 col-xs-9">
+            {$check_status[$data['check_status']]}
+        </div>
+    </div>
+
+    <!-- 抽查时间 -->
+    <div class="form-group">
+        <label class="col-sm-3 col-xs-3 control-label text-right">{$check_time_types[$data['check_time_type']]}：</label>
+        <div class="col-sm-9 col-xs-9">
+            {$data['check_start_time'] ?? ''} - {$data['check_end_time'] ?? ''} 
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-3 col-xs-3 control-label text-right">抽查平台：</label>
+   
+        <div class="col-sm-9 col-xs-9">
+            <textarea class="full-width" readonly>{$data['check_platform']}</textarea>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-3 col-xs-3 control-label text-right">抽查帐号：</label>
+    
+        <div class="col-sm-9 col-xs-9">
+            <textarea class="full-width" readonly>{$data['check_accounts']}</textarea>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-3 col-xs-3 control-label text-right">抽查组织架构：</label>
+        <div class="col-sm-9 col-xs-9">
+            <textarea class="full-width" readonly>{$data['check_org_str']}</textarea>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-3 col-xs-3 control-label text-right">抽查销售员：</label>
+        <div class="col-sm-9 col-xs-9">
+            {$data['check_sellers']}
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-3 col-xs-3 control-label text-right">抽查物流公司：</label>
+        <div class="col-sm-9 col-xs-9">
+            <textarea class="full-width" readonly>{$data['company_str']}</textarea>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-3 col-xs-3 control-label text-right">抽查物流渠道：</label>
+        <div class="col-sm-9 col-xs-9">
+                <textarea class="full-width" readonly>{$data['carrier_str']}</textarea>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-3 col-xs-3 control-label text-right">指定字段：</label>
+        <div class="col-sm-9 col-xs-9">
+            <textarea class="full-width" readonly>{$data['check_order_fields_str']}</textarea>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-3 col-xs-3 control-label text-right">抽查数量：</label>
+        <div class="col-sm-9 col-xs-9">
+            {$data['check_order_amount']}
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-3 col-xs-3 control-label text-right">问题平台：</label>
+        <div class="col-sm-9 col-xs-9">
+            <textarea class="full-width" readonly>{$data['exception_platform']}</textarea>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-3 col-xs-3 control-label text-right">问题点：</label>
+        <div class="col-sm-9 col-xs-9">
+            {$data['problems']}
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-3 col-xs-3 control-label text-right">减损额：</label>
+        <div class="col-sm-9 col-xs-9">
+            {$data['saving_money']}
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-3 col-xs-3 control-label text-right">解决方案：</label>
+        <div class="col-sm-9 col-xs-9">
+            {$data['solution']}
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-3 col-xs-3 control-label text-right">历史解决方案：</label>
+        <div class="col-sm-9 col-xs-9">
+            {foreach $data['solution_log'] as $item}
+            <span>{:date('Y-m-d H:i:s', $item['time'])}: {$item['text']}</span><br>
+            {/foreach}
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-3 col-xs-3 control-label text-right">创建人：</label>
+        <div class="col-sm-9 col-xs-9">
+            {$data['create_uname']} --- {:date('Y-m-d H:i:s', $data['create_time'])}
+        </div>
+    </div>
+    
+</form>
+
+{/block}
+
+{block name='js'}
+
+{/block}

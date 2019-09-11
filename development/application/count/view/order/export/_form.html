@@ -1,0 +1,23 @@
+<form action="" method="get" class="form-inline froms clearfix">
+
+ 
+    <div class="form-group">
+        <label class="control-label text-right">创建时间：</label>
+        <div class="input-group laydate-group">
+            <input type="text" class="input-sm form-control input-date datepicker start " name="createtime_start"  placeholder="开始时间" value="{$params['createtime_start'] ?? ''}" readonly/>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label text-right">至</label>
+        <div class="input-group laydate-group">
+            <input type="text" class="input-sm form-control input-date datepicker end " name="createtime_end" value="{$params['createtime_end'] ?? ''}" placeholder="结束时间" readonly/>
+        </div>
+    </div>
+  
+    <div class="form-group">
+        <button class="btn btn-primary btn-sm" type="submit" name="submit"><i class="glyphicon glyphicon-search"></i> 搜索&nbsp;</button>
+        <a class="btn btn-warning btn-sm" href="javascript:void(0);" data-url="{:url('addTask')}" onclick="order_model.showCreateExportTask($(this))"><i class="glyphicon glyphicon-save"></i> 创建任务&nbsp;</a>
+    </div>
+
+</form>

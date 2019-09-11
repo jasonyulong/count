@@ -1,0 +1,76 @@
+<script src="__CDN__/assets/plugins/echarts/echarts.min.js"></script>
+<div id="chartmain" style="width:100%; height:600px;"></div>
+<script type="application/javascript">
+    // 基于准备好的dom，初始化echarts实例
+    var myChart = echarts.init(document.getElementById('chartmain'));
+    option = {
+        title : {
+            text: '',
+            subtext: ''
+        },
+        tooltip : {
+            trigger: 'axis'
+        },
+        legend: {
+            data:['总金额($)','毛利($)']
+        },
+        toolbox: {
+            show : true,
+            feature : {
+                dataView : {show: true, readOnly: false},
+                magicType : {show: true, type: ['line', 'bar']},
+                restore : {show: true},
+                saveAsImage : {show: true}
+            }
+        },
+        calculable : true,
+        xAxis : [
+            {
+                type : 'category',
+                data : {$jsonName}
+            }
+        ],
+        yAxis : [
+            {
+                type : 'value'
+            }
+        ],
+        series : [
+            {
+                name:'总金额($)',
+                type:'bar',
+                data:{$jsonTotal},
+                markPoint : {
+                    data : [
+                        {type : 'max', name: '最大值'},
+                        {type : 'min', name: '最小值'}
+                    ]
+                },
+                markLine : {
+                    data : [
+                        {type : 'average', name: '平均值'}
+                    ]
+                }
+            },
+            {
+                name:'毛利($)',
+                type:'bar',
+                data:{$jsonGross},
+                markPoint : {
+                    data : [
+                        {type : 'max', name: '最大值'},
+                        {type : 'min', name: '最小值'}
+                    ]
+                },
+                markLine : {
+                    data : [
+                        {type : 'average', name : '平均值'}
+                    ]
+                }
+            }
+        ]
+    };
+
+    // 使用刚指定的配置项和数据显示图表。
+    myChart.setOption(option);
+</script>

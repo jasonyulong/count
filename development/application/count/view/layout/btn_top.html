@@ -1,0 +1,26 @@
+<!--<button id="btn_top" title="回到顶部"><span class="glyphicon glyphicon-chevron-up"></span></button>-->
+<script>
+    $(function (){
+        var btnTop = "#btn_top";
+        $(window).scroll(function () {
+            if ($(window).scrollTop() >= 50) {
+                $(btnTop).fadeIn();
+            }
+            else {
+                $(btnTop).fadeOut();
+            }
+        });
+        $(btnTop).click(function () {
+            $('html,body').animate({scrollTop: 0}, 500);
+        });
+        //在初始化和窗口改变大小时，重置main的高度
+        var window_height = $(window).height();
+        var header_height = $('#header').height();
+        $('#main').height(window_height - header_height - 5);
+        $(window).resize(function () {
+            window_height = $(window).height();
+            var header_height = $('#header').height();
+            $('#main').height(window_height - header_height - 5);
+        });
+    });
+</script>

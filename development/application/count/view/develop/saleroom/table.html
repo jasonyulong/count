@@ -1,0 +1,60 @@
+<div class="text-danger">
+    <i class="icon fa fa-warning"></i> 说明：统计的销售额为已发货订单(排除补发订单)，如果订单sku审核超过6个月、则此sku忽略不计，统计时间为订单进系统时间。
+</div>
+<table class="table table-bordered table-hover dataTable display nowrap compact table-striped js-table">
+    <thead>
+    <tr>
+        <td class="text-center table-total" style="min-width: 50px">合计</td>
+            {volist name='total' id='v'}
+                {if is_numeric($key) || $key == 'month'}<td class="text-center table-total">{$v}</td>{/if}
+            {/volist}
+        <td class="text-center table-total">{$total.sum}</td>
+    </tr>
+
+    <tr>
+        <th class="text-center">
+            开发员 <a href="javascript:void(0);" class="sort_toggle" onclick="common_module.sort_toggle()"></a>
+        </th>
+        {volist name='total' id='v'}
+        {if $key == 'month'}
+        <th class="text-center">本月</th>
+        {/if}
+        {if is_numeric($key)}
+            {if $params['checkDate'] == 'month'}
+                <th class="text-center">
+                    {php}echo date('Y-m',strtotime($key.'01'));{/php}
+                </th>
+            {else/}
+                <th class="text-center">{php}echo date('m-d',strtotime($key));{/php}</th>
+            {/if}
+        {/if}
+        {/volist}
+        <th class="text-center">合计</th>
+    </tr>
+
+    </thead>
+
+    <tbody id="scroll_table_head">
+    {volist name="list" id="vo"}
+    <tr>
+        <td class="text-center">{$key}</td>
+            {volist name='total' id='v'}
+                {if $key == 'month'}<td class="text-center">
+                    <span class="block" data-toggle="tooltip" data-placement="bottom" data-container='body'  title="退款金额:{$vo[$key]['refunds']},退货金额:{$vo[$key]['return_total']}">
+                        {$vo[$key]['sales']}
+                    </span>
+                </td>{/if}
+                {if is_numeric($key)}<td class="text-center">
+                    <span class="block" data-toggle="tooltip" data-placement="bottom" data-container='body'  title="退款金额:{$vo[$key]['refunds']},退货金额:{$vo[$key]['return_total']}">
+                    {$vo[$key]['sales']}
+                    </span>
+                    </td>
+                {/if}
+            {/volist}
+        <td class="text-center">{$vo.sum}</td>
+    </tr>
+    {/volist}
+
+    </tbody>
+
+</table>

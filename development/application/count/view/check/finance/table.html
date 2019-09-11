@@ -1,0 +1,40 @@
+<table class="table table-bordered table-hover dataTable table-striped display nowrap compact js-table" id="scroll_table">
+    <thead>
+    <tr>
+        <th class="text-center">序号</th>
+        <th class="text-center">抽查名称</th>
+        <th class="text-center">抽查类型</th>
+        <th class="text-center">创建人</th>
+        <th class="text-center">创建时间</th>
+        <th class="text-center">状态</th>
+        <th class="text-center">问题平台</th>
+        <th class="text-center">问题点</th>
+        <th class="text-center">减损额($)</th>
+        <th class="text-center">操作</th>
+    </tr>
+
+    </thead>
+    <tbody id="scroll_table_head">
+        {foreach $list as $v}
+        <tr>
+            <td class="text-center">{$v['id']}</td>
+            <td class="text-center">{:mb_substr($v['name'],0,30)}{if mb_strlen($v['name']) > 30}...{/if}</td>
+            <td class="text-center">{$check_types[$v['check_type']]}</td>
+            <td class="text-center">{$v['create_uname']}</td>
+            <td class="text-center">{:date('Y-m-d', $v['create_time'])}</td>
+            <td class="text-center {if in_array($v['check_status'], ['2'])}text-danger{/if}" >{$check_status[$v['check_status']]}</td>
+            <td class="text-center">{:mb_substr($v['exception_platform'],0,30)}{if mb_strlen($v['exception_platform']) > 30}...{/if}</td>
+            <td class="text-center">{:mb_substr($v['problems'], 0, 30)}{if mb_strlen($v['exception_platform']) > 30}...{/if}</td>
+            <td class="text-center {if in_array($v['check_status'], ['2'])}text-danger{/if}">{$v['saving_money']}</td>
+            <td class="text-center">
+                <button type="button" class="btn btn-default btn-xs" data-id="{$v['id']}" data-url="{:url('detail', ['id' => $v['id']])}" onclick="order_model.view_check($(this))">查看</button>
+                
+                {if $uid == $v['create_uid']}
+                <a class="btn btn-warning btn-xs" href="javascript:void(0);" data-url="{:url('edit', ['id' => $v['id']])}" {if in_array($v['check_status'], ['1','3'])}disabled{else /}onclick="order_model.add_finance_check($(this));"{/if}>编辑&nbsp;</a>
+                {/if}
+            </td>
+        </tr>
+        {/foreach}
+    </tbody>
+</table>
+    

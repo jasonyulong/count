@@ -1,0 +1,5 @@
+<ul class="nav nav-tabs">
+    <li class="{$params['type'] == 'organ' ? 'active' : ''}"><a href="{:url('/count/order/Sale/setTarget', ['type' => 'organ'])}">按组织架构</a></li>
+    <li class="{$params['type'] == 'seller' ? 'active' : ''}"><a href="{:url('/count/order/Sale/setTarget', ['type' => 'seller'])}">按销售员</a></li>
+    <li class="{$params['type'] == 'account' ? 'active' : ''}"><a href="{:url('/count/order/Sale/setTarget', ['type' => 'account'])}">按账号</a></li>
+</ul>

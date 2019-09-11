@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="{$config.language}">
+<head>
+    <!-- 加载样式及META信息 -->
+    {include file="common/meta" /}
+</head>
+<body class="hold-transition login-page">
+<div class="login-box">
+    <div class="login-logo">
+        <a href="javascript:void(0);"><b>ERP </b>
+            <small>v5.0</small>
+        </a>
+    </div>
+    <!-- /.login-logo -->
+    <div class="login-box-body">
+        <p class="login-box-msg">Sign in to start your session</p>
+
+        <form action="../../index2.html" method="post">
+            <div class="form-group has-feedback">
+                <input type="email" class="form-control" placeholder="Email">
+                <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+            </div>
+            <div class="form-group has-feedback">
+                <input type="password" class="form-control" placeholder="Password">
+                <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+            </div>
+            <div class="form-group has-feedback">
+                <input type="text" class="form-control" placeholder="Captche" style="width:50%">
+            </div>
+        </form>
+
+        <div class="social-auth-links text-center">
+            <p>- TO -</p>
+            <button type="submit" class="btn bg-purple btn-block btn-flat">Sign In</button>
+            <button type="reset" class="btn bg-orange btn-block btn-flat">Reset</button>
+        </div>
+        <!-- <div class="alert alert-danger alert-dismissible margin-top10"><i class="fa fa-fw fa-thumbs-o-down"></i><span> Login Error!</span></div> -->
+        <div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button><i class="fa fa-fw fa-thumbs-o-up"></i><span> Login Successed!</span></div>
+    </div>
+    <div class="lockscreen-footer text-center">
+        Copyright &copy; 2018-2025 <b><a href="http://www.jeoshi.com" target="_blank" class="text-black">Jeoshi</a></b><br>
+        All rights reserved
+    </div>
+
+    <!-- /.login-box-body -->
+</div>
+<!-- 加载JS脚本 -->
+{include file="common/script" /}
+</body>
+</html>

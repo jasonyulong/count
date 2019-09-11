@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="{$config.language}">
+<head>
+    <title>SKU销量报表</title>
+    {include file="common/meta" /}
+    {block name='css'}
+    <!-- 用来添加自定义的 样式 -->
+    {/block}
+    <style>
+        .tab-content {
+            overflow: auto;
+        }
+        .table th {
+            background-color: white !important;
+        }
+        .DTFC_LeftBodyLiner {
+            overflow-x: hidden;
+        }
+    </style>
+</head>
+<body class="hold-transition skin-blue-light fixed sidebar-mini {$bodyClass}">
+<div class="wrapper">
+    {include file="common/header" /}
+    <div class="content-wrapper">
+        <section class="content">
+            <div class="nav-tabs-custom">
+                {include file="newsku/index/_tabs_bar" /}
+                <div class="box-body">
+                    <div class="box box-solid">
+                        <div class="box-header with-bsales">
+                            {include file="newsku/index/_form" /}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-content">
+                    {if $model == 'table'}
+                    {if $params['type'] == 'date'}
+                    {include file="newsku/index/table_date"/}
+                    {else /}
+                    {include file="newsku/index/table"/}
+                    {/if}
+                    {else/}
+                    {/if}
+                </div>
+
+                {if isset($params['type']) && (!in_array($params['type'], ['date']))}
+                {include file="layout/page" /}
+                {/if}
+                <div class="batch-bar clearfix">
+                </div>
+            </div>
+        </section>
+        <aside class="control-sidebar control-sidebar-dark">
+            <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane" id="control-sidebar-home-tab"></div>
+            </div>
+        </aside>
+        <div class="control-sidebar-bg"></div>
+    </div>
+</div>
+
+{include file="common/script2" /}
+{include file="layout/btn_top" /}
+
+{block name='js'}
+<script src="__CDN__/assets/plugins/echarts/echarts.min.js"></script>
+<!-- 用来 添加自定义 的 js -->
+<script>
+    var page_str = '';
+    var page_len = 20;
+    var is_page = 1;
+    var order = [0, 'desc'];
+    var is_order = 1;
+//    组织架构和 平台不进行排序
+    {if isset($params['type']) && (in_array($params['type'], ['organ']))}
+        var order = [];
+    {/if}
+    {if isset($params['type']) && (in_array($params['type'], ['account', 'cat', 'organ', 'seller', 'developer', 'country', 'store']))}
+        var is_page = -1;
+        var is_order = -1;
+    {/if}
+
+    common_module.init_data_table(page_str, order, page_len, is_page, is_order);
+
+    // 针对414 错误
+    common_module.init_submit_form('manual_submit_form');
+
+    {if isset($params['type']) && !in_array($params['type'], ['platform'])}
+    // $('#scroll_table').floatThead({
+    //     autoReflow: true,
+    //     zIndex: 0
+    // });
+    {/if}
+</script>
+{/block}
+</body>
+</html>

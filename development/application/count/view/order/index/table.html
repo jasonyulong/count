@@ -1,0 +1,86 @@
+<div class="text-danger">
+    <i class="icon fa fa-warning"></i> 说明：所有状态的统计都不包含因为拆分或者合并产生的作废单
+</div>
+<table class="table table-bordered table-hover dataTable display nowrap compact table-striped js-table">
+    <thead>
+    <tr>
+        <td class="text-center table-total">合计</td>
+        <td class="text-center table-total">{$total_data['sum_totals']}</td>
+        <td class="text-center table-total">{$total_data['sum_can_send']}</td>
+        <td class="text-center table-total">{$total_data['sum_noships']}</td>
+        <td class="text-center table-total">{$total_data['sum_ships']}</td>
+        <td class="text-center table-total">{$total_data['sum_overs']}</td>
+        <td class="text-center table-total">{$total_data['sum_resends']}</td>
+        <td class="text-center table-total">{$total_data['sum_refunds']}</td>
+        <td class="text-center table-total">{$total_data['sum_returns']}</td>
+        <td class="text-center table-total">{$total_data['sum_recycles']}</td>
+        <td class="text-center table-total">{$total_data['sum_recycles_system']}</td>
+        <td class="text-center table-total">{$total_data['sum_total_ship']}</td>
+    </tr>
+    <tr>
+        <th class="text-center">
+            {if $params['type'] == 'date'}
+            日期 <a href="javascript:void(0);" class="sort_toggle" onclick="common_module.sort_toggle()"></a>
+            {else /}
+            平台
+            {/if}
+        </th>
+        <th class="text-center">总订单数 <a href="javascript:void(0);" data-container='body' data-toggle="tooltip" title="总订单数=原始订单数+补发订单数+拆分创建订单数+手工订单数+合并后订单数+作废订单数"><i class="fa fa-fw fa-question-circle"></i></a></th>
+        <th class="text-center">可发货数 <a href="javascript:void(0);" data-container='body' data-toggle="tooltip" title="可发货数=总订单数-作废订单数"><i class="fa fa-fw fa-question-circle"></i></a></th>
+        <th class="text-center">未发货数 <a href="javascript:void(0);" data-container='body' data-toggle="tooltip" title="未发货数=进系统后但是并没有发货(排除了作废订单)"><i class="fa fa-fw fa-question-circle"></i></a></th>
+        <th class="text-center">已发货数 <a href="javascript:void(0);" data-container='body' data-toggle="tooltip" title="已发货数=进系统并已发货订单数"><i class="fa fa-fw fa-question-circle"></i></a></th>
+        <th class="text-center">已完成数 <a href="javascript:void(0);" data-container='body' data-toggle="tooltip" title="已完成数=进系统并已经确认利润订单数"><i class="fa fa-fw fa-question-circle"></i></a></th>
+        <th class="text-center">补发数 <a href="javascript:void(0);" data-container='body' data-toggle="tooltip" title="补发数=手动创建的补发订单数"><i class="fa fa-fw fa-question-circle"></i></a></th>
+        <th class="text-center">退款数 <a href="javascript:void(0);" data-container='body' data-toggle="tooltip" title="退款数=获取到已产生退款订单数"><i class="fa fa-fw fa-question-circle"></i></a></th>
+        <th class="text-center">退货数 <a href="javascript:void(0);" data-container='body' data-toggle="tooltip" title="退货数=产生退货订单数"><i class="fa fa-fw fa-question-circle"></i></a></th>
+        <th class="text-center">手工作废数 <a href="javascript:void(0);" data-container='body' data-toggle="tooltip" title="作废数=手工操作进回收站订单数"><i class="fa fa-fw fa-question-circle"></i></a></th>
+        <th class="text-center">系统作废数 <a href="javascript:void(0);" data-container='body' data-toggle="tooltip" title="作废数=系统操作进回收站订单数"><i class="fa fa-fw fa-question-circle"></i></a></th>
+        <th class="text-center">仓库发货数 <a href="javascript:void(0);" data-container='body' data-toggle="tooltip" title="仓库发货数=仓库实际发货订单总数"><i class="fa fa-fw fa-question-circle"></i></a></th>
+    </tr>
+    </thead>
+    <tbody id='scroll_table_head'>
+    {foreach $list as $item}
+    <tr>
+        <td class="text-center">
+            {if $params['type'] == 'platform'}
+                {$item['platform']}
+            {else /}
+                {if $params['checkDate'] == 'day'}
+                    {$item['year']}-{$item['month']}-{$item['days']}
+                {else /}
+                    {$item['year']}-{$item['month']}
+                {/if}
+            {/if}
+        </td>
+        <td class="text-center">
+            <span class="block" data-container='body' data-toggle="tooltip" data-placement="bottom"  title="{foreach $item['type_list'] as $value}{$value['type_name']}:{$value['sum_totals']}&nbsp;&nbsp;{/foreach}">
+            {$item['sum_totals']}
+            </span>
+        </td>
+        <td class="text-center">{$item['sum_can_send']}</td>
+        <td class="text-center">
+            <span class="block" data-container='body' data-toggle="tooltip" data-placement="bottom"  title="{foreach $item['type_list'] as $value}{$value['type_name']}:{$value['sum_noships']}&nbsp;&nbsp;{/foreach}">
+            {$item['sum_noships']}
+            </span>
+        </td>
+        <td class="text-center">
+            <span class="block" data-container='body' data-toggle="tooltip" data-placement="bottom"  title="{foreach $item['type_list'] as $value}{$value['type_name']}:{$value['sum_ships']}&nbsp;&nbsp;{/foreach}">
+            {$item['sum_ships']}
+            </span>
+        </td>
+        <td class="text-center">
+            <span class="block" data-container='body' data-toggle="tooltip" data-placement="bottom"  title="{foreach $item['type_list'] as $value}{$value['type_name']}:{$value['sum_overs']}&nbsp;&nbsp;{/foreach}">
+            {$item['sum_overs']}
+            </span>
+        </td>
+        <td class="text-center">{$item['sum_resends']}</td>
+        <td class="text-center">{$item['sum_refunds']}</td>
+        <td class="text-center">{$item['sum_returns']}</td>
+        <td class="text-center">{$item['sum_recycles']}</td>
+        <td class="text-center">{$item['sum_recycles_system']}</td>
+        <td class="text-center">{$item['sum_total_ship']}</td>
+    </tr>
+    {/foreach}
+
+    </tbody>
+</table>

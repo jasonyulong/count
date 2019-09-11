@@ -1,0 +1,6 @@
+---------------------------------------------------------------
+[ 2018-12-12T17:17:18+08:00 ] 127.0.0.1 GET /count/sku/index.html?platform=&store=&category=&organ%5B%5D=&country=&paytime_start=2018-11-27&paytime_end=2018-12-12&sort=4&keyword=240-AA0024ACOM
+[ error ] [10501]SQLSTATE[42S02]: Base table or view not found: 1146 Table 'count.erp_sku' doesn't exist[E:\web\count\development\thinkphp\library\think\db\Connection.php:390]
+---------------------------------------------------------------
+[ 2018-12-12T17:17:18+08:00 ] 127.0.0.1 GET /count/sku/index.html
+[ error ] [10501]SQLSTATE[42S02]: Base table or view not found: 1146 Table 'count.erp_sku' doesn't exist[E:\web\count\development\thinkphp\library\think\db\Connection.php:390]

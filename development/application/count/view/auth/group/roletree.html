@@ -1,0 +1,47 @@
+{extend name="layout/dialog" /}
+{block name="css"}
+<style>
+#treeview .jstree-container-ul .jstree-node {display: block;clear: both;}
+#treeview .jstree-leaf:not(:first-child) {float: left;background: none;margin-left: 0;width: auto;clear: none;}
+#treeview .jstree-leaf {float: left;margin-left: 0;padding-left: 24px;width: auto;clear: none;color: #777;}
+#treeview .jstree-leaf > .jstree-icon,
+#treeview .jstree-leaf .jstree-themeicon {display: none;}
+#treeview .jstree-children:before,
+#treeview .jstree-children:after {content: " ";display: table;}
+#treeview .jstree-children:after {clear: both;}
+#treeview .jstree-themeicon {display: none;}
+</style>
+{/block}
+{block name='content'}
+<form id="add-form" class="form-horizontal dialog-form" role="form" data-toggle="validator" method="POST" action="{:url('/count/auth/group/edit', [$row.id])}">
+    <input type="hidden" name="row[rules]" value="{$row.rules}" />
+    <input type="hidden" name="row[pid]" value="{$row.pid}" />
+    <section class="content">
+        <div class="form-group">
+            <div class="col-xs-12 col-sm-12">
+                <span class="text-muted"><input type="checkbox" name="" id="checkall" /> <label for="checkall"><small>{:__('Check all')}</small></label></span>
+                <span class="text-muted"><input type="checkbox" name="" id="expandall" /> <label for="expandall"><small>{:__('Expand all')}</small></label></span>
+
+                <div id="treeview" class="small"></div>
+            </div>
+        </div>
+    </section>
+    <div class=" layer-footer" style="overflow: auto;padding: 20px 0" >
+        <div class="col-xs-2"></div>
+        <div class="col-xs-12 col-sm-8">
+            <button type="submit" class="btn btn-success btn-embossed ">{:__('确定提交')}</button>
+            <button type="reset" class="btn btn-default btn-embossed">{:__('重置')}</button>
+        </div>
+    </div>
+</form>
+{/block}
+{block name="js"}
+<script type="text/javascript">
+    var content = {:json_encode($nodeList)};
+    //销毁已有的节点树
+    $("#treeview").jstree("destroy");
+    fms.api.rendertree(content);
+
+
+</script>
+{/block}

@@ -1,0 +1,42 @@
+<table class="table table-bordered table-hover dataTable table-striped">
+    <thead>
+    <tr>
+        <th class="text-center">平台</th>
+        <th class="text-center">销量</th>
+        <th class="text-center">平台</th>
+        <th class="text-center">销量</th>
+    </tr>
+    </thead>
+    <tbody>
+    {foreach $plat_info as $key=>$val}
+    <tr>
+        <td class="text-center">{:isset($val[15]['platform'])?$val[15]['platform']:''}</td>
+        <td class="text-center">
+            {if isset($val[15]['qty'])}
+            <a href="javascript:void(0)" onclick="{if $val[15]['qty'] !=0}order_model.singleSkuDetail(this){/if}" class="{if $val[15]['qty'] ==0}text-default{/if}"
+               data-sku="{$val[15]['sku']}"
+               data-time="{$val[15]['time']}"
+               data-url="{:url('/count/sku/index/singlesku',array('store'=>$store,'category'=>$category,'organ'=>$organ,'seller'=>$seller,'country'=>$country,'paytime_start'=>$paytime_start,'paytime_end'=>$paytime_end,'single'=>$single,'platform'=>$val[15]['platform'],'time'=>$val[15]['time'],'sku'=>$val[15]['sku'],'model' => 'table'))}">
+                {$val[15]['qty']}
+            </a>
+            {/if}
+        </td>
+
+
+        <td class="text-center">{:isset($val[16]['platform'])?$val[16]['platform']:''}</td>
+        <td class="text-center">
+            {if isset($val[16]['qty'])}
+            <a href="javascript:void(0)" onclick="{if $val[16]['qty'] !=0}order_model.singleSkuDetail(this){/if}" class="{if $val[16]['qty'] ==0}text-default{/if}"
+               data-sku="{$val[16]['sku']}"
+               data-time="{$val[16]['time']}"
+               data-url="{:url('/count/sku/index/singlesku',array('store'=>$store,'category'=>$category,'organ'=>$organ,'seller'=>$seller,'country'=>$country,'paytime_start'=>$paytime_start,'paytime_end'=>$paytime_end,'single'=>$single,'platform'=>$val[16]['platform'],'time'=>$val[16]['time'],'sku'=>$val[16]['sku'],'model' => 'table'))}">
+                {$val[16]['qty']}
+            </a>
+            {/if}
+        </td>
+    </tr>
+    {/foreach}
+
+
+    </tbody>
+</table>

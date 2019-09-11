@@ -1,0 +1,32 @@
+<table class="table table-bordered table-hover dataTable table-striped">
+    <thead>
+    <tr>
+        <th class="text-center">平台</th>
+        <th class="text-center">账号明细</th>
+        <th class="text-center">销量</th>
+    </tr>
+    </thead>
+    <tbody>
+    {foreach $data as $platform=>$list}
+    <tr>
+        <td class="text-center">{$platform}</td>
+        <td class="text-center text-left">
+            {if !empty($list.account_sale)}
+            {foreach $list.account_sale as $ke=>$v}
+            <button class="btn btn-default btn-xs" type="button">
+                {$ke} &nbsp;&nbsp;<span class="badge">{$v}</span>
+            </button>
+            {/foreach}
+            {/if}
+        </td>
+        <td class="text-center">
+            {$list.qtySum}
+            <a href="javascript:void(0)" onclick="order_model.totalSumSale(this,'{$params.sku}')" class="font-color"
+               data-url="{:url('/count/sku/Packages/totalsumsale', array_merge($params,['key' => $list.key,'value'=>$list.value]))}" data-toggle="tooltip"
+               class="btn btn-xs btn-default {$model == 'chart' ? 'active' : ''}"
+               title="图表模式"><span class="fa fa-fw fa-bar-chart-o"></span></a>
+        </td>
+    </tr>
+    {/foreach}
+    </tbody>
+</table>

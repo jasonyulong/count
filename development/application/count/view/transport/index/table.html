@@ -1,0 +1,117 @@
+<div class="text-danger">
+    <i class="icon fa fa-warning"></i> 说明：订单数据根据发货时间来统计
+</div>
+<table class="table table-bordered table-hover dataTable table-striped js-table">
+    <thead>
+    <tr>
+        <td class="text-center table-total">合计</td>
+        <td class="text-center table-total">{$total.total_finish_orders}</td>
+        <td class="text-center table-total">{$total.total_finish_money}</td>
+        <td class="text-center table-total">
+            {if condition="$params['type'] eq  'date'"}
+            --
+            {else}
+            {$total.total_bepaid_orders}
+            {/if}
+        </td>
+        <td class="text-center table-total">
+            {if condition="$params['type'] eq  'date'"}
+            --
+            {else}
+            {$total.total_bepaid_money}
+            {/if}
+        </td>
+        <td class="text-center table-total">
+            {if condition="$params['type'] eq  'date'"}
+            --
+            {else}
+            {$total.total_billing_orders}
+            {/if}
+        </td>
+        <td class="text-center table-total">
+            {if condition="$params['type'] eq  'date'"}
+            --
+            {else}
+            {$total.total_billing_money}
+            {/if}
+        </td>
+        {if in_array($params['type'],['platform','company','carrier'])}
+        <td class="text-center table-total">{$total.total_finish_weight}</td>
+        <td class="text-center table-total">{$total.total_avg_weight}</td>
+        {/if}
+        {if $params['type'] == 'date'}
+        <td class="text-center table-total">{$total.total_apply_into}</td>
+        <td class="text-center table-total">{$total.total_apply_pay}</td>
+        <td class="text-center table-total">{$total.total_wait_pay}</td>
+        <td class="text-center table-total">{$total.total_chase_money}</td>
+        {/if}
+        {if in_array($params['type'],['platform','company','carrier'])}
+        <td class="text-center table-total">{$total.total_bepaid_weight}</td>
+        {/if}
+    </tr>
+
+    <tr>
+        <th class="text-center">
+            {if $params['type'] == 'date'}
+            日期 <a href="javascript:void(0);" class="sort_toggle" onclick="common_module.sort_toggle()"></a>
+            {/if}
+            {if $params['type'] == 'platform'}
+            平台
+            {/if}
+            {if $params['type'] == 'company'}
+            物流公司
+            {/if}
+            {if $params['type'] == 'carrier'}
+            物流渠道
+            {/if}
+        </th>
+        <th class="text-center">已对账单量 <a href="javascript:void(0);" data-toggle="tooltip" title="已经完成对账的订单总数量"><i class="fa fa-fw fa-question-circle"></i></a></th>
+        <th class="text-center">已对账运费($) <a href="javascript:void(0);" data-toggle="tooltip" title="已经完成对账的物流总运费"><i class="fa fa-fw fa-question-circle"></i></a></th>
+        <th class="text-center">待对账总单量 <a href="javascript:void(0);" data-toggle="tooltip" title="已发货待对账订单总数量"><i class="fa fa-fw fa-question-circle"></i></a></th>
+        <th class="text-center">待对账预估运费($) <a href="javascript:void(0);" data-toggle="tooltip" title="已发货待对账预估总运费"><i class="fa fa-fw fa-question-circle"></i></a></th>
+        <th class="text-center">对账中总单量 <a href="javascript:void(0);" data-toggle="tooltip" title="已发货对账中订单总数量"><i class="fa fa-fw fa-question-circle"></i></a></th>
+        <th class="text-center">对账中出库运费($) <a href="javascript:void(0);" data-toggle="tooltip" title="已发货对账中预估总运费"><i class="fa fa-fw fa-question-circle"></i></a></th>
+        {if in_array($params['type'],['platform','company','carrier'])}
+        <th class="text-center">已对账重量(KG) <a href="javascript:void(0);" data-toggle="tooltip" title="已经完成对账的订单总重量"><i class="fa fa-fw fa-question-circle"></i></a></th>
+        <th class="text-center">已对账平均重量(KG)<a href="javascript:void(0);" data-toggle="tooltip" title="已经完成对账的订单平均重量"><i class="fa fa-fw fa-question-circle"></i></a></th>
+        {/if}
+        {if $params['type'] == 'date'}
+        <th class="text-center">申请预充值金额($) <a href="javascript:void(0);" data-toggle="tooltip" title="已经申请预充值总金额"><i class="fa fa-fw fa-question-circle"></i></a></th>
+        <th class="text-center">申请支付金额($) <a href="javascript:void(0);" data-toggle="tooltip" title="已经申请支付对账单的总金额"><i class="fa fa-fw fa-question-circle"></i></a></th>
+        <th class="text-center">待支付金额($) <a href="javascript:void(0);" data-toggle="tooltip" title="已提交申请等待支付对账单的总金额"><i class="fa fa-fw fa-question-circle"></i></a></th>
+        <th class="text-center">追款金额($) <a href="javascript:void(0);" data-toggle="tooltip" title="成功追款总金额"><i class="fa fa-fw fa-question-circle"></i></a></th>
+        {/if}
+        {if in_array($params['type'],['platform','company','carrier'])}
+        <th class="text-center">待对账重量(KG)<a href="javascript:void(0);" data-toggle="tooltip" title="待对账的订单总重量"><i class="fa fa-fw fa-question-circle"></i></a></th>
+        {/if}
+    </tr>
+    </thead>
+    <tbody id="scroll_table_head">
+    {volist name="list" id="vo"}
+    <tr>
+        <td class="text-center">{$vo.one}</td>
+        <td class="text-center">{$vo.finish_orders}</td>
+        <td class="text-center">{$vo.finish_money}</td>
+        <td class="text-center">{$vo.bepaid_orders}</td>
+        <td class="text-center">{$vo.bepaid_money}</td>
+        <td class="text-center">{$vo.billing_orders}</td>
+        <td class="text-center">{$vo.billing_money}</td>
+        {if in_array($params['type'],['platform','company','carrier'])}
+        <td class="text-center">{$vo.finish_weight}</td>
+        <td class="text-center">{$vo.avg_weight}</td>
+        {/if}
+
+        {if $params['type'] == 'date'}
+        <td class="text-center">{$vo.apply_into}</td>
+        <td class="text-center">{$vo.apply_pay}</td>
+        <td class="text-center">{$vo.wait_pay}</td>
+        <td class="text-center">{$vo.chase_money}</td>
+        {/if}
+
+        {if in_array($params['type'],['platform','company','carrier'])}
+        <td class="text-center">{$vo.bepaid_weight}</td>
+        {/if}
+    </tr>
+    {/volist}
+    </tbody>
+</table>

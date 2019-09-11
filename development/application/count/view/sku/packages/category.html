@@ -1,0 +1,44 @@
+<style>
+    .text-center{text-align: left}
+    .padding-v1{margin:10px 0 10px 0}
+</style>
+<div class="content">
+    <button type="button" class="btn btn-success btn-xs padding-v1" href="javascript:void(0)" aria-haspopup="true" aria-expanded="false" onclick="layers.prompt('{:url(\'/count/sku/packages/addCategory\')}', '添加分类', '400px', '300px')">添加分类</button>
+    <table class="table table-bordered table-hover dataTable table-striped">
+        <tbody>
+        <tr>
+            <th class="text-center" width="80%" >名称</th>
+            <th class="text-center" width="20%">操作</th>
+        </tr>
+        {volist name="category" id="v"}
+        {volist name="v" id="vo"}
+        <tr>
+            {if condition="$vo.rank eq '2'"}
+            <td class="text-center">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;┝ {$vo.title}</td>
+            {else/}
+            <td class="text-center">{$vo.title}</td>
+            {/if}
+            <td class="text-center">
+                <a href="javascript:void(0)" class="btn btn-primary btn-xs" onclick="layers.prompt('{:url(\'/count/sku/packages/editCategory\')}&id={$vo.id}', '编辑分类', '400px', '300px')"><i class="fa fa-edit"></i></a></a>
+                <a href="javascript:void(0)" class="btn btn-danger btn-xs" onclick='order_model.deleteData("{$vo.id}",this)' data-url="{:url('/count/sku/Packages/deleteCategory')}"><i class="fa fa-trash"></i></a>
+            </td>
+        </tr>
+        <!--3层级-->
+        {if condition="$vo.rank eq '2'"}
+        {volist name="category3" id="val"}
+        {if condition="$vo.id eq $val.pid"}
+        <tr>
+            <td class="text-center">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;┕ {$val.title}</td>
+            <td class="text-center">
+                <a href="javascript:void(0)" class="btn btn-primary btn-xs" onclick="layers.prompt('{:url(\'/count/sku/packages/editCategory\')}&id={$val.id}', '编辑分类', '400px', '300px')"><i class="fa fa-edit"></i></a>
+                <a href="javascript:void(0)" class="btn btn-danger btn-xs" onclick='order_model.deleteData("{$val.id}",this)' data-url="{:url('/count/sku/Packages/deleteCategory')}"><i class="fa fa-trash"></i></a>
+            </td>
+        </tr>
+        {/if}
+        {/volist}
+        {/if}
+        {/volist}
+        {/volist}
+        </tbody>
+    </table>
+</div>

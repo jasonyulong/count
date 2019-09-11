@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="{$config.language}">
+<head>
+    <title>费用管理</title>
+    {include file="common/meta" /}
+    {block name='css'}
+    <!-- 用来添加自定义的 样式 -->
+    {/block}
+
+</head>
+<body class="hold-transition skin-blue-light fixed sidebar-mini {$bodyClass}">
+<div class="wrapper">
+    {include file="common/header" /}
+    <div class="content-wrapper">
+        <section class="content">
+            <div class="nav-tabs-custom">
+                {include file="expend/expend/_tabs_bar" /}
+                <div class="box-body">
+                    <div class="box box-solid">
+                        <div class="box-header with-bsales">
+                            {include file="expend/expend/_form" /}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-content">
+                    {if $params['type'] == 'organ'}
+                    {include file="expend/expend/table_organ"/}
+                    {else /}
+                    {include file="expend/expend/table"/}
+                    {/if}
+                </div>
+
+                <div class="batch-bar clearfix">
+                </div>
+            </div>
+        </section>
+        <aside class="control-sidebar control-sidebar-dark">
+            <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane" id="control-sidebar-home-tab"></div>
+            </div>
+        </aside>
+        <div class="control-sidebar-bg"></div>
+    </div>
+</div>
+
+{include file="common/script2" /}
+{include file="layout/btn_top" /}
+
+{block name='js'}
+<script>
+    var page_str = '';
+    var page_len = 20;
+    var is_page = 1;
+    var order = [0, 'desc'];
+    var is_order = 1;
+//    组织架构和 平台不进行排序
+    {if isset($params['type']) && (in_array($params['type'], ['organ']))}
+        var order = [];
+        var page_len = 10000;
+        var is_order = -1;
+    {/if}
+    common_module.init_data_table(page_str, order, page_len, is_page, is_order);
+
+    // 针对414 错误
+    common_module.init_submit_form('manual_submit_form');
+</script>
+{/block}
+</body>
+</html>

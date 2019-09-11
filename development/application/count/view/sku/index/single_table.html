@@ -1,0 +1,18 @@
+<table class="table table-bordered table-hover dataTable table-striped">
+    <thead>
+    <tr>
+        <th class="text-center">产品SKU</th>
+        <th class="text-center">账号</th>
+        <th class="text-center">销量</th>
+    </tr>
+    </thead>
+    <tbody>
+    {foreach $data as $key=>$val}
+    <tr>
+        <td class="text-center">{$val.sku}</td>
+        <td class="text-center">{$val.platform_account}</td>
+        <td class="text-center">{$val.qty}</td>
+    </tr>
+    {/foreach}
+    </tbody>
+</table>

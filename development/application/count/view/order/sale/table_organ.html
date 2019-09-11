@@ -1,0 +1,86 @@
+<div class="text-danger">
+    <i class="icon fa fa-warning"></i> 说明：销售单量和销售额排除了回收站订单和补发订单并根据进系统时间来统计, 部门的销售额=部门里所有销售员的销售额总和
+</div>
+<table class="table table-bordered table-hover dataTable display nowrap compact js-table" id="scroll_table"  style="width: 100%;">
+    <thead>
+
+    <!--合计-->
+    <tr>
+        <td class="text-center table-total">合计</td>
+        <td class="text-center table-total"></td>
+        {if $params['type'] == 'organ' || $params['type'] == 'seller'}
+        {foreach $months as $m}
+        <td class="text-center table-total"></td>
+        {/foreach}
+        {/if}
+        <!--<td class="text-center table-total"></td>-->
+
+        <td class="text-center table-total"></td>
+        {foreach $range as $v}
+        <td class="text-center table-total">
+            <span class="cursor" data-container='body' data-toggle="tooltip"  data-placement="left" title="单量:{$total_data[$v]['sum_totals']}&nbsp;&nbsp;客单价:{:getRound($total_data[$v]['sum_sales'], $total_data[$v]['sum_totals'])}">{$total_data[$v]['sum_sales']}</span>
+        </td>
+        {/foreach}
+        
+    </tr>
+
+    <tr>
+        <th class="text-center">组织架构</th>
+        <th class="text-center">负责人</th>
+
+        {if $params['type'] == 'organ' || $params['type'] == 'seller'}
+        {foreach $months as $m}
+        {if date('Y-m') == $m}
+        <th class="text-center">当月平均</th>
+        {else /}
+        <th class="text-center">{:explode('-', $m)[1]}月平均</th>
+        {/if}
+        {/foreach}
+        {/if}
+        <!--<th class="text-center">当前平均</th>-->
+        <th class="text-center">当前合计</th>
+        {foreach $range as $item}
+        <th class="text-center">{$item}</th>
+        {/foreach}
+        
+    </tr>
+    </thead>
+    <tbody id='scroll_table_head'>
+    {foreach $list as $key => $item}
+    <tr class="{if $item['level']==2}warning{/if} {if $item['level'] == 3 && count($item['full_child_ids']) != 1}shallow_warning{/if}">
+        <td class="text-left">
+            {if $item['level'] > 2}
+            |{:str_repeat('---', ($item['level'] - 1))}
+            {/if}
+            {$item['organ_name']}
+        </td>
+        <td class="text-center">
+            {$item['username']}
+        </td>
+
+        {if $params['type'] == 'organ' || $params['type'] == 'seller'}
+        {foreach $item['monthly_data'] as $m_k => $m}
+        <td class="text-center">
+            <span class="cursor" data-container='body' data-toggle="tooltip"  data-placement="left"  title="月售额：{$m['sales']} 月目标：{$target_map[$item['id'] .'-'.$m_k] ?? 0} 达标率：{if isset($target_map[$item['id'] .'-'.$m_k]) && $target_map[$item['id'] .'-'.$m_k] != 0}{:round($m['sales'] / $target_map[$item['id'] .'-'.$m_k],4) * 100}%{else /}-{/if}">
+                {$m['month_avg']}
+            </span>
+        </td>
+        {/foreach}
+        {/if}
+        <!--<td class="text-center">-->
+            <!--<span class="block" data-container='body' data-toggle="tooltip"  title="单量：{$item['average_totals']}">{$item['average_sales']}</span>-->
+        <!--</td>-->
+
+        <td class="text-center table-total">
+            <span class="cursor" data-container='body' data-toggle="tooltip"  data-placement="left"  title="单量:{$item['all_total']}&nbsp;&nbsp;客单价:{:getRound($item['all_sums'], $item['all_total'])}">{$item['all_sums']}</span>
+        </td>
+        
+        {foreach $item['dates'] as $k => $sub_item}
+        <td class="text-center">
+            <span class="cursor" data-container='body' data-toggle="tooltip"  data-placement="left" title="单量:{$sub_item['sum_totals']}&nbsp;&nbsp;客单价:{:getRound($sub_item['sum_sales'], $sub_item['sum_totals'])}">{$sub_item['sum_sales']}</span>
+        </td>
+        {/foreach}
+    </tr>
+    {/foreach}
+    </tbody>
+</table>

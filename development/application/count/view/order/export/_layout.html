@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="{$config.language}">
+<head>
+    {include file="common/meta" /}
+    {block name='css'}
+    <!-- 用来添加自定义的 样式 -->
+    {/block}
+    <style>
+        .tab-content {
+            overflow: auto;
+        }
+    </style>
+</head>
+<body class="hold-transition skin-blue-light fixed sidebar-mini {$bodyClass}">
+<div class="wrapper">
+    {include file="common/header" /}
+    <div class="content-wrapper">
+        <section class="content">
+            <div class="nav-tabs-custom">
+                <div class="box-body">
+                    <div class="box box-solid">
+                        <div class="box-header with-bsales">
+                            {include file="order/export/_form" /}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-content">
+                    {include file="order/export/table"/}
+                </div>
+
+                <div class="batch-bar clearfix">
+                    {include file="layout/page"}
+                </div>
+            </div>
+        </section>
+        <aside class="control-sidebar control-sidebar-dark">
+            <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane" id="control-sidebar-home-tab"></div>
+            </div>
+            
+        </aside>
+        <div class="control-sidebar-bg"></div>
+    </div>
+</div>
+
+
+
+{include file="common/script" /}
+{include file="layout/btn_top" /}
+
+{block name='js'}
+{/block}
+</body>
+</html>

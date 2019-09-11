@@ -1,0 +1,183 @@
+{extend name="layout/fluid2" /}
+{block name='css'}
+<style>
+.text-right {
+    text-align: right;
+}
+</style>
+{/block}
+
+{block name="content"}
+<form class="form-horizontal" id="default_form">
+    <div class="form-group">
+        <label class="col-sm-3 col-xs-3 control-label text-right">任务名称：</label>
+        <div class="col-sm-9 col-xs-9">
+            <input class="form-control" name="task_name">
+            <span class="text-danger">*</span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-3 col-xs-3 ">
+            <select class=" form-control selectpicker" name='time_type'>
+                <option value="createdtime">进系统时间</option>
+                <option value="deliverytime">发货时间</option>
+                <option value="refund_time">退款时间</option>
+                <option value="profit_time">确定利润时间</option>
+            </select>
+        </div>
+        <div class="col-sm-9 col-xs-9">
+            <input class="form-control datepicker" name="start_time" value="{$params['start_time']}" readonly>
+            <input class="form-control datepicker" name="end_time" value="{$params['end_time']}" readonly>
+            <span class="text-danger">*</span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-3 col-xs-3 control-label text-right">指定订单类型：</label>
+        <div class="col-sm-9 col-xs-9">
+            <select class=" form-control selectpicker" name='order_type[]' title="全部(支持多选)" data-actions-box="true" data-live-search="true" multiple >
+                {foreach $order_type_list as $k => $v}
+                <option value="{$k}">{$v}</option>
+                {/foreach}
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-3 col-xs-3 control-label text-right">指定订单状态：</label>
+        <div class="col-sm-9 col-xs-9">
+            <select class=" form-control selectpicker" name='order_status[]' title="全部(支持多选)" data-actions-box="true" data-live-search="true" multiple>
+                {foreach $order_status_list as $k => $v}
+                <option value="{$k}">{$v}</option>
+                {/foreach}
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-3 col-xs-3 control-label text-right">指定平台帐号：</label>
+        <div class="col-sm-4 col-xs-4">
+            <select class="form-control selectpicker" width="150px" name='platform[]' title="全部(支持多选)" onchange="order_model.change_task_platform($(this))" data-actions-box="true" data-live-search="true" multiple>
+                {foreach $order_platform_list as $k => $v}
+                <option value="{$v}">{$v}</option>
+                {/foreach}
+            </select>
+        </div>
+        <div class="col-sm-4 col-xs-4">
+            <select class="form-control selectpicker" width="150px" id="account" name='account[]' title="全部(支持多选)" data-actions-box="true" data-live-search="true" multiple>
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-3 col-xs-3 control-label text-right">指定组织结构：</label>
+        <div class="col-sm-4 col-xs-4">
+            <select class="form-control selectpicker" width="150px" name='org_id[]' title="全部(支持多选)" onchange="order_model.change_task_organ($(this))" data-actions-box="true" data-live-search="true" multiple>
+                {foreach $org_list as $key => $value}
+                <option data-seller='{:json_encode($value["seller_list"])}' value="{$value['id']}">{$value['name']}</option>
+                {/foreach}
+                <option value="-1">其他</option>
+            </select>
+        </div>
+        <div class="col-sm-4 col-xs-4">
+            <select class="form-control selectpicker" width="150px" id="seller" name='seller[]' title="全部(支持多选)" data-actions-box="true" data-live-search="true" multiple>
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-3 col-xs-3 control-label text-right">指定物流公司：</label>
+        <div class="col-sm-4 col-xs-4">
+            <select class="form-control selectpicker" width="150px" name='carrier_company[]' title="全部(支持多选)" onchange="order_model.change_task_carrier_company($(this))" data-actions-box="true" data-live-search="true" multiple>
+                {foreach $carrier_company_list as $k => $v}
+                <option data-id="{$v['id']}" value="{$v['sup_abbr']}">{$v['sup_abbr']}</option>
+                {/foreach}
+            </select>
+        </div>
+        <div class="col-sm-4 col-xs-4">
+            <select class="form-control selectpicker" width="150px" id="carrier" name='carrier[]' title="全部(支持多选)" data-actions-box="true" data-live-search="true" multiple>
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-3 col-xs-3 control-label text-right">指定订单字段：</label>
+        <div class="col-sm-9 col-xs-9">
+            <select class=" form-control selectpicker" name='order_fields[]' title="全部(支持多选)" data-actions-box="true" data-live-search="true" multiple>
+            {foreach $order_field_list as $k => $v}
+            <option value="{$k}">{$v}</option>
+            {/foreach}
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-3 col-xs-3 control-label text-right">优先级：</label>
+        <div class="col-sm-9 col-xs-9">
+            <input class="form-control" name="priority" value="0"><span class="text-danger"> * 数值越大优先级越高</span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-3 col-xs-3 control-label text-right"></label>
+        <div class="col-sm-9 col-xs-9">
+            <label>
+                <input type="checkbox" name='sku_export' id='sku_export'>按SKU明细导出
+            </label>
+        </div>
+    </div>
+
+    <div class="form-group sku-fields-div" style="display:none;">
+        <label class="col-sm-3 col-xs-3 control-label text-right">指定SKU字段：</label>
+        <div class="col-sm-9 col-xs-9">
+            <select class=" form-control selectpicker" name='sku_fields[]' title="全部(支持多选)" data-actions-box="true" data-live-search="true" multiple>
+            {foreach $sku_field_list as $k => $v}
+            <option value="{$k}">{$v}</option>
+            {/foreach}
+            </select>
+        </div>
+    </div>
+    
+    <div class="form-group">
+        <div class="col-sm-offset-3 col-sm-9 col-xs-offset-3 col-xs-9">
+            <button type="submit" class="btn btn-primary">确认提交</button>
+        </div>
+    </div>
+</form>
+
+{/block}
+
+{block name='js'}
+<script>
+// 阻止默认的提交行为，使用自定义的提交方法
+$('#default_form').submit(function(e) {
+        e.preventDefault();
+        layer.load();
+        $.ajax({
+            url: $(this).attr('action'),
+            type: 'POST',
+            data: $(this).serializeArray(),
+            dataType: 'JSON',
+            success: function(ret) {
+                layer.closeAll();
+                if (ret.code != 0) layer.alert(ret.msg);
+                else layer.alert(ret.msg, {'yes': function() {parent.location.reload();}});
+            }
+        })
+    });
+
+$('#sku_export').click(function() {
+    let is_check = $(this).is(':checked');
+    if (is_check)
+    {
+        $('.sku-fields-div').show();
+    }
+    else
+    {
+        $('.sku-fields-div').hide();
+    }
+})
+
+</script>
+{/block}

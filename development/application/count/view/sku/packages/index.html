@@ -1,0 +1,70 @@
+<section class="content">
+    <div class="col-md-2" id="box-left" style="padding:0px;">
+        {include file="sku/packages/index_left"/}
+    </div>
+    <div class="col-md-10" id="box-right">
+        <div class="nav-tabs-custom">
+            <ul class="nav nav-tabs">
+                <li><a href="javascript:void(0)">SKU产品包销量报表</a></li>
+                <li class="pull-right">
+                    <div class="btn-toolbar" role="toolbar">
+                        <div class="btn-group padding-top8 paddint-right5">
+                            <!--<a href="{:url('/count/sku/Packages', array_merge($params, ['model' => 'table']))}" data-toggle="tooltip"-->
+                               <!--class="btn btn-xs btn-default {$model == 'table' ? 'active' : ''}"-->
+                               <!--title="列表模式"><span class="fa fa-fw fa-th-large"></span></a>-->
+                            <!--<a href="{:url('/count/sku/Packages', array_merge($params,['model' => 'chart']))}" data-toggle="tooltip"-->
+                            <!--class="btn btn-xs btn-default {$model == 'chart' ? 'active' : ''}"-->
+                            <!--title="图表模式"><span class="fa fa-fw fa-bar-chart-o"></span></a>-->
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            <div class="box-body">
+                <form action="{:url('/count/sku/Packages', array_merge($params,['model' => $model]))}" method="get" class="form-inline froms clearfix">
+                    <div class="form-group">
+                        <select class="selectpicker show-tick"  name="adduser" data-actions-box="true" data-live-search="true">
+                            <option value="">添加人</option>
+                            {if !empty($adduser)}
+                            {foreach $adduser as $key=>$adduser_list}
+                            <option value="{$adduser_list['adduser']}" {if $params.adduser== $adduser_list['adduser']}selected{/if}>{$adduser_list['adduser']}</option>
+                            {/foreach}
+                            {/if}
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <select class="selectpicker show-tick"  name="group_sn" data-actions-box="true" data-live-search="true">
+                            <option value="">产品包</option>
+                            {if !empty($groupsn)}
+                            {foreach $groupsn as $kk=>$groupsn_list}
+                            <option value="{$groupsn_list.group_sn}" {if $params.group_sn == $groupsn_list.group_sn}selected{/if}>{$groupsn_list.group_sn.'--'.$groupsn_list.title}</option>
+                            {/foreach}
+                            {/if}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group laydate-group">
+                            <input type="text" class="input-sm form-control input-date datepicker" name="time_start" size="12" value="{$params.time_start}" placeholder="创建开始时间"/>
+                            <span class="input-group-addon">到</span>
+                            <input type="text" class="input-sm form-control input-date datepicker" name="time_end" size="12" value="{$params.time_end}" placeholder="创建结束时间"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control input-sm" value="{$params.keyword}" name="keyword" placeholder="产品包关键字"/>
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-primary btn-sm" type="submit" name="submit"><i class="glyphicon glyphicon-search"></i> 确定搜索&nbsp;</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="tab-content">
+                {if $model == 'table'}
+                {include file="sku/packages/table"/}
+                {else /}
+                {include file="sku/packages/chart"/}
+                {/if}
+            </div>
+        </div>
+    </div>
+</section>

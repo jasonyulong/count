@@ -1,0 +1,67 @@
+<table class="table table-bordered table-hover dataTable table-striped display nowrap compact js-table" id="scroll_table">
+    <thead>
+
+    {if $params['type'] == 'organ'  && !empty($total_data)}
+      <!--合计-->
+      <tr>
+        <td class="text-center table-total">合计</td>
+        <td class="text-center table-total"></td>
+        {foreach $range as $v}
+        <td class="text-center table-total mini-td">
+            <span class="cursor" data-container='body' data-toggle="tooltip"  data-placement="left" title="总订单数:{$total_data[$v]['sum_totals']}&nbsp;&nbsp;已发货数:{$total_data[$v]['sum_ships']}&nbsp;&nbsp;发货率:{$total_data[$v]['ship_rate']}%&nbsp;&nbsp;销售额:${$total_data[$v]['sum_sales']}&nbsp;&nbsp;利润:${$total_data[$v]['sum_profit']}&nbsp;&nbsp;利润率:{$total_data[$v]['profit_rate']}&nbsp;&nbsp;客单价$:{:getRound($total_data[$v]['sum_sales'],$total_data[$v]['sum_totals'])}">
+                <span class="text-primary">{$total_data[$v]['sum_sales']}</span>
+                <!--<small class="text-primary small">({$total_data[$v]['ship_rate']})</small>--> <br> {$total_data[$v]['sum_profit']} <br> <span class="error small">{$total_data[$v]['profit_rate']}</span>
+                </span>
+        </td>
+        {/foreach}
+        <td class="text-center table-total"></td>
+        <td class="text-center table-total"></td>
+    </tr>
+
+    {/if}
+    <tr>
+        
+        <th class="{if $params['type'] == 'organ'}text-left{else /}text-center{/if}" style="width: 10%;">
+            组织架构
+        </th>
+        <th class="text-center table-total">合计</th>
+
+        {foreach $range as $item}
+        <th class="text-center">{$item}</th>
+        {/foreach}
+        <th class="text-center">当前平均利润</th>
+        <th class="text-center">当前平均利润率</th>
+    </tr>
+    </thead>
+    <tbody id='scroll_table_head'>
+    {foreach $list as $key => $item}
+    <tr class="{if $params['type'] == 'organ' && $item['level']==2}warning{/if} {if $item['level'] == 3 && $item['lid'] >= 48 && $item['rid'] <= 71}shallow_warning{/if}">
+        <td class="{if $params['type'] == 'organ'}text-left{else /}text-center{/if}">
+            {if $params['type'] == 'organ'}
+                {if $item['level'] > 2}
+                |{:str_repeat('---', ($item['level'] - 1))}
+                {/if}
+                {$item['organ_name']}
+            {else /}
+                {$key}
+            {/if}
+        </td>
+        <td class="text-center table-total"><b>{$item['all_profit']}</b></td>
+
+        {foreach $item['dates'] as $k => $sub_item}
+            <td class="text-center mini-td">
+                    <span class="cursor" data-container='body' data-toggle="tooltip"  data-placement="left" title="总订单数:{$sub_item['sum_totals']}&nbsp;&nbsp;已发货数:{$sub_item['sum_ships']}&nbsp;&nbsp;发货率:{$sub_item['ship_rate']}%&nbsp;&nbsp;销售额:${$sub_item['sum_sales']}&nbsp;&nbsp;利润:${$sub_item['sum_profit']}&nbsp;&nbsp;利润率:{$sub_item['profit_rate']}&nbsp;&nbsp;客单价$:{:getRound($sub_item['sum_sales'],$sub_item['sum_totals'])}">
+                    <span class="text-primary">{$sub_item['sum_sales']}</span>
+                    <!--<small class="text-primary small">({$sub_item['ship_rate']})</small>--> <br> {$sub_item['sum_profit']} <br> <span class="error small">{$sub_item['profit_rate']}</span>
+                    </span>
+            </td>
+        {/foreach}
+
+        <td class="text-center">{$item['average_profit']}</td>
+        <td class="text-center">{$item['average_profit_rate']}</td>
+
+    </tr>
+    {/foreach}
+
+    </tbody>
+</table>

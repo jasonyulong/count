@@ -1,0 +1,6 @@
+<ul class="nav nav-tabs">
+    <li class="{$params['type'] == 'platform' ? 'active' : ''}"><a href="{:url('/count/expend/Expend', ['type' => 'platform'])}">按平台</a></li>
+    <li class="{$params['type'] == 'account' ? 'active' : ''}"><a href="{:url('/count/expend/Expend', ['type' => 'account'])}">按账号</a></li>
+    <li class="{$params['type'] == 'organ' ? 'active' : ''}"><a href="{:url('/count/expend/Expend', ['type' => 'organ'])}">按组织架构</a></li>
+    <li class="{$params['type'] == 'seller' ? 'active' : ''}"><a href="{:url('/count/expend/Expend', ['type' => 'seller'])}">按销售员</a></li>
+</ul>

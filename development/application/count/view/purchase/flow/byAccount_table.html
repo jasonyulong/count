@@ -1,0 +1,35 @@
+<table class="table table-bordered table-hover dataTable table-striped">
+    <thead>
+    <tr>
+        <th class="text-center">款项编号</th>
+        <th class="text-center">账号</th>
+        {if $params['pay_type'] == '' || $params['pay_type'] == '5'}
+        <th class="text-center">收入</th>
+        {/if}
+        {if $params['pay_type'] == '' || $params['pay_type'] == '1'}
+        <th class="text-center">支出</th>
+        {/if}
+        <th class="text-center">操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    {volist name="data" id="vo"}
+    <tr>
+        <td class="text-center">{$vo.id}</td>
+        <td class="text-center">{$vo.payName}</td>
+        {if $params['pay_type'] == '' || $params['pay_type'] == '5'}
+        <td class="text-center">{$vo.amount5 ?? 0}</td>
+        {/if}
+        {if $params['pay_type'] == '' || $params['pay_type'] == '1'}
+        <td class="text-center">{$vo.amount1 ?? 0}</td>
+        {/if}
+        <td class="text-center">
+            {if $vo['id'] != '汇总'}
+            <a style="cursor:pointer" onclick="layer.open({type: 2,title: '查看明细',shadeClose: true,shade: 0.8,area: ['70%', '70%'],maxmin:true,content: '{:url('/count/Purchase/flow/detailed', $params)}&id={$vo.id}'});" >查看明细</a>
+            {/if}
+        </td>
+    </tr>
+    {/volist}
+    </tbody>
+</table>
+

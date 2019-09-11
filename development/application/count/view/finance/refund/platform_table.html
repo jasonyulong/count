@@ -1,0 +1,50 @@
+<table class="table table-bordered table-hover dataTable table-striped js-table">
+    <thead>
+    <tr>
+        <td class="text-center table-total">合计</td>
+        <td class="text-center table-total">{$total.num}</td>
+        <td class="text-center table-total">{$total.total}</td>
+        <td class="text-center table-total">{$total.reissue_num}</td>
+        <td class="text-center table-total">{$total.reissue_total}</td>
+        <td class="text-center table-total">{$total.return_num}</td>
+        <td class="text-center table-total">{$total.return_total}</td>
+        <td class="text-center table-total">{$total.refund_num}</td>
+        <td class="text-center table-total">{$total.refund_total}</td>
+        <td class="text-center table-total">{$total.refund_rate}</td>
+        <td class="text-center table-total">{$total.gift_num}</td>
+        <td class="text-center table-total">{$total.gift_total}</td>
+    </tr>
+    <tr>
+        <th class="text-center">平台</th>
+        <th class="text-center">订单数<a href="javascript:void(0);" data-toggle="tooltip" title="订单数=补发数量+退货数量+退款订单数"><i class="fa fa-fw fa-question-circle"></i></a></th>
+        <th class="text-center">订单总金额($)<a href="javascript:void(0);" data-toggle="tooltip" title="订单总金额=补发金额+退货金额+退款金额"><i class="fa fa-fw fa-question-circle"></i></a></th>
+        <th class="text-center">补发数量<a href="javascript:void(0);" data-toggle="tooltip" title="补发订单总数量"><i class="fa fa-fw fa-question-circle"></i></a></th>
+        <th class="text-center">补发金额($)<a href="javascript:void(0);" data-toggle="tooltip" title="补发订单总金额"><i class="fa fa-fw fa-question-circle"></i></a></th>
+        <th class="text-center">退货数量<a href="javascript:void(0);" data-toggle="tooltip" title="退货订单总数量"><i class="fa fa-fw fa-question-circle"></i></a></th>
+        <th class="text-center">退货金额($)<a href="javascript:void(0);" data-toggle="tooltip" title="退货订单总金额"><i class="fa fa-fw fa-question-circle"></i></a></th>
+        <th class="text-center">退款订单数<a href="javascript:void(0);" data-toggle="tooltip" title="退款订单总数量"><i class="fa fa-fw fa-question-circle"></i></a></th>
+        <th class="text-center">退款金额($)<a href="javascript:void(0);" data-toggle="tooltip" title="退款订单总金额"><i class="fa fa-fw fa-question-circle"></i></a></th>
+        <th class="text-center">退款占比%<a href="javascript:void(0);" data-toggle="tooltip" title="退款占比=退款订单数/订单数"><i class="fa fa-fw fa-question-circle"></i></a></th>
+        <th class="text-center">礼物单数量<a href="javascript:void(0);" data-toggle="tooltip" title="礼物订单总数量"><i class="fa fa-fw fa-question-circle"></i></a></th>
+        <th class="text-center">礼物单金额($)<a href="javascript:void(0);" data-toggle="tooltip" title="礼物订单总金额"><i class="fa fa-fw fa-question-circle"></i></a></th>
+    </tr>
+    </thead>
+    <tbody id="scroll_table_head">
+    {volist name="data" id="vo"}
+    <tr>
+        <td class="text-center">{$vo['platform']}</td>
+        <td class="text-center">{$vo['num']}</td>
+        <td class="text-center">{$vo['total']}</td>
+        <td class="text-center">{$vo.reissue_num}</td>
+        <td class="text-center">{$vo.reissue_total}</td>
+        <td class="text-center">{$vo.return_num}</td>
+        <td class="text-center">{$vo.return_total}</td>
+        <td class="text-center">{$vo.refund_num}</td>
+        <td class="text-center">{$vo.refund_total}</td>
+        <td class="text-center">{$vo.refund_rate}</td>
+        <td class="text-center">{$vo.gift_num}</td>
+        <td class="text-center">{$vo.gift_total}</td>
+    </tr>
+    {/volist}
+    </tbody>
+</table>

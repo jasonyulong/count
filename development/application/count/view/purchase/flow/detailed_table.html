@@ -1,0 +1,33 @@
+<table class="table table-bordered table-hover dataTable table-striped">
+    <thead>
+    <tr>
+        <th class="text-center">采购单号</th>
+        <th class="text-center">数据项</th>
+        <th class="text-center">发生金额</th>
+        <th class="text-center">发生时间</th>
+        <th class="text-center">操作人</th>
+    </tr>
+    </thead>
+    <tbody>
+    {volist name="data" id="vo"}
+    <tr>
+        <td class="text-center">{$vo.ordersn}</td>
+        <td class="text-center">
+            {if $vo['type'] == '1'}
+            支出
+            {else /}
+            收入
+            {/if}
+        </td>
+        <td class="text-center">{$vo.payamount}</td>
+        <td class="text-center">
+            {if $vo['addtime'] > 0}
+               {:date('Y-m-d H:i:s',$vo['addtime'])}
+            {/if}
+        </td>
+        <td class="text-center">{$vo.adduser}</td>
+    </tr>
+    {/volist}
+    </tbody>
+</table>
+

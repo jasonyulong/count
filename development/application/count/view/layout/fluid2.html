@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="{$config.language}">
+<head>
+    <!-- 加载样式及META信息 -->
+    {include file="common/meta" /}
+</head>
+{block name='css'}{/block}
+<body class="hold-transition skin-blue sidebar-mini">
+
+<div class="container-fluid">
+    {block name="content"}
+    {/block}
+</div>
+
+<!-- 加载JS脚本 -->
+{include file="common/script" /}
+
+{block name='js'}{/block}
+</body>
+</html>

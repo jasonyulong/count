@@ -1,0 +1,78 @@
+<section class="content">
+    <div class="nav-tabs-custom">
+        <ul class="nav nav-tabs">
+            <li class="{$type == 'date' ? 'active' : ''}"><a href="{:url('/count/finance/refund', ['type' => 'date'])}">按日期</a></li>
+            <li class="{$type == 'platform' ? 'active' : ''}"><a href="{:url('/count/finance/refund', ['type' => 'platform'])}">按平台</a></li>
+            <li class="{$type == 'account' ? 'active' : ''}"><a href="{:url('/count/finance/refund', ['type' => 'account'])}">按账号</a></li>
+            <li class="{$type == 'sku' ? 'active' : ''}"><a href="{:url('/count/finance/refund', ['type' => 'sku'])}">按SKU</a></li>
+            <li class="{$type == 'trench' ? 'active' : ''}"><a href="{:url('/count/finance/refund', ['type' => 'trench'])}">按物流渠道</a></li>
+            <li class="{$type == 'country' ? 'active' : ''}"><a href="{:url('/count/finance/refund', ['type' => 'country'])}">按国家</a></li>
+            <li class="{$type == 'kfuser' ? 'active' : ''}"><a href="{:url('/count/finance/refund', ['type' => 'kfuser'])}">按开发员</a></li>
+            <li class="{$type == 'seller' ? 'active' : ''}"><a href="{:url('/count/finance/refund', ['type' => 'seller'])}">按销售员</a></li>
+            <li class="pull-right">
+                <div class="btn-toolbar" role="toolbar">
+                    <div class="btn-group padding-top8 paddint-right5">
+                        <a href="{:url('/count/finance/refund', array_merge($params, ['type' => $type, 'model' => 'table']))}" data-toggle="tooltip"
+                           class="btn btn-xs btn-default {$model == 'table' ? 'active' : ''}"
+                           title="列表模式"><span class="fa fa-fw fa-th-large"></span></a>
+                        <a href="{:url('/count/finance/refund', array_merge($params,['type' => $type, 'model' => 'chart']))}" data-toggle="tooltip"
+                           class="btn btn-xs btn-default {$model == 'chart' ? 'active' : ''}"
+                           title="图表模式"><span class="fa fa-fw fa-bar-chart-o"></span></a>
+                    </div>
+                </div>
+            </li>
+        </ul>
+        <div class="box-body">
+            <div class="box box-solid">
+                <div class="box-header with-border">
+                    <form action="{:url('/count/finance/refund', array_merge($params,['type' => $type, 'model' => $model]))}" method="get" class="form-inline froms clearfix">
+                        <div class="form-group">
+                            <select class="form-control input-sm show-tick" title="sku" name="sku" id="sku" data-actions-box="true" data-live-search="true">
+                                <option value="">SKU编号</option>
+                                {foreach $accounts as $item}
+                                <option value="{$item}" {if $params.account == $item}selected{/if}>{$item}</option>
+                                {/foreach}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label text-right">时间维度：</label>
+                            <div class="checkbox">
+                                <label><input type="radio" name="checkDate" class="checkDate" value="day" checked><small>天</small></label>
+                                <label><input type="radio" name="checkDate" class="checkDate" value="month"><small>月</small></label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label text-right">区间：</label>
+                            <div class="input-group laydate-group">
+                                <input type="text" class="input-sm form-control input-date datepicker" name="scantime_start" value="" placeholder="开始时间"/>
+                                <input type="text" class="input-sm form-control input-date monthpicker hide" name="scantime_start" value="" placeholder="开始年月"/>
+                                <span class="input-group-addon">到</span>
+                                <input type="text" class="input-sm form-control input-date datepicker" name="scantime_end" value="" placeholder="结束时间"/>
+                                <input type="text" class="input-sm form-control input-date monthpicker hide" name="scantime_end" value="" placeholder="结束年月"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="checkbox">
+                                <label><input type="radio" name="checkDate" class="" value="today" checked><small>今天</small></label>
+                                <label><input type="radio" name="checkDate" class="" value="yesterday"><small>昨天</small></label>
+                                <label><input type="radio" name="checkDate" class="" value="recently3day"><small>最近三天</small></label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <button class="btn btn-primary btn-sm" type="submit" name="submit"><i class="glyphicon glyphicon-search"></i> 确定搜索&nbsp;</button>
+                            <button class="btn btn-warning btn-sm" type="submit" name="excel"><i class="glyphicon glyphicon-save"></i> 导出Excel&nbsp;</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-content">
+            {if $model == 'table'}
+            {include file="finance/refund/sku_table"/}
+            {else/}
+            {include file="finance/refund/sku_chart"/}
+            {/if}
+        </div>
+    </div>
+</section>

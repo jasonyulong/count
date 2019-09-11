@@ -1,0 +1,58 @@
+<div class="text-danger">
+    <i class="icon fa fa-warning"></i> 说明：总成本为sku物品成本总和，sku销量根据已发货订单的进系统时间来统计
+</div>
+<table class="table table-bordered table-hover dataTable table-striped display nowrap compact js-table" id="scroll_table">
+    <thead>
+    <!--合计-->
+    <tr>
+        <td class="text-center table-total">合计</td>
+        <td class="text-center table-total">{$total_data['sum_counts']}</td>
+        <td class="text-center table-total">{$total_data['sum_totals']}</td>
+        <td class="text-center table-total"></td>
+        <td class="text-center table-total">{$total_data['sum_costs']}</td>
+        <td class="text-center table-total">{$total_data['sum_totals']}</td>
+        <td class="text-center table-total"></td>
+    </tr>
+    <tr>
+        <th class="text-center">
+            {if $params['type'] == 'date'}
+            日期
+            {elseif $params['type'] == 'platform' /}
+            平台
+            {else /}
+            账号
+            {/if}
+        </th>
+        <th class="text-center">总数量 <a href="javascript:void(0);" data-container='body' data-toggle="tooltip" data-placement="" title="销售SKU种类的总数量"><i class="fa fa-fw fa-question-circle"></i></a></th>
+        <th class="text-center">总销量 <a href="javascript:void(0);" data-container='body' data-toggle="tooltip" data-placement="" title="销售SKU的总数量"><i class="fa fa-fw fa-question-circle"></i></a></th>
+        <th class="text-center">平均销量 <a href="javascript:void(0);" data-container='body' data-toggle="tooltip" data-placement="" title="平均销量 = 总销量 / 总数量"><i class="fa fa-fw fa-question-circle"></i></a></th>
+        <th class="text-center">总成本 ($)</th>
+        <th class="text-center">总销售额 ($)</th>
+        <th class="text-center">平均销量环比增长</th>
+    </tr>
+
+    </thead>
+    <tbody id='scroll_table_head'>
+    {foreach $list as $item}
+    <tr>
+        <td class="text-center">
+            {if $params['type'] == 'platform'}
+            {elseif $params['type'] == 'account'}
+            {else /}
+                {if $params['checkDate'] == 'day'}
+                    {$item['year']}-{$item['month']}-{$item['days']}
+                {else /}
+                    {$item['year']}-{$item['month']}
+                {/if}
+            {/if}
+        </td>
+        <td class="text-center">{$item['counts']}</td>
+        <td class="text-center">{$item['totals']}</td>
+        <td class="text-center">{$item['aver_sale']}</td>
+        <td class="text-center" >{$item['costs']}</td>
+        <td class="text-center" >{$item['sales']}</td>
+        <td class="text-center" >{$item['loop_growth']}</td>
+    </tr>
+    {/foreach}
+    </tbody>
+</table>

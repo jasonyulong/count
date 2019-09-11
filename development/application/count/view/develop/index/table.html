@@ -1,0 +1,115 @@
+<div class="text-danger">
+    <i class="icon fa fa-warning"></i> 说明：统计数据为开发sku数量、每个sku为1个（按开发员展示的为已完成sku）
+</div>
+<table class="table table-bordered table-hover dataTable display nowrap compact table-striped js-table">
+
+    <thead>
+    {if $params['type'] == 'develop'}
+    <tr>
+        <td class="text-center table-total" style="min-width: 50px">合计</td>
+            {volist name='total' id='v'}
+                {if is_numeric($key) || $key == 'month'}<td class="text-center table-total">{$v}</td>{/if}
+            {/volist}
+        <td class="text-center table-total">{$total.sum}</td>
+    </tr>
+
+    <tr>
+        <th class="text-center">
+            开发员 <a href="javascript:void(0);" class="sort_toggle" onclick="common_module.sort_toggle()"></a>
+        </th>
+        {volist name='total' id='v'}
+        {if $key == 'month'}
+        <th class="text-center">本月</th>
+        {/if}
+        {if is_numeric($key)}
+            {if $params['checkDate'] == 'month'}
+            <th class="text-center">{php}echo date('Y-m',strtotime($key.'01'));{/php}</th>
+            {else/}
+                <th class="text-center">{php}echo date('m-d',strtotime($key));{/php}</th>
+            {/if}
+        {/if}
+        {/volist}
+        <th class="text-center">合计</th>
+    </tr>
+
+    </thead>
+
+    <tbody id="scroll_table_head">
+    {volist name="list" id="vo"}
+    <tr>
+        <td class="text-center">{$key}</td>
+            {volist name='total' id='v'}
+                {if $key == 'month'}
+                    {if isset($vo[$key])}
+                        <td class="text-center" data-toggle="tooltip" data-placement="bottom" data-container='body'
+                            title="待开发:{$vo[$key]['type1']},文案:{$vo[$key]['type12']},初审:{$vo[$key]['type2']},采样:{$vo[$key]['type5']},拍图:{$vo[$key]['type6']},
+                          美工:{$vo[$key]['type8']},终审:{$vo[$key]['type9']},已完成:{$vo[$key]['type10']}">
+                            {$vo[$key]['type10']}
+                        </td>
+                    {else/}
+                        <td class="text-center">
+                            <span class="block" data-toggle="tooltip" data-placement="bottom" data-container='body' title="待开发:0,文案:0,初审:0,采样:0,拍图:0,美工:0,终审:0,已完成:0">0</span>
+                        </td>
+                    {/if}
+                {/if}
+                {if is_numeric($key)}
+                    <td class="text-center"  data-toggle="tooltip" data-placement="bottom" data-container='body'
+                        title="待开发:{$vo[$key]['type1']},文案:{$vo[$key]['type12']},初审:{$vo[$key]['type2']},采样:{$vo[$key]['type5']},拍图:{$vo[$key]['type6']},
+                              美工:{$vo[$key]['type8']},终审:{$vo[$key]['type9']},已完成:{$vo[$key]['type10']}">
+                        {$vo[$key]['type10']}
+                    </td>
+                {/if}
+            {/volist}
+        <td class="text-center">{$vo.sum}</td>
+    </tr>
+    {/volist}
+    </tbody>
+
+    {else/}
+    <tr>
+        <td class="text-center table-total">合计</td>
+        <td class="text-center table-total">{$total.type1}</td>
+        <td class="text-center table-total">{$total.type12}</td>
+        <td class="text-center table-total">{$total.type2}</td>
+        <td class="text-center table-total">{$total.type5}</td>
+        <td class="text-center table-total">{$total.type6}</td>
+        <td class="text-center table-total">{$total.type8}</td>
+        <td class="text-center table-total">{$total.type9}</td>
+        <td class="text-center table-total">{$total.type10}</td>
+        <td class="text-center table-total">{$total.sum}</td>
+    </tr>
+
+    <tr>
+        <th class="text-center">
+            日期 <a href="javascript:void(0);" class="sort_toggle" onclick="common_module.sort_toggle()"></a>
+        </th>
+        <th class="text-center">待开发<a href="javascript:void(0);" data-toggle="tooltip" title="编辑商品的基本信息"><i class="fa fa-fw fa-question-circle"></i></a></th>
+        <th class="text-center">文案<a href="javascript:void(0);" data-toggle="tooltip" title="编辑商品的文案信息与仓库属性"><i class="fa fa-fw fa-question-circle"></i></a></th>
+        <th class="text-center">初审<a href="javascript:void(0);" data-toggle="tooltip" title="初步审核商品信息"><i class="fa fa-fw fa-question-circle"></i></a></th>
+        <th class="text-center">采样<a href="javascript:void(0);" data-toggle="tooltip" title="采集样品信息、创建样品单"><i class="fa fa-fw fa-question-circle"></i></a></th>
+        <th class="text-center">拍图<a href="javascript:void(0);" data-toggle="tooltip" title="拍摄商品图片"><i class="fa fa-fw fa-question-circle"></i></a></th>
+        <th class="text-center">美工<a href="javascript:void(0);" data-toggle="tooltip" title="美化并上传图片"><i class="fa fa-fw fa-question-circle"></i></a></th>
+        <th class="text-center">终审<a href="javascript:void(0);" data-toggle="tooltip" title="最终审核商品信息"><i class="fa fa-fw fa-question-circle"></i></a></th>
+        <th class="text-center">已完成<a href="javascript:void(0);" data-toggle="tooltip" title="已完成开发商品"><i class="fa fa-fw fa-question-circle"></i></a></th>
+        <th class="text-center">合计</th>
+    </tr>
+    </thead>
+    <tbody id="scroll_table_head">
+    {volist name="list" id="vo"}
+    <tr>
+        <td class="text-center">{$vo.one}</td>
+        <td class="text-center">{if isset($vo['type1'])}{$vo.type1}{else/}0{/if}</td>
+        <td class="text-center">{if isset($vo['type12'])}{$vo.type12}{else/}0{/if}</td>
+        <td class="text-center">{if isset($vo['type2'])}{$vo.type2}{else/}0{/if}</td>
+        <td class="text-center">{if isset($vo['type5'])}{$vo.type5}{else/}0{/if}</td>
+        <td class="text-center">{if isset($vo['type6'])}{$vo.type6}{else/}0{/if}</td>
+        <td class="text-center">{if isset($vo['type8'])}{$vo.type8}{else/}0{/if}</td>
+        <td class="text-center">{if isset($vo['type9'])}{$vo.type9}{else/}0{/if}</td>
+        <td class="text-center">{if isset($vo['type10'])}{$vo.type10}{else/}0{/if}</td>
+        <td class="text-center">{$vo.sum}</td>
+    </tr>
+    {/volist}
+    </tbody>
+    {/if}
+
+</table>

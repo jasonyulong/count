@@ -1,0 +1,26 @@
+<ul class="nav nav-tabs">
+    <li class="{$type == 'date' ? 'active' : ''}"><a href="{:url('/count/order/Sale', ['type' => 'date'])}">按日期</a></li>
+    <li class="{$type == 'platform' ? 'active' : ''}"><a href="{:url('/count/order/Sale', ['type' => 'platform'])}">按平台</a></li>
+    {if $is_top_manager}
+    <li class="{$type == 'organ' ? 'active' : ''}"><a href="{:url('/count/order/Sale', ['type' => 'organ'])}">按组织架构</a></li>
+    {/if}
+    <li class="{$type == 'seller' ? 'active' : ''}"><a href="{:url('/count/order/Sale', ['type' => 'seller'])}">按销售员</a></li>
+    <li class="{$type == 'account' ? 'active' : ''}"><a href="{:url('/count/order/Sale', ['type' => 'account'])}">按账号</a></li>
+    <li class="{$type == 'store' ? 'active' : ''}"><a href="{:url('/count/order/Sale', ['type' => 'store'])}">按仓库</a></li>
+    <li class="{$type == 'location' ? 'active' : ''}"><a href="{:url('/count/order/Sale', ['type' => 'location'])}">按Location</a></li>
+    <li class="pull-right">
+        <div class="btn-toolbar" role="toolbar">
+            <div class="btn-group padding-top8 paddint-right5">
+                {if $params['type'] != 'organ'}
+                <a href="{:url('/count/order/Sale', array_merge($params, ['type' => $type, 'model' => 'table']))}" data-toggle="tooltip" class="btn btn-xs btn-default {$model == 'table' ? 'active' : ''}"
+                   title="列表模式"><span class="fa fa-fw fa-th-large"></span></a>
+
+                <a href="{:url('/count/order/Sale', array_merge($params,['type' => $type, 'model' => 'chart']))}" data-toggle="tooltip" class="btn btn-xs btn-default {$model == 'chart' ? 'active' : ''}" title="图表模式"><span class="fa fa-fw fa-bar-chart-o"></span></a>
+                {/if}
+            </div>
+        </div>
+    </li>
+    <li class="pull-right alert-tips">
+        <i class="icon fa fa-warning"></i> 统计数据存在一定的延迟性, 请勿与订单实时对比.
+    </li>
+</ul>

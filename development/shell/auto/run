@@ -1,0 +1,69 @@
+#!/usr/bin/env bash
+#
+#  +------------------------------------------------------------------------+
+#  | 自动化任务管理工具
+#  +------------------------------------------------------------------------+
+#  +------------------------------------------------------------------------+
+#  | 运行DEMO： ./run status|start|stop|restart task里sh文件名称.
+#  +------------------------------------------------------------------------+
+#  | Authors: Kevin <xuwenhu369@163.com>
+#  +------------------------------------------------------------------------+
+#
+
+# 需要执行sh文件的路径
+TASK_DIR=./task/
+
+
+# 提示语
+tips="USAGE OF THIS SERVER IS ${0} status|start|stop|restart"
+tips_task="USAGE OF THIS SERVER IS ${0} status|start|stop|restart task name"
+
+
+# 判断第一个参数
+if [ -z "$1" ]; then
+	echo $tips
+	exit 1
+fi
+
+
+# 引入函数文件
+. ./init
+
+
+# 入口
+case $1 in
+	start)
+		if [ -z $2 ]; then
+			echo $tips_task
+			exit 1
+		fi
+		# 启动脚本
+		start_script $2
+	;;
+	stop)
+		if [ -z $2 ]; then
+			echo $tips_task
+			exit 1
+		fi
+		# 停止脚本
+		stop_script $2
+	;;
+	restart)
+		if [ -z $2 ]; then
+			echo $tips_task
+			exit 1
+		fi
+		# 重启脚本
+		reload_script $2
+	;;
+	status)
+		if [ -z $2 ]; then
+			all_status_script
+		else
+			status_script $2
+		fi
+	;;
+	*)
+		echo $tips_task
+	;;
+esac

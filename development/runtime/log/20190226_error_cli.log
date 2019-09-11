@@ -1,0 +1,4 @@
+[ 2019-02-26T10:36:27+08:00 ][ error ] [0]Fatal error: Class 'app\common\model\ErpGoods' not found[/opt/web/count/development/application/common/command/cli/GoodsCli.php:76]
+[ 2019-02-26T10:37:16+08:00 ][ error ] [0]Fatal error: Class 'app\common\command\cli\GoodsAudit' not found[/opt/web/count/development/application/common/command/cli/GoodsCli.php:78]
+[ 2019-02-26T17:25:05+08:00 ][ error ] [0]Fatal error: Call to undefined method app\common\command\cli\GoodsCli::saveOrAdd()[/opt/web/count/development/application/common/command/cli/GoodsCli.php:72]
+[ 2019-02-26T17:45:30+08:00 ][ error ] [0]Type error: Too few arguments to function app\common\command\cli\GoodsCli::setErpGoodsDevelop(), 2 passed in /opt/web/count/development/application/common/command/cli/GoodsCli.php on line 72 and exactly 3 expected[/opt/web/count/development/application/common/command/cli/GoodsCli.php:78]

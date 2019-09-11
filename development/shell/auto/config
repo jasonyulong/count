@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+#PHP脚本的执行目录
+phpRoot=/opt/web/erp
+
+#PHP
+phpBin=/usr/local/php/bin/php
+
+#PHP file
+phpRun=think
+
+. ./init
+
+cd $phpRoot

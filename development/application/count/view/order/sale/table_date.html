@@ -1,0 +1,84 @@
+<div class="text-danger">
+    <i class="icon fa fa-warning"></i> 说明：销售单量和销售额排除了回收站订单和补发订单， 订单根据进系统时间来统计
+</div>
+<table class="table table-bordered table-hover dataTable table-striped display nowrap compact js-table">
+    <thead>
+    <!--合计-->
+    <tr>
+        <td class="text-center table-total">合计</td>
+        <td class="text-center table-total">{$total_data['sum_totals']}</td>
+        {if $params['type'] == 'date'}
+        <td class="text-center table-total">
+
+        </td>
+        {/if}
+        <td class="text-center table-total">{$total_data['sum_sales']}</td>
+        {if $params['type'] == 'date'}
+        <td class="text-center table-total">
+
+        </td>
+        {/if}
+        {if $params['checkDate'] == 'day'}
+        <td class="text-center table-total"></td>
+        {/if}
+        <td class="text-center table-total"></td>
+        <td class="text-center table-total"></td>
+    </tr>
+    <tr>
+        <th class="text-center">
+            {if $params['type'] == 'date'}
+            日期
+            {elseif $params['type'] == 'platform' /}
+            平台
+            {else /}
+            账号
+            {/if}
+        </th>
+        <th class="text-center">销售单量 <a href="javascript:void(0);" data-container='body' data-toggle="tooltip" data-placement="" title="销售单量=排除掉回收站和补发的订单数"><i class="fa fa-fw fa-question-circle"></i></a></th>
+        {if $params['type'] == 'date'}
+        <th class="text-center">单量增幅 <a href="javascript:void(0);" data-container='body' data-toggle="tooltip" data-placement="" title="单量增幅=相对于前一天的单量增幅%比"><i class="fa fa-fw fa-question-circle"></i></a></th>
+        {/if}
+        <th class="text-center">销售额 ($) <a href="javascript:void(0);" data-container='body' data-toggle="tooltip" data-placement="" title="销售额=排除掉回收站和补发的订单销售额"><i class="fa fa-fw fa-question-circle"></i></a></th>
+        {if $params['type'] == 'date'}
+        <th class="text-center">销售额增幅 <a href="javascript:void(0);" data-container='body' data-toggle="tooltip" data-placement="" title="销售额增幅=相对于前一天的销售额增幅%比"><i class="fa fa-fw fa-question-circle"></i></a></th>
+        {/if}
+        {if $params['checkDate'] == 'day'}
+        <th class="text-center">上周同期销售额($)</th>
+        {/if}
+        <th class="text-center">上月同期销售额($)</th>
+        <th class="text-center">相对于平均</th>
+    </tr>
+    </thead>
+    <tbody id='scroll_table_head'>
+    {foreach $list as $item}
+    <tr>
+        <td class="text-center">
+            {if $params['type'] == 'platform'}
+            {$item['platform']}
+            {elseif $params['type'] == 'account'}
+            {$item['platform_account']}
+            {else /}
+            {if $params['checkDate'] == 'day'}
+            {$item['year']}-{$item['month']}-{$item['days']}
+            {else /}
+            {$item['year']}-{$item['month']}
+            {/if}
+            {/if}
+        </td>
+        <td class="text-center">{$item['sum_totals']}</td>
+        {if $params['type'] == 'date'}
+        <td class="text-center" {if condition="$item['total_percent'] > 0"}style="color:red;"{else /}style="color:green;"{/if}>{$item['total_percent']}</td>
+        {/if}
+        <td class="text-center">{$item['sum_sales']}</td>
+        {if $params['type'] == 'date'}
+        <td class="text-center" {if condition="$item['sum_percent'] > 0"}style="color:red;"{else /}style="color:green;"{/if}>{$item['sum_percent']}</td>
+        {/if}
+        {if $params['checkDate'] == 'day'}
+        <td class="text-center">{$item['week_increment']}</td>
+        {/if}
+        <td class="text-center">{$item['month_sales_increment']}</td>
+        <td class="text-center" {if condition="($item['average_percent'] ?? 0) > 0"}style="color:red;"{else /}style="color:green;"{/if}>{$item['average_percent'] ?? 0}</td>
+    </tr>
+    {/foreach}
+    </tbody>
+</table>

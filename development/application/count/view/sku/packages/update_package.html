@@ -1,0 +1,43 @@
+<style>
+    .input-sm {min-width: 99%}
+    .fixed{ position:fixed; right:5%; bottom:0px;}
+</style>
+<section class="content">
+    <form id="form1" class="postForm form" action="{:url('/count/sku/Packages/updatePackage')}" data-validator-option="{timely:2}">
+        <input type="hidden" name="id" value="{$package.id}">
+        <div class="form-group">
+            <label class="control-label text-right" id="titleMsg">名称:</label>
+            <input type="text" class="input-sm form-control" name="title" data-target="#titleMsg" value="{$package.title}" data-rule="required" placeholder="产品包名称" />
+        </div>
+        <div class="form-group">
+            <label class="control-label text-right" id="cateMsg">分类:</label>
+            <select class="input-sm form-control" name="cate_id" data-target="#cateMsg" data-rule="required">
+                <!--<option value="0">无</option>-->
+                {volist name="category" id="vo"}
+                <option value="{$vo.id}" {if condition="$vo.id eq $package.cate_id"}selected{/if} {if condition="$vo.is_pid eq 1"}disabled{/if}>{$vo.title}</option>
+                {if condition="$vo.rank eq 2"}
+                {volist name="category3" id="v"}
+                {if condition="$vo.id eq $key"}
+                {volist name="v" id="val"}
+                <option value="{$key}" {if condition="$key eq $package.cate_id"}selected{/if}>{$val}</option>
+                {/volist}
+                {/if}
+                {/volist}
+                {/if}
+                    {/volist}
+            </select>
+        </div>
+        <div class="form-group">
+            <label class="control-label text-right" id="snMsg">编号:</label>
+            <input type="text" class="input-sm form-control" name="group_sn" value="{$package.group_sn}" data-target="snMsg" placeholder="产品包编号" data-rule="required" readonly/>
+        </div>
+        <div class="form-group">
+            <label class="control-label text-right" id="skuMsg">所属sku:</label>
+            <textarea class="input-sm form-control" rows="4" data-target="#skuMsg" name="sku" placeholder="A001,A002,A003.."  data-rule="required">{$package.sku}</textarea>
+        </div>
+        <div class="form-group fixed">
+            <button type="submit" class="btn btn-primary btn-sm postSubmit">保存&nbsp;</button>
+            <a class="btn btn-danger btn-sm" onclick="order_model.closeAll()" name="submit">取消&nbsp;</a>
+        </div>
+    </form>
+</section>

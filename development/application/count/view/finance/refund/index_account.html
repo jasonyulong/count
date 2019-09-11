@@ -1,0 +1,105 @@
+<section class="content">
+    <div class="nav-tabs-custom">
+        <ul class="nav nav-tabs">
+            <li class="{$type == 'date' ? 'active' : ''}"><a href="{:url('/count/finance/refund', ['type' => 'date'])}">按日期</a></li>
+            <li class="{$type == 'platform' ? 'active' : ''}"><a href="{:url('/count/finance/refund', ['type' => 'platform'])}">按平台</a></li>
+            <li class="{$type == 'account' ? 'active' : ''}"><a href="{:url('/count/finance/refund', ['type' => 'account'])}">按账号</a></li>
+            <li class="{$type == 'trench' ? 'active' : ''}"><a href="{:url('/count/finance/refund', ['type' => 'trench'])}">按物流渠道</a></li>
+            <li class="{$type == 'country' ? 'active' : ''}"><a href="{:url('/count/finance/refund', ['type' => 'country'])}">按国家</a></li>
+            <li class="{$type == 'kfuser' ? 'active' : ''}"><a href="{:url('/count/finance/refund', ['type' => 'kfuser'])}">按开发员</a></li>
+            <li class="{$type == 'seller' ? 'active' : ''}"><a href="{:url('/count/finance/refund', ['type' => 'seller'])}">按销售员</a></li>
+            <li class="pull-right">
+                <div class="btn-toolbar" role="toolbar">
+                    <div class="btn-group padding-top8 paddint-right5">
+                        <a href="{:url('/count/finance/refund', array_merge($params, ['type' => $type, 'model' => 'table']))}" data-toggle="tooltip"
+                           class="btn btn-xs btn-default {$model == 'table' ? 'active' : ''}"
+                           title="列表模式"><span class="fa fa-fw fa-th-large"></span></a>
+                        <a href="{:url('/count/finance/refund', array_merge($params,['type' => $type, 'model' => 'chart']))}" data-toggle="tooltip"
+                           class="btn btn-xs btn-default {$model == 'chart' ? 'active' : ''}"
+                           title="图表模式"><span class="fa fa-fw fa-bar-chart-o"></span></a>
+                    </div>
+                </div>
+            </li>
+        </ul>
+        <div class="box-body">
+            <div class="box box-solid">
+                <div class="box-header with-border">
+                    <form action="{:url('/count/finance/refund',$params)}" method="get" class="form-inline froms clearfix">
+                        <input type="hidden" name="type" value="{$type}">
+                        <input type="hidden" name="model" value="{$model}">
+                        <input type="hidden" name="p" value="{$params.p}">
+                        <input type="hidden" name="ps" value="{$params.ps}">
+                        <div class="form-group" style="width: 206px;">
+                            <label class="control-label text-right">平台：</label>
+                            <select class="selectpicker platform-choice show-tick" title="全部" name="platform" id="platform" data-actions-box="true" data-live-search="true">
+                                <option value="">全部</option>
+                                {foreach $platforms as $item}
+                                <option value="{$item}" {if $params.platform == $item}selected{/if}>{$item}</option>
+                                {/foreach}
+                            </select>
+                        </div>
+                        <div class="form-group" style="width: 206px;">
+                            <label class="control-label text-right">账号：</label>
+                            <select class="selectpicker account-choice" title="全部" name="account[]" id="account" data-actions-box="true" data-live-search="true" multiple>
+
+                                {foreach $accounts as $item}
+                                <option value="{$item}" {if in_array($item, $params['account'] ?? [])}selected{/if}>{$item}</option>
+                                {/foreach}
+
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label text-right">时间维度：</label>
+                            <div class="checkbox">
+                                <label><input type="radio" name="checkDate" class="checkDate" value="day" {if condition="$params['checkDate']=='day'"}checked{/if} ><small>天</small></label>
+                                <label><input type="radio" name="checkDate" class="checkDate" value="month" {if condition="$params['checkDate']=='month'"}checked{/if} ><small>月</small></label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label text-right">区间：</label>
+                            <div class="input-group laydate-group">
+                                {if condition="$params['checkDate'] == 'month'"}
+                                <input type="text" class="input-sm form-control input-date datepicker hide start" name="day_start" value="{$params.day_start}" placeholder="开始时间"/>
+                                <input type="text" class="input-sm form-control input-date monthpicker" name="month_start" value="{$params.month_start}" placeholder="开始年月"/>
+                                <span class="input-group-addon">到</span>
+                                <input type="text" class="input-sm form-control input-date datepicker hide end" name="day_end" value="{$params.day_end}" placeholder="结束时间"/>
+                                <input type="text" class="input-sm form-control input-date monthpicker" name="month_end" value="{$params.month_end}" placeholder="结束年月"/>
+                                {else/}
+                                <input type="text" class="input-sm form-control input-date datepicker start" name="day_start" value="{$params.day_start}" placeholder="开始时间"/>
+                                <input type="text" class="input-sm form-control input-date monthpicker hide" name="month_start" value="{$params.month_start}" placeholder="开始年月"/>
+                                <span class="input-group-addon">到</span>
+                                <input type="text" class="input-sm form-control input-date datepicker end" name="day_end" value="{$params.day_end}" placeholder="结束时间"/>
+                                <input type="text" class="input-sm form-control input-date monthpicker hide" name="month_end" value="{$params.month_end}" placeholder="结束年月"/>
+                                {/if}
+                            </div>
+                        </div>
+                        {if condition="$params['checkDate'] != 'month'"}
+                        <div class="form-group shotcut_day_div">
+                            <div class="checkbox">
+                                <label><input type="radio" name="checkDate" class="" onchange="order_model.checked_date(this)" value="today" {if condition="$params['checkDate']=='today'"}checked{/if}><small>今天</small></label>
+                                <label><input type="radio" name="checkDate" class="" onchange="order_model.checked_date(this)" value="yesterday" {if condition="$params['checkDate']=='yesterday'"}checked{/if}><small>昨天</small></label>
+                                <label><input type="radio" name="checkDate" class="" onchange="order_model.checked_date(this)" value="recently3day" {if condition="$params['checkDate']=='recently3day'"}checked{/if}><small>最近三天</small></label>
+                            </div>
+                        </div>
+                        {/if}
+                        <div class="form-group">
+                            <button class="btn btn-primary btn-sm" type="submit" name="submit"><i class="glyphicon glyphicon-search"></i> 确定搜索&nbsp;</button>
+                            <a class="btn btn-warning btn-sm" href="javascript:void(0);" target="_blank" onclick="common_module.export_excel()"><i class="glyphicon glyphicon-save"></i> 导出Excel&nbsp;</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-content">
+            {if $model == 'table'}
+            {include file="finance/refund/account_table"/}
+            {else/}
+            {include file="finance/refund/account_chart"/}
+            {/if}
+        </div>
+        <!--<div class="batch-bar clearfix">
+            {include file="layout/page"}
+        </div>-->
+    </div>
+</section>

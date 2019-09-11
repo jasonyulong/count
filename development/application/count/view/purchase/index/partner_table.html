@@ -1,0 +1,70 @@
+<table class="table table-bordered table-hover dataTable table-striped">
+    <thead>
+    <tr>
+        <td class="text-center table-total">合计</td>
+        <td class="text-center table-total"></td>
+        <td class="text-center table-total"></td>
+        <td class="text-center table-total">{$total.total_amount}</td>
+        <td class="text-center table-total">{$total.total_fee}</td>
+        <td class="text-center table-total">{$total.total_paid}</td>
+        <td class="text-center table-total">{$total.total_wait_pay}</td>
+        <td class="text-center table-total">{$total.total_revenued}</td>
+        <td class="text-center table-total">{$total.total_collected}</td>
+        <td class="text-center table-total">{$total.total_real_pay}</td>
+        <td class="text-center table-total">{$total.total_total_collected}</td>
+        <td class="text-center table-total"></td>
+    </tr>
+
+    <tr>
+        <th class="text-center">序号</th>
+        <th class="text-center">供应商</th>
+        <th class="text-center">付款方式</th>
+        <th data-id="amount" class="text-center custom {if $params['sortkey'] == 'amount'}sorting_{$params['sort']}{else/}sorting{/if}">采购总金额</th>
+        <th data-id="ship_fee" class="text-center custom {if $params['sortkey'] == 'ship_fee'}sorting_{$params['sort']}{else/}sorting{/if}">运费总金额</th>
+        <th data-id="paid"  class="text-center custom {if $params['sortkey'] == 'paid'}sorting_{$params['sort']}{else/}sorting{/if}">已付款<a href="javascript:void(0);" data-toggle="tooltip" title="已经付款记录"><i class="fa fa-fw fa-question-circle"></i></a></th>
+        <th data-id="wait_pay" class="text-center custom {if $params['sortkey'] == 'wait_pay'}sorting_{$params['sort']}{else/}sorting{/if}">待付款<a href="javascript:void(0);" data-toggle="tooltip" title="所有采购价值 - 已经付款"><i class="fa fa-fw fa-question-circle"></i></a></th>
+        <th data-id="revenued" class="text-center custom {if $params['sortkey'] == 'revenued'}sorting_{$params['sort']}{else/}sorting{/if}">已收<a href="javascript:void(0);" data-toggle="tooltip" title="所有入库 + 公司损失金额"><i class="fa fa-fw fa-question-circle"></i></a></th>
+        <th data-id="collected" class="text-center custom {if $params['sortkey'] == 'collected'}sorting_{$params['sort']}{else/}sorting{/if}">待收<a href="javascript:void(0);" data-toggle="tooltip" title="采购价值 - （正常入库+损耗）"><i class="fa fa-fw fa-question-circle"></i></a></th>
+        <th class="text-center">实付款<a href="javascript:void(0);" data-toggle="tooltip" title="已付款-退款"><i class="fa fa-fw fa-question-circle"></i></a></th>
+        <th class="text-center">总收<a href="javascript:void(0);" data-toggle="tooltip" title="已收+等值换"><i class="fa fa-fw fa-question-circle"></i></a></th>
+        <th class="text-center">操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    {volist name="data" id="vo"}
+    <tr>
+        <td class="text-center">
+            {$key+1}
+        </td>
+        <td class="text-center">{$vo.partnerName}</td>
+        <td class="text-center">
+            {$vo.paytype}
+        </td>
+        <td class="text-center">{$vo.amount}</td>
+        <td class="text-center">{$vo.ship_fee}</td>
+        <td class="text-center">{$vo.paid}</td>
+        <td class="text-center">{$vo.wait_pay}</td>
+        <td class="text-center">{$vo.revenued}</td>
+        <td class="text-center">{$vo.collected}</td>
+        <td class="text-center">{$vo.real_pay}</td>
+        <td class="text-center">{$vo.total_collected}</td>
+        <td class="text-center">
+            <div class="btn-group">
+                <button type="button" class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                 查看图表 <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a style="cursor:pointer" onclick="layer.open({type: 2,title: '供应商【{$vo.partnerName}】金额走势',shadeClose: true,shade: 0.8,area: ['70%', '70%'],maxmin:true,content: '{:url('/count/Purchase/Index/partnertrend', ['partner_id' => $vo['partner_id'],'type'=>'amount'])}'});" >金额走势</a>
+                    </li>
+                    <li>
+                        <a style="cursor:pointer" onclick="layer.open({type: 2,title: '供应商【{$vo.partnerName}】采购量走势',shadeClose: true,shade: 0.8,area: ['70%', '70%'],maxmin:true,content: '{:url('/count/Purchase/Index/partnertrend', ['partner_id' => $vo['partner_id'],'type'=>'qty'])}'});" >采购量走势</a>
+                    </li>
+                </ul>
+            </div>
+        </td>
+    </tr>
+    {/volist}
+    </tbody>
+</table>
+

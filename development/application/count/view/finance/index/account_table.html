@@ -1,0 +1,53 @@
+<table class="table table-bordered table-hover dataTable table-striped js-table">
+    <thead>
+    <tr>
+        <td class="text-center table-total">合计</td>
+        <td class="text-center table-total">{$total.total}</td>
+        <td class="text-center table-total">{$total.cost}</td>
+        <td class="text-center table-total">{$total.freight}</td>
+        <td class="text-center table-total">{$total.onlinefee}</td>
+        <td class="text-center table-total">{$total.material}</td>
+        <td class="text-center table-total">{$total.platform_fee}</td>
+        <td class="text-center table-total">{$total.paypal}</td>
+        <td class="text-center table-total">{$total.commission}</td>
+        <td class="text-center table-total">{$total.gross}</td>
+        <td class="text-center table-total"></td>
+        <!--<td class="text-center table-total">{$total.refunds}</td>-->
+        <!--<td class="text-center table-total">{$total.refunds_rate}</td>-->
+    </tr>
+    <tr>
+        <th class="text-center">平台账号</th>
+        <th class="text-center">总金额($)<a href="javascript:void(0);" data-toggle="tooltip" title="已发货订单总金额"><i class="fa fa-fw fa-question-circle"></i></a></th>
+        <th class="text-center">成本($)<a href="javascript:void(0);" data-toggle="tooltip" title="成本=商品实际成本+包材费"><i class="fa fa-fw fa-question-circle"></i></a></th>
+        <th class="text-center">物流运费($)<a href="javascript:void(0);" data-toggle="tooltip" title="从物流商获取的运费"><i class="fa fa-fw fa-question-circle"></i></a></th>
+        <th class="text-center">线上运费($)<a href="javascript:void(0);" data-toggle="tooltip" title="买家支付运费"><i class="fa fa-fw fa-question-circle"></i></a></th>
+        <th class="text-center">包材费($)<a href="javascript:void(0);" data-toggle="tooltip" title="包装材料费用"><i class="fa fa-fw fa-question-circle"></i></a></th>
+        <th class="text-center">转换费($)<a href="javascript:void(0);" data-toggle="tooltip" title="货币转换费"><i class="fa fa-fw fa-question-circle"></i></a></th>
+        <th class="text-center">Papal($)<a href="javascript:void(0);" data-toggle="tooltip" title="Papal手续费"><i class="fa fa-fw fa-question-circle"></i></a></th>
+        <th class="text-center">佣金($)<a href="javascript:void(0);" data-toggle="tooltip" title="平台收取的费用"><i class="fa fa-fw fa-question-circle"></i></a></th>
+        <th class="text-center">毛利($)<a href="javascript:void(0);" data-toggle="tooltip" title="订单的利润"><i class="fa fa-fw fa-question-circle"></i></a></th>
+        <th class="text-center">毛利率%<a href="javascript:void(0);" data-toggle="tooltip" title="订单的利润率"><i class="fa fa-fw fa-question-circle"></i></a></th>
+        <!--<th class="text-center">退款金额($)<a href="javascript:void(0);" data-toggle="tooltip" title="退款订单的总金额"><i class="fa fa-fw fa-question-circle"></i></a></th>-->
+        <!--<th class="text-center">退款占比%<a href="javascript:void(0);" data-toggle="tooltip" title="退款占比=退款金额/总金额"><i class="fa fa-fw fa-question-circle"></i></a></th>-->
+    </tr>
+    </thead>
+    <tbody id="scroll_table_head">
+    {volist name="data" id="vo"}
+    <tr>
+        <td class="text-center">{$vo.platform_account}</td>
+        <td class="text-center">{:round($vo.total, 2)}</td>
+        <td class="text-center">{:round($vo.cost, 2)}</td>
+        <td class="text-center">{:round($vo.freight, 2)}</td>
+        <td class="text-center">{:round($vo.onlinefee, 2)}</td>
+        <td class="text-center">{:round($vo.material,2)}</td>
+        <td class="text-center">{:round($vo.platform_fee, 2)}</td>
+        <td class="text-center">{:round($vo.paypal, 2)}</td>
+        <td class="text-center">{:round($vo.commission, 2)}</td>
+        <td class="text-center">{:round($vo.gross, 2)}</td>
+        <td class="text-center">{$vo.gross_rate} %</td>
+        <!--<td class="text-center">{:round($vo.refunds, 2)}</td>-->
+        <!--<td class="text-center">{$vo.refunds_rate} %</td>-->
+    </tr>
+    {/volist}
+    </tbody>
+</table>

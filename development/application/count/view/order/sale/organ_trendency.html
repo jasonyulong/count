@@ -1,0 +1,135 @@
+{extend name="layout/fluid2" /}
+{block name="css"}
+<style>
+    .tab-content {
+        overflow: auto;
+    }
+    .text-primary {
+        color: #3c8dbc;
+    }
+    .text-danger {
+        color: #ff0000;
+    }
+</style>
+{/block}
+
+{block name="content"}
+<section class="content" style="padding: 0;">
+    <div class="nav-tabs-custom">
+        <div class="box-body">
+            <div class="box box-solid">
+                <div class="box-header with-bsales">
+                    <form action="{:url('/count/order/Sale/organTrendency', array_merge($params,['type' => $type, 'model' => $model]))}" method="get" class="form-inline froms clearfix">
+
+                        <input type="hidden" name="type" value="{$params['type']}">
+                        <input type="hidden" name="model" value="{$params['model']}">
+                        <input type="hidden" name="ps" value="{$params['ps']}">
+                        <input type="hidden" name="p" value="{$params['p']}">
+
+                        <div class="form-group">
+                            <!-- <label class="control-label text-right">时间维度：</label>
+                            <div class="checkbox">
+                                <label><input type="radio" name="checkDate" class="checkDate" value="day" {if $params['checkDate'] == 'day'}checked{/if} ><small>天</small></label>
+                                <label><input type="radio" name="checkDate" class="checkDate" value="month" {if $params['checkDate'] == 'month'}checked{/if}><small>月</small></label>
+                            </div> -->
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label text-right">月份：</label>
+                            <div class="input-group laydate-group">
+                                <input type="text" class="input-sm form-control input-date datepicker start {if $params['checkDate'] != 'day'}hide{/if}" name="scantime_start"  placeholder="开始时间" value="{$params['scantime_start']}" readonly/>
+                                <input type="text" class="input-sm form-control input-date monthpicker start {if $params['checkDate'] != 'month'}hide{/if}" name="scandate_start"  placeholder="开始年月" value="{$params['scandate_start']}" readonly/>
+                                <span class="input-group-addon">到</span>
+                                <input type="text" class="input-sm form-control input-date datepicker end {if $params['checkDate'] != 'day'}hide{/if}" name="scantime_end" value="{$params['scantime_end']}" placeholder="结束时间" readonly/>
+                                <input type="text" class="input-sm form-control input-date monthpicker end {if $params['checkDate'] != 'month'}hide{/if}" name="scandate_end" value="{$params['scandate_end']}" placeholder="结束年月" readonly/>
+                            </div>
+                        </div>
+                        <div class="checkbox shotcut_day_div" {if $params['checkDate'] == 'month'}style="display:none;"{/if}>
+                        <div class="input-group laydate-group">
+                            <div class="checkbox">
+                                <label><input type="radio" class="" onchange="order_model.checked_date(this)" value="today"><small>今天</small></label>
+                                <label><input type="radio" class="" onchange="order_model.checked_date(this)" value="yesterday"><small>昨天</small></label>
+                                <label><input type="radio" class="" onchange="order_model.checked_date(this)" value="recently3day"><small>最近三天</small></label>
+                            </div>
+                        </div>
+                        </div>
+                        <div class="form-group">
+                            <button class="btn btn-primary btn-sm" type="submit" name="submit"><i class="glyphicon glyphicon-search"></i> 确定搜索&nbsp;</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-content">
+            <div class="text-danger">
+                <i class="icon fa fa-warning"></i> 说明：本报表的增长率和走势均根据平均销售额来计算(平均销售额=月总销售额/月总天数)
+            </div>
+            <table class="table table-bordered table-hover dataTable" id="scroll_table">
+                <thead>
+                <tr>
+                    <th class="text-left">组织架构</th>
+                    <th class="text-center">负责人</th>
+                    
+                    {foreach $range as $item}
+                    <th class="text-center">{$item}</th>
+                    {/foreach}
+                    
+                    <th class="text-center">走势</th>
+                </tr>
+                </thead>
+                <tbody id='scroll_table_head'>
+                {foreach $list as $key => $item}
+                <tr>
+                    <td class="text-left">
+                        {$item['name']}
+                    </td>
+                    <td class="text-center">
+                        {$item['manage']}
+                    </td>
+
+                    {foreach $range as $k => $v}
+                    <td class="text-center">
+                        <font class="block text-primary ele-org_{$item['id']}" data-sales="{$item['monthly_data'][$v]['month_avg']}" data-date="{$v}" data-percent="{:rtrim($item['monthly_data'][$v]['grow_percent'], '%')}" data-toggle="tooltip" title="销售额：{$item['monthly_data'][$v]['sales']} 平均销售额：{$item['monthly_data'][$v]['month_avg']} 销售量:{$item['monthly_data'][$v]['totals']}">{$item['monthly_data'][$v]['grow_percent']}
+                            {if $item['monthly_data'][$v]['grow_percent'] > 0}
+                            <i class="glyphicon glyphicon-arrow-up text-success"></i>
+                            {elseif $item['monthly_data'][$v]['grow_percent'] < 0 /}
+                            <i class="glyphicon glyphicon-arrow-down text-danger"></i>
+                            {else /}
+                            {/if}
+                        </font>
+                    </td>
+                    {/foreach}
+                    
+                    <td class="text-center">
+                        <a href="javascript:void(0)" onclick="order_model.show_org_trendency($(this))" data-org_id="{$item['id']}" data-org_name="{$item['name']}" data-toggle="tooltip" class="btn btn-xs btn-default" title="图表模式"><span class="fa fa-fw fa-bar-chart-o"></span></a>
+                    </td>
+                    
+                </tr>
+                {/foreach}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="batch-bar clearfix">
+        </div>
+    </div>
+</section>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="myModalLabel">图表</h4>
+        </div>
+        <div class="modal-body">
+<div id="chartmain" style="width:800px; height:500px;"></div>
+            
+        </div>
+      </div>
+    </div>
+  </div>
+{/block}
+
+{block name='js'}
+<script src="__CDN__/assets/plugins/echarts/echarts.min.js"></script>
+{/block}

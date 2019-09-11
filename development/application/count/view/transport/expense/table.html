@@ -1,0 +1,87 @@
+<table class="table table-bordered table-hover dataTable table-striped js-table">
+    <thead>
+    <tr>
+        <td class="text-center table-total">合计</td>
+        <td class="text-center table-total">{$total.total_finish_orders}</td>
+        <td class="text-center table-total">{$total.total_finish_money}</td>
+        <td class="text-center table-total">
+            {if condition="$params['type'] eq  'date'"}
+            --
+            {else}
+            {$total.total_bepaid_orders}
+            {/if}
+        </td>
+        <td class="text-center table-total">
+            {if condition="$params['type'] eq  'date'"}
+            --
+            {else}
+            {$total.total_bepaid_money}
+            {/if}
+        </td>
+        <td class="text-center table-total">{$total.total_apply_into}</td>
+        <td class="text-center table-total">{$total.total_apply_end}</td>
+        <td class="text-center table-total">{$total.total_apply_pay}</td>
+        <td class="text-center table-total">{$total.total_finish_pay}</td>
+        <td class="text-center table-total">{$total.total_wait_pay}</td>
+        {if condition="$params['type'] eq  'date'"}
+        <td class="text-center table-total">{$total.total_chase_money}</td>
+        {else/}
+        <td class="text-center table-total">{$total.pay_total}</td>
+        <td class="text-center table-total">{$total.apply_total}</td>
+        {/if}
+        <td class="text-center table-total">{$total.total_pay_sum}</td>
+    </tr>
+    <tr>
+        <th class="text-center">
+            {if $params['type'] == 'date'}
+            日期 <a href="javascript:void(0);" class="sort_toggle" onclick="common_module.sort_toggle()"></a>
+            {/if}
+            {if $params['type'] == 'platform'}
+            平台
+            {/if}
+            {if $params['type'] == 'company'}
+            物流公司
+            {/if}
+        </th>
+        <th class="text-center">已对账单量 <a href="javascript:void(0);" data-toggle="tooltip" title="已经完成对账的订单总数量"><i class="fa fa-fw fa-question-circle"></i></a></th>
+        <th class="text-center">已对账运费($) <a href="javascript:void(0);" data-toggle="tooltip" title="已经完成对账的物流总运费"><i class="fa fa-fw fa-question-circle"></i></a></th>
+        <th class="text-center">待对账总单量 <a href="javascript:void(0);" data-toggle="tooltip" title="已发货待对账订单总数量"><i class="fa fa-fw fa-question-circle"></i></a></th>
+        <th class="text-center">待对账预估运费($) <a href="javascript:void(0);" data-toggle="tooltip" title="已发货待对账预估总运费"><i class="fa fa-fw fa-question-circle"></i></a></th>
+        <th class="text-center">申请预充值($) <a href="javascript:void(0);" data-toggle="tooltip" title="申请预充值总金额"><i class="fa fa-fw fa-question-circle"></i></a></th>
+        <th class="text-center">完成预充值($) <a href="javascript:void(0);" data-toggle="tooltip" title="完成预充值总金额"><i class="fa fa-fw fa-question-circle"></i></a></th>
+        <th class="text-center">申请支付运费($) <a href="javascript:void(0);" data-toggle="tooltip" title="申请支付对账单总金额"><i class="fa fa-fw fa-question-circle"></i></a></th>
+        <th class="text-center">已支付运费($) <a href="javascript:void(0);" data-toggle="tooltip" title="已支付对账单总金额"><i class="fa fa-fw fa-question-circle"></i></a></th>
+        <th class="text-center">待支付运费($) <a href="javascript:void(0);" data-toggle="tooltip" title="申请支付运费+申请预充值"><i class="fa fa-fw fa-question-circle"></i></a></th>
+        {if condition="$params['type'] eq  'date'"}
+        <th class="text-center">追款金额($) <a href="javascript:void(0);" data-toggle="tooltip" title="成功追款总金额"><i class="fa fa-fw fa-question-circle"></i></a></th>
+        {else/}
+        <th class="text-center">历史总支付($) <a href="javascript:void(0);" data-toggle="tooltip" title="历史记录中所有的总支付金额"><i class="fa fa-fw fa-question-circle"></i></a></th>
+        <th class="text-center">历史总充值($)<a href="javascript:void(0);" data-toggle="tooltip" title="历史记录中所有的总充值金额"><i class="fa fa-fw fa-question-circle"></i></a></th>
+        {/if}
+        <th class="text-center">支出合计($) <a href="javascript:void(0);" data-toggle="tooltip" title="完成预充值+已支付运费-追款金额"><i class="fa fa-fw fa-question-circle"></i></a></th>
+    </tr>
+    </thead>
+    <tbody id="scroll_table_head">
+    {volist name="list" id="vo"}
+    <tr>
+        <td class="text-center">{$vo.one}</td>
+        <td class="text-center">{$vo.finish_orders}</td>
+        <td class="text-center">{$vo.finish_money}</td>
+        <td class="text-center">{$vo.bepaid_orders}</td>
+        <td class="text-center">{$vo.bepaid_money}</td>
+        <td class="text-center">{$vo.apply_into}</td>
+        <td class="text-center">{$vo.apply_end}</td>
+        <td class="text-center">{$vo.apply_pay}</td>
+        <td class="text-center">{$vo.finish_pay}</td>
+        <td class="text-center">{$vo.wait_pay}</td>
+        {if condition="$params['type'] eq  'date'"}
+        <td class="text-center">{$vo.chase_money}</td>
+        {else/}
+        <td class="text-center">{$vo.total_pay}</td>
+        <td class="text-center">{$vo.total_apply}</td>
+        {/if}
+        <td class="text-center">{$vo.pay_sum}</td>
+    </tr>
+    {/volist}
+    </tbody>
+</table>

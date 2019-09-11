@@ -1,0 +1,59 @@
+<section class="content">
+        <div class="nav-tabs-custom">
+            <div class="box-body">
+                <div class="box box-solid">
+                    <div class="box-header with-bsales">
+                        {include file="expend/expend/_form2" /}
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-content">
+                <table class="table table-bordered table-hover dataTable table-striped display nowrap compact js-table" id="scroll_table">
+                    <thead>
+                        <tr>
+                            <td class="text-center table-total">合计</td>
+                            {foreach $type_map as $key => $value}
+                            <td class="text-center table-total">
+                                
+                                <span class="cursor" data-container='body' data-toggle="tooltip"  data-placement="left"  title="">
+                                    {:round($total_data[$key]['sum_expend_amount'], 2)}
+                                </span>
+                                <br>
+                                <span class="text-danger">{$total_data[$key]['expend_rate']}</span>
+                            </td>
+                            {/foreach}
+                        </tr>
+                
+                        <tr>
+                            
+                            <th class="text-center">账号</th>
+                            {foreach $type_map as $value}
+                            <td class="text-center">{$value}</td>
+                            {/foreach}
+                        </tr>
+                    </thead>
+                    <tbody id='scroll_table_head'>
+                        {foreach $data as $key => $value}
+                        <tr>
+                            <td class="text-center">{$key}</td>
+                            {foreach $type_map as $k => $map}
+                            <td class="text-center">
+                                <span class="cursor" data-container='body' data-toggle="tooltip"  data-placement="left"  title="">
+                                    {if isset($value[$k]['sum_expend_amount'])}{:round($value[$k]['sum_expend_amount'], 2)}{else /}0{/if}
+                                </span>
+                                <br>
+                                <span class="text-danger">{$value[$k]['expend_rate'] ?? '0%'}</span>
+                            </td>
+                            {/foreach}
+                        </tr>
+                        
+                        {/foreach}
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="batch-bar clearfix">
+            </div>
+        </div>
+    </section>

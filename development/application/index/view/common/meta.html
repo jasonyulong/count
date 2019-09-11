@@ -1,0 +1,37 @@
+<meta charset="utf-8">
+<title>{$title|default=''}</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="renderer" content="webkit">
+
+{if isset($keywords)}
+<meta name="keywords" content="{$keywords}">
+{/if}
+{if isset($description)}
+<meta name="description" content="{$description}">
+{/if}
+<meta name="author" content="ERPv5.0">
+<link rel="shortcut icon" href="__CDN__/assets/img/favicon.ico" />
+<!-- Loading Bootstrap -->
+<!-- Bootstrap 3.3.7 -->
+<link rel="stylesheet" href="__CDN__/assets/components/bootstrap/dist/css/bootstrap.min.css">
+<!-- Font Awesome -->
+<link rel="stylesheet" href="__CDN__/assets/components/font-awesome/css/font-awesome.min.css">
+<!-- Ionicons -->
+<link rel="stylesheet" href="__CDN__/assets/components/Ionicons/css/ionicons.min.css">
+<!-- Theme style -->
+<link rel="stylesheet" href="__CDN__/assets/dist/css/AdminLTE.min.css">
+<!-- iCheck -->
+<link rel="stylesheet" href="__CDN__/assets/plugins/iCheck/square/blue.css">
+<!-- HTML5 shim, for IE6-8 support of HTML5 elements. All other JS at the end of file. -->
+<!--[if lt IE 9]>
+  <script src="__CDN__/assets/js/html5shiv.js"></script>
+  <script src="__CDN__/assets/js/respond.min.js"></script>
+<![endif]-->
+<!-- Font -->
+<link rel="stylesheet" href="__CDN__/assets/dist/css/fontcss.css">
+<link rel="stylesheet" href="__CDN__/assets/dist/css/style.css">
+<script type="text/javascript">
+    var require = {
+        config: {$config|json_encode}
+    };
+</script>

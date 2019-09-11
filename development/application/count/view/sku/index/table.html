@@ -1,0 +1,60 @@
+<div class="text-danger">
+    <i class="icon fa fa-warning"></i> 说明：根据已发货订单的进系统时间来统计
+</div>
+<table class="table table-bordered table-hover dataTable table-striped">
+    <thead class="fixed">
+    <tr id="action">
+        <th class="text-center y-center">SKU编号</th>
+        <th class="text-center y-center">图片</th>
+        <th class="text-center y-center">标题</th>
+        {foreach $date as $times}
+        <th class="text-center y-center">{$times}</th>
+        {/foreach}
+        <th class="text-center y-center table-total">合计</th>
+    </tr>
+    </thead>
+    <tbody>
+    {foreach $data as $sku => $lists}
+    <tr>
+        <td class="text-center y-center sku-td-width">{$sku}</td>
+        <td class="text-center y-center pic-td-width">
+            <img data-src="{if(!empty($lists['data']['thumb']))}{$lists['data']['thumb']}{else /}__CDN__/assets/dist/img/no_picture.gif{/if}" class="img-src-size lazy-img" {if(!empty($lists['data']['large']))}onclick="order_model.skuimage(this)"{/if}
+            bigsrc="{$lists['data']['large'] ?? ''}">
+        </td>
+        <td class="text-center y-center title-td-width small">{$lists['data']['name'] ?? ''}</td>
+        {foreach $date2 as $ke => $item}
+        <td class="text-center y-center">
+            <a href="javascript:void(0)" onclick="order_model.showSkuDetail(this,1)" data-sku="{$sku}" data-time="{$item}"
+               data-url="{:url('/count/sku/index/showskutotal',
+               array('organ'=>$params['organ'],'paytime_start'=>$params['paytime_start'],'paytime_end'=>$params['paytime_end'],'platform'=>$params['platform'],'store'=>$params['store'],'category'=>$params['category'],'single'=>$params['single'],'country'=>$params['country'],'seller'=>$params['seller'],'sku'=>$sku,'time'=>$item,'model' => 'table'))}">
+                {:isset($lists['date'][$item])?array_sum($lists['date'][$item]):0}
+            </a>
+            <br>
+            <a href="javascript:void(0)" onclick="order_model.showSkuDetail(this,1)" data-sku="{$sku}" data-time="{$item}"
+               data-url="{:url('/count/sku/index/showskutotal',
+               array('organ'=>$params['organ'],'paytime_start'=>$params['paytime_start'],'paytime_end'=>$params['paytime_end'],'platform'=>$params['platform'],'store'=>$params['store'],'category'=>$params['category'],'single'=>$params['single'],'country'=>$params['country'],'seller'=>$params['seller'],'sku'=>$sku,'time'=>$item,'model' => 'chart'))}" data-toggle="tooltip"
+               class="btn btn-xs btn-default {$model == 'chart' ? 'active' : ''}"
+               title="图表模式"><span class="fa fa-fw fa-bar-chart-o"></span></a>
+        </td>
+        {/foreach}
+        <td class="text-center y-center table-total">
+            <a href="javascript:void(0)" onclick="order_model.showSkuDetailTotal(this,2)" data-sku="{$sku}" start-time="{$params['paytime_start']}"
+               end-time="{$params['paytime_end']}"
+               data-url="{:url('/count/sku/index/showskudetail',
+array('organ'=>$params['organ'],'paytime_start'=>$params['paytime_start'],'paytime_end'=>$params['paytime_end'],'platform'=>$params['platform'],'store'=>$params['store'],'category'=>$params['category'],'single'=>$params['single'],'country'=>$params['country'],'seller'=>$params['seller'],'sku'=>$sku,'time'=>$item,'model' => 'table'))}">
+                {$lists['data']['qtySum'] ?? 0}
+            </a>
+            <br>
+            <a href="javascript:void(0)" onclick="order_model.showSkuDetailTotal(this,2)" data-sku="{$sku}" start-time="{$params['paytime_start']}"
+               end-time="{$params['paytime_end']}"
+               data-url="{:url('/count/sku/index/showskudetail',
+array('organ'=>$params['organ'],'paytime_start'=>$params['paytime_start'],'paytime_end'=>$params['paytime_end'],'platform'=>$params['platform'],'store'=>$params['store'],'category'=>$params['category'],'single'=>$params['single'],'country'=>$params['country'],'seller'=>$params['seller'],'sku'=>$sku,'time'=>$item,'model' => 'chart'))}"
+               data-toggle="tooltip"
+               class="btn btn-xs btn-default {$model == 'chart' ? 'active' : ''}"
+               title="图表模式"><span class="fa fa-fw fa-bar-chart-o"></span></a>
+        </td>
+    </tr>
+    {/foreach}
+
+    </tbody>
+</table>

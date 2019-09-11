@@ -1,0 +1,33 @@
+<table class="table table-bordered table-hover dataTable table-striped">
+    <thead>
+    <tr>
+        <th class="text-center">SKU</th>
+        {foreach $date as $date_list}
+        <th class="text-center">{$date_list}</th>
+        {/foreach}
+        <td class="text-center">合计</td>
+    </tr>
+    </thead>
+    <tbody>
+    {foreach $data as $key=>$data_list}
+    <tr>
+        <td class="text-center rowspan-background">
+            <a href="javascript:void(0)" class="font-color" onclick="order_model.singleDetail(this,'{$data_list.sku}')"
+               data-url="{:url('/count/sku/Packages/singledetail', array_merge(['sku'=>$data_list.sku,'time_start'=>$params.time_start,'time_end'=>$params.time_end],['model' => $model]))}">{$data_list.sku}</a>
+        </td>
+        {foreach $data_list['qtyData'] as $qty_list}
+        <td class="text-center">{$qty_list}</td>
+        {/foreach}
+        <td class="text-center">
+            {$data_list.qtySum}
+            <a href="javascript:void(0)" class="font-color" onclick="order_model.skuDetail(this,'{$data_list.sku}')"
+               data-url="{:url('/count/sku/Packages/sontotal', array_merge(['keys'=>$data_list.keys,'values'=>$data_list.values],['model' => 'chart']))}" data-toggle="tooltip"
+               class="btn btn-xs btn-default {$model == 'chart' ? 'active' : ''}"
+               title="图表模式"><span class="fa fa-fw fa-bar-chart-o"></span></a>
+        </td>
+    </tr>
+    {/foreach}
+
+
+    </tbody>
+</table>

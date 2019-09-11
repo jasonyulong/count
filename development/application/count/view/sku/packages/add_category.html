@@ -1,0 +1,25 @@
+<style>
+    .input-sm {min-width: 99%}
+    .fixed{ position:fixed; right:5%; bottom:0px;}
+</style>
+<section class="content">
+    <form id="form1" class="postForm form" action="{:url('/count/sku/Packages/addCategory')}" data-validator-option="{timely:2}">
+        <div class="form-group">
+            <label class="control-label text-right">父级分类:</label>
+            <select class="input-sm form-control" name="pid">
+                <option value="0">无</option>
+                {volist name="category" id="vo"}
+                <option value="{$vo.id}">{$vo.title}</option>
+                {/volist}
+            </select>
+        </div>
+        <div class="form-group">
+            <label class="control-label text-right" id="titleMsg">分类名称:</label>
+            <input type="text" class="input-sm form-control" name="title" data-target="#titleMsg"   data-rule="required" placeholder="输入名称" />
+        </div>
+        <div class="form-group fixed">
+            <button type="submit" class="btn btn-primary btn-sm postSubmit">保存&nbsp;</button>
+            <a class="btn btn-danger btn-sm" onclick="order_model.closeAll()" name="submit">取消&nbsp;</a>
+        </div>
+    </form>
+</section>

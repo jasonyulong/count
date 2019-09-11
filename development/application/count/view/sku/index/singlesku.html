@@ -1,0 +1,30 @@
+<section class="content">
+    <div class="nav-tabs-custom">
+        <ul class="nav nav-tabs">
+            <li><a href="javascript:void(0);">{$params.sku} 在 {$params.time}的销量</a></li>
+            {if !empty($data)}
+            <li class="pull-right">
+                <div class="btn-toolbar" role="toolbar">
+                    <div class="btn-group padding-top8 paddint-right5">
+                        <a href="{:url('/count/sku/index/singlesku', array_merge($params, ['model' => 'table']))}" data-toggle="tooltip"
+                           class="btn btn-xs btn-default {$model == 'table' ? 'active' : ''}"
+                           title="列表模式"><span class="fa fa-fw fa-th-large"></span></a>
+                        <a href="{:url('/count/sku/index/singlesku', array_merge($params,['model' => 'chart']))}" data-toggle="tooltip"
+                           class="btn btn-xs btn-default {$model == 'chart' ? 'active' : ''}"
+                           title="图表模式"><span class="fa fa-fw fa-bar-chart-o"></span></a>
+                    </div>
+                </div>
+            </li>
+            {/if}
+        </ul>
+
+
+        <div class="tab-content">
+            {if $model == 'table'}
+            {include file="sku/index/single_table"/}
+            {else /}
+            {include file="sku/index/single_chart"/}
+            {/if}
+        </div>
+    </div>
+</section>

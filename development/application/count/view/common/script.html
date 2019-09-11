@@ -1,0 +1,54 @@
+<!-- jQuery 3 -->
+<script src="__CDN__/assets/components/jquery/dist/jquery.min.js"></script>
+<!-- Bootstrap 3.3.7 -->
+<script src="__CDN__/assets/components/bootstrap/dist/js/bootstrap.min.js"></script>
+<!-- daterangepicker -->
+<script src="__CDN__/assets/components/moment/min/moment.min.js"></script>
+<script src="__CDN__/assets/components/bootstrap-daterangepicker/daterangepicker.js"></script>
+<!-- datepicker -->
+<script src="__CDN__/assets/components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+<!--bootstrap-select-->
+<script src="__CDN__/assets/components/bootstrap-select/js/bootstrap-select.js"></script>
+<!--jstree-->
+<script src="__CDN__/assets/components/jstree/jstree.min.js"></script>
+<!-- ValidateForm -->
+<script src="__CDN__/assets/components/nice-validator/dist/jquery.validator.min.js?local=zh-CN"></script>
+<!-- Slimscroll -->
+<script src="__CDN__/assets/components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+<!-- Scrolltofixed -->
+<script src="__CDN__/assets/components/scrolltofixed/jquery-scrolltofixed-min.js"></script>
+<script src="__CDN__/assets/components/datatables/datatables.min.js"></script>
+<!-- iCheck 1.0.1 -->
+<script src="__CDN__/assets/plugins/iCheck/icheck.min.js"></script>
+<!-- AdminLTE App -->
+<script src="__CDN__/assets/dist/js/adminlte.min.js"></script>
+<script src="__CDN__/assets/plugins/layer/layer.js"></script>
+<script src="__CDN__/assets/plugins/lazyload.js"></script>
+<!-- datatables -->
+<!-- <script src="__CDN__/assets/dist/js/jquery.floatThead.min.js"></script> -->
+<script src="__CDN__/assets/dist/js/default.js"></script>
+<script src="__CDN__/assets/dist/js/common.js"></script>
+<script src="__CDN__/assets/dist/js/{$config.modulename}.js"></script>
+
+<!-- 这个文件结构，有问题，不能给单个html文件加js -->
+<script>
+    // var page_str = '总共找到 <strong class="text-danger">{$list_total ?? ''}</strong> 条记录';
+    var page_str = '';
+    var order = [0, 'desc'];
+    var page_len = 20;
+    // 组织架构和 平台不进行排序
+    {if isset($params['type']) && (in_array($params['type'], ['organ', 'store']))}
+        var order = [];
+        var page_len = 10000;
+    {/if}
+    common_module.init_data_table(page_str, order, page_len);
+
+    // 针对414 错误
+    common_module.init_submit_form('manual_submit_form');
+
+    {if isset($params['type']) && !in_array($params['type'], ['platform'])}
+    // $('#scroll_table').floatThead({
+    //     autoReflow: true,
+    // });
+    {/if}
+</script>
